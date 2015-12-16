@@ -1,28 +1,28 @@
-<chapter id="advanced-features" xreflabel="°í±Þ ±â´É">
-  <title>°í±Þ ±â´É</title>
+<chapter id="advanced-features" xreflabel="ê³ ê¸‰ ê¸°ëŠ¥">
+  <title>ê³ ê¸‰ ê¸°ëŠ¥</title>
 
   <sect1 id="dns-notify" xreflabel="DNS Notify">
     <title>DNS Notify</title>
-    <para>Âü°í: <ulink url="&rfc1996;">RFC1996</ulink></para>
+    <para>ì°¸ê³ : <ulink url="&rfc1996;">RFC1996</ulink></para>
 
-    <para>BIND-8 ºÎÅÍ Áö¿øÇÏ´Â DNS Notify±â´ÉÀº PrimaryÀÇ
-    Zone µ¥ÀÌÅÍº£ÀÌ½º°¡ ¼öÁ¤µÇ¾úÀ½À» ÇØ´ç ZoneÀÇ Authority¸¦
-    °®´Â Secondary ¼­¹ö·Î ¾Ë·ÁÁÖ¾î Primary¿Í Secondary ³×ÀÓ¼­¹öÀÇ
-    µ¿Àû µ¿±âÈ­¸¦ °¡´ÉÄÉ ÇÑ´Ù.</para>
+    <para>BIND-8 ë¶€í„° ì§€ì›í•˜ëŠ” DNS Notifyê¸°ëŠ¥ì€ Primaryì˜
+    Zone ë°ì´í„°ë² ì´ìŠ¤ê°€ ìˆ˜ì •ë˜ì—ˆìŒì„ í•´ë‹¹ Zoneì˜ Authorityë¥¼
+    ê°–ëŠ” Secondary ì„œë²„ë¡œ ì•Œë ¤ì£¼ì–´ Primaryì™€ Secondary ë„¤ìž„ì„œë²„ì˜
+    ë™ì  ë™ê¸°í™”ë¥¼ ê°€ëŠ¥ì¼€ í•œë‹¤.</para>
 
-    <para>BIND-4³ª BIND-8¿¡¼­ º» ¿É¼ÇÀ» »ç¿ëÇÏÁö ¾ÊÀ¸¸é ZoneÀÇ
-    SOA ¿µ¿ª¿¡ ¸í½ÃµÈ Refresh¸¦ ÁÖ±â·Î Secondary°¡ PrimaryÀÇ
-    Serial Áõ°¡¸¦ Ã¼Å©ÇÏ¿© Zone Transfer ÇÏ´Â ÇüÅÂÀÌ³ª. BIND-8ÀÇ
-    DNS Notify¸¦ »ç¿ëÇÏ¸é ÇÏ¿© µµ¸ÞÀÎ ¼öÁ¤ º¯°æ¿¡ µû¸¥ ÀüÆÄ½Ã°£
-    (Maximum Propagation Delay)À» ÃÖ¼ÒÈ­ ÇØÁØ´Ù.</para>
+    <para>BIND-4ë‚˜ BIND-8ì—ì„œ ë³¸ ì˜µì…˜ì„ ì‚¬ìš©í•˜ì§€ ì•Šìœ¼ë©´ Zoneì˜
+    SOA ì˜ì—­ì— ëª…ì‹œëœ Refreshë¥¼ ì£¼ê¸°ë¡œ Secondaryê°€ Primaryì˜
+    Serial ì¦ê°€ë¥¼ ì²´í¬í•˜ì—¬ Zone Transfer í•˜ëŠ” í˜•íƒœì´ë‚˜. BIND-8ì˜
+    DNS Notifyë¥¼ ì‚¬ìš©í•˜ë©´ í•˜ì—¬ ë„ë©”ì¸ ìˆ˜ì • ë³€ê²½ì— ë”°ë¥¸ ì „íŒŒì‹œê°„
+    (Maximum Propagation Delay)ì„ ìµœì†Œí™” í•´ì¤€ë‹¤.</para>
 
-    <para>PrimaryÀÇ ZoneÀÌ ¾÷µ¥ÀÌÆ® µÇ¸é BIND´Â ÇØ´ç ZoneÀÇ
-    NS ·¹ÄÚµå¸¦ ºÐ¼®ÇÏ¿© ÀÚ½ÅÀ» Á¦¿ÜÇÑ ³ª¸ÓÁö ³×ÀÓ¼­¹ö¿¡
-    ZoneÀÌ ¾÷µ¥ÀÌÆ® µÇ¾úÀ½À» ¾Ë¸®´Â Notify ½ÅÈ£¸¦ º¸³»°í,
-    Secondary´Â Primary ZoneÀÇ SerialÀÌ Áõ°¡ÇÏ¿´À½À» È®ÀÎÇÑÈÄ
-    Zone transfer¸¦ ÅëÇØ ÇØ´ç ZoneÀ» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
-    ¸¸¾à Secondary°¡ DNS Notify¸¦ Áö¿øÇÏÁö ¸øÇÑ´Ù¸é
-    "Not Implemented" ÀÀ´ä°ú ÇÔ²² ÇØ´ç ¿äÃ»À» ¹«½ÃÇÑ´Ù.</para>
+    <para>Primaryì˜ Zoneì´ ì—…ë°ì´íŠ¸ ë˜ë©´ BINDëŠ” í•´ë‹¹ Zoneì˜
+    NS ë ˆì½”ë“œë¥¼ ë¶„ì„í•˜ì—¬ ìžì‹ ì„ ì œì™¸í•œ ë‚˜ë¨¸ì§€ ë„¤ìž„ì„œë²„ì—
+    Zoneì´ ì—…ë°ì´íŠ¸ ë˜ì—ˆìŒì„ ì•Œë¦¬ëŠ” Notify ì‹ í˜¸ë¥¼ ë³´ë‚´ê³ ,
+    SecondaryëŠ” Primary Zoneì˜ Serialì´ ì¦ê°€í•˜ì˜€ìŒì„ í™•ì¸í•œí›„
+    Zone transferë¥¼ í†µí•´ í•´ë‹¹ Zoneì„ ì—…ë°ì´íŠ¸í•œë‹¤.
+    ë§Œì•½ Secondaryê°€ DNS Notifyë¥¼ ì§€ì›í•˜ì§€ ëª»í•œë‹¤ë©´
+    "Not Implemented" ì‘ë‹µê³¼ í•¨ê»˜ í•´ë‹¹ ìš”ì²­ì„ ë¬´ì‹œí•œë‹¤.</para>
 
     <figure id="fig-maximum-propagation-delay">
       <title>Maximum Propagation Delay</title>
@@ -34,30 +34,30 @@
       </mediaobject>
     </figure>
 
-    <para>BIND-8´Â ±âº»ÀûÀ¸·Î DNS Notify°¡ ÄÑÁ®ÀÖ´Ù. µû¶ó¼­ ´ÙÀ½°ú °°Àº
-    ¼³Á¤À»À» ÅëÇØ ÀüÃ¼ È¤Àº Æ¯Á¤ Zone¿¡ ´ëÇØ¼­ DNS-Notify¸¦ Àû¿ëÄ¡ ¾ÊÀ» ¼ö
-    ÀÖ´Ù.</para>
+    <para>BIND-8ëŠ” ê¸°ë³¸ì ìœ¼ë¡œ DNS Notifyê°€ ì¼œì ¸ìžˆë‹¤. ë”°ë¼ì„œ ë‹¤ìŒê³¼ ê°™ì€
+    ì„¤ì •ì„ì„ í†µí•´ ì „ì²´ í˜¹ì€ íŠ¹ì • Zoneì— ëŒ€í•´ì„œ DNS-Notifyë¥¼ ì ìš©ì¹˜ ì•Šì„ ìˆ˜
+    ìžˆë‹¤.</para>
 
 <screen>
 options {
-	<userinput>notify no;</userinput>  // ÀüÃ¼¿¡ ´ëÇØ¼­ ±â´ÉÀ» ²ö´Ù. (µðÆúÆ® yes)
+	<userinput>notify no;</userinput>  // ì „ì²´ì— ëŒ€í•´ì„œ ê¸°ëŠ¥ì„ ëˆë‹¤. (ë””í´íŠ¸ yes)
 }
 
 zone "freebsd.org" {
 	type master;
 	file "zone-freebsd.org"
-	<userinput>notify no;</userinput>          // ÇØ´ç µµ¸ÞÀÎ¿¡ ´ëÇØ¼­¸¸ ±â´ÉÀ» ²ö´Ù.
+	<userinput>notify no;</userinput>          // í•´ë‹¹ ë„ë©”ì¸ì— ëŒ€í•´ì„œë§Œ ê¸°ëŠ¥ì„ ëˆë‹¤.
 };
 
 zone "freebsd.org" {
 	type master;
 	file "zone-freebsd.org"
-	<userinput>notify yes;</userinput>         // ÇØ´ç µµ¸ÞÀÎ¿¡ ´ëÇØ¼­¸¸ ±â´ÉÀ» ÄÒ´Ù.
+	<userinput>notify yes;</userinput>         // í•´ë‹¹ ë„ë©”ì¸ì— ëŒ€í•´ì„œë§Œ ê¸°ëŠ¥ì„ ì¼ ë‹¤.
 };
 </screen>
 
-    <para>Authority¸¦ °®Áö ¾Ê´Â ³×ÀÓ¼­¹ö¿¡ Notify ¸®½ºÆ®¿¡ Æ÷ÇÔÇÏ°íÀÚ
-    ÇÒ °æ¿ì¿£ also-notify ¿É¼ÇÀ» »ç¿ëÇÑ´Ù.</para>
+    <para>Authorityë¥¼ ê°–ì§€ ì•ŠëŠ” ë„¤ìž„ì„œë²„ì— Notify ë¦¬ìŠ¤íŠ¸ì— í¬í•¨í•˜ê³ ìž
+    í•  ê²½ìš°ì—” also-notify ì˜µì…˜ì„ ì‚¬ìš©í•œë‹¤.</para>
 
 <screen>
 zone "freebsd.org" {
@@ -68,31 +68,31 @@ zone "freebsd.org" {
 };
 </screen>
 
-    <para><ulink url="&rfc1996;">RFC1996</ulink>¿¡ µû¸£¸é DNS Notify ¿äÃ»À»
-    ¹ÞÀº Secondary ³×ÀÓ¼­¹ö´Â ÇØ´ç µµ¸ÞÀÎÀÇ Authority¸¦ °®´Â ´Ù¸¥ ³×ÀÓ¼­¹ö¿¡°Ô
-    ´Ù½Ã DNS Notify ½ÅÈ£¸¦ º¸³»¾ß ÇÏ´Âµ¥ ½ÇÁ¦ BIND-8 ±¸Çö¿¡¼­´Â Æ÷ÇÔµÇÁö
-    ¾Ê¾ÒÀ½À» Âü°íÇÏ±â ¹Ù¶õ´Ù.
-    ÀÌ ±â´ÉÀº ³×Æ®¿öÅ© ÅäÆú·ÎÁö»ó Secondary°¡ Primary¿¡ ¹Ù·Î Á¢¼ÓÄ¡
-    ¸øÇÏ°í ´Ù¸¥ Secondary¸¦ ¸¶½ºÅÍ·Î ¼³Á¤ÇÏ´Â °æ¿ì¸¦ ´ëºñÇØ ±ÔÁ¤µÇ¾úÀ¸³ª,
-    ½Ç¿ëÀûÀ¸·Î ÀÌ·¯ÇÑ °æ¿ì°¡ ¸Å¿ì µå¹°°í ¹Ù¶÷Á÷ÇÏÁö ¾ÊÀº ±¸¼º(Maximum
-    Propagation Delay Áõ°¡)ÀÌ±â¿¡ BIND-8¿¡ °°ÀÌ ±¸ÇöµÇÁö ¾ÊÀºµí ½Í´Ù.</para>
+    <para><ulink url="&rfc1996;">RFC1996</ulink>ì— ë”°ë¥´ë©´ DNS Notify ìš”ì²­ì„
+    ë°›ì€ Secondary ë„¤ìž„ì„œë²„ëŠ” í•´ë‹¹ ë„ë©”ì¸ì˜ Authorityë¥¼ ê°–ëŠ” ë‹¤ë¥¸ ë„¤ìž„ì„œë²„ì—ê²Œ
+    ë‹¤ì‹œ DNS Notify ì‹ í˜¸ë¥¼ ë³´ë‚´ì•¼ í•˜ëŠ”ë° ì‹¤ì œ BIND-8 êµ¬í˜„ì—ì„œëŠ” í¬í•¨ë˜ì§€
+    ì•Šì•˜ìŒì„ ì°¸ê³ í•˜ê¸° ë°”ëž€ë‹¤.
+    ì´ ê¸°ëŠ¥ì€ ë„¤íŠ¸ì›Œí¬ í† í´ë¡œì§€ìƒ Secondaryê°€ Primaryì— ë°”ë¡œ ì ‘ì†ì¹˜
+    ëª»í•˜ê³  ë‹¤ë¥¸ Secondaryë¥¼ ë§ˆìŠ¤í„°ë¡œ ì„¤ì •í•˜ëŠ” ê²½ìš°ë¥¼ ëŒ€ë¹„í•´ ê·œì •ë˜ì—ˆìœ¼ë‚˜,
+    ì‹¤ìš©ì ìœ¼ë¡œ ì´ëŸ¬í•œ ê²½ìš°ê°€ ë§¤ìš° ë“œë¬¼ê³  ë°”ëžŒì§í•˜ì§€ ì•Šì€ êµ¬ì„±(Maximum
+    Propagation Delay ì¦ê°€)ì´ê¸°ì— BIND-8ì— ê°™ì´ êµ¬í˜„ë˜ì§€ ì•Šì€ë“¯ ì‹¶ë‹¤.</para>
   </sect1>
 
   <sect1 id="dynamic-update" xreflabel="Dynamic Update">
     <title>Dynamic Update</title>
 
-    <para>Âü°í: <ulink url="&rfc2136;">RFC2136</ulink></para>
+    <para>ì°¸ê³ : <ulink url="&rfc2136;">RFC2136</ulink></para>
 
-    <para>BIND-8 ºÎÅÍ Áö¿øµÇ´Â Dynamic Update´Â ÇØ´ç µµ¸ÞÀÎÀÇ Authority¸¦
-    °®´Â ³×ÀÓ¼­¹ö¸¦ ÅëÇØ Zone ÆÄÀÏÀ» ¼öÁ¤Ä¡ ¾Ê°íµµ ·¹ÄÚµå¸¦ µ¿ÀûÀ¸·Î
-    ¿ø°Ý °»½ÅÇÒ ¼ö ÀÖµµ·Ï ÇÑ´Ù.
-    µµ¸ÞÀÎ °ü¸®¸¦ ÀÚµ¿È­ ÇÏ°Å³ª, »ç¿ëÀÚº°·Î Á¢¼Ó µµ¸ÞÀÎÀ» ½Ç½Ã°£ º¯°æÇÏ¿©
-    Á¦°øÇÏ°Å³ª, DHCP¿¡¼­ÀÇ ÁÖ¼Ò-IP ¸ÅÄªµî°ú °°ÀÌ ½Ç½Ã°£ ÀûÀ¸·Î
-    ·¹ÄÚµå°¡ º¯°æ, °»½Å µÉ ÇÊ¿ä°¡ ÀÖ´Â ¼­ºñ½º¿¡ Æ¯È÷ À¯¿ëÇÒ ¼ö ÀÖ°Ú´Ù.
+    <para>BIND-8 ë¶€í„° ì§€ì›ë˜ëŠ” Dynamic UpdateëŠ” í•´ë‹¹ ë„ë©”ì¸ì˜ Authorityë¥¼
+    ê°–ëŠ” ë„¤ìž„ì„œë²„ë¥¼ í†µí•´ Zone íŒŒì¼ì„ ìˆ˜ì •ì¹˜ ì•Šê³ ë„ ë ˆì½”ë“œë¥¼ ë™ì ìœ¼ë¡œ
+    ì›ê²© ê°±ì‹ í•  ìˆ˜ ìžˆë„ë¡ í•œë‹¤.
+    ë„ë©”ì¸ ê´€ë¦¬ë¥¼ ìžë™í™” í•˜ê±°ë‚˜, ì‚¬ìš©ìžë³„ë¡œ ì ‘ì† ë„ë©”ì¸ì„ ì‹¤ì‹œê°„ ë³€ê²½í•˜ì—¬
+    ì œê³µí•˜ê±°ë‚˜, DHCPì—ì„œì˜ ì£¼ì†Œ-IP ë§¤ì¹­ë“±ê³¼ ê°™ì´ ì‹¤ì‹œê°„ ì ìœ¼ë¡œ
+    ë ˆì½”ë“œê°€ ë³€ê²½, ê°±ì‹  ë  í•„ìš”ê°€ ìžˆëŠ” ì„œë¹„ìŠ¤ì— íŠ¹ížˆ ìœ ìš©í•  ìˆ˜ ìžˆê² ë‹¤.
     </para>
 
-    <para>Dynamic Update´Â º¸¾ÈÀ» ÀÌÀ¯·Î ±âº»ÀûÀ¸·Î ±â´ÉÀÌ ²¨Á®ÀÖ±â ¶§¹®¿¡
-    Çã¿ëÇÒ µµ¸ÞÀÎ¿¡ ´ëÇØ allow-update ¿É¼ÇÀ» Ãß°¡ÇØ¾ß ÇÑ´Ù.</para>
+    <para>Dynamic UpdateëŠ” ë³´ì•ˆì„ ì´ìœ ë¡œ ê¸°ë³¸ì ìœ¼ë¡œ ê¸°ëŠ¥ì´ êº¼ì ¸ìžˆê¸° ë•Œë¬¸ì—
+    í—ˆìš©í•  ë„ë©”ì¸ì— ëŒ€í•´ allow-update ì˜µì…˜ì„ ì¶”ê°€í•´ì•¼ í•œë‹¤.</para>
 
 <screen>
 zone "freebsd.org" {
@@ -102,21 +102,21 @@ zone "freebsd.org" {
 }
 </screen>
 
-    <para>Dynamic Update´Â BIND ¹èÆ÷ÆÇ¿¡ Æ÷ÇÔµÇ¾î ÀÖ´Â
-    <filename>nsupdate</filename> µµ±¸¸¦ »ç¿ëÇÏ¿©
-    ¸í·ÉÇà(non-interactive) È¤Àº ´ëÈ­Çü(interactive)À¸·Î Á¶ÀÛÀÌ °¡´ÉÇÏ´Ù.
-    ´ëÈ­Çü ¸ðµå¿¡¼­ ÁÖ¾îÁø ¸í·É¹®Àº ¹­À½(Á¶°Ç¹®°ú ¸í·É¹®)À¸·Î ½ÇÇàÀÌ
-    °¡´ÉÇÏ±â ¶§¹®¿¡ ÀÔ·ÂÇÑ ¸í·É¹®(µé)Àº °ø¹é ¶óÀÎ¿¡¼­ ¿£ÅÍ¸¦ ÇÑ¹ø ´õ
-    ÀÔ·ÂÇÏ¿©¾ß ÇÑ´Ù. ¸í·ÉÇà ¸ðµå´Â ¸í·É¹®À» ÁÖ¾îÁø ÆÄÀÏÀÌ³ª stdin ¿¡¼­
-    ÀÔ·Â¹Þ´Â´Ù. ´ÙÀ½Àº <filename>nsupdate</filename>¿¡¼­ »ç¿ë°¡´ÉÇÑ
-    ¸í·É¹®ÀÌ´Ù.</para>
+    <para>Dynamic UpdateëŠ” BIND ë°°í¬íŒì— í¬í•¨ë˜ì–´ ìžˆëŠ”
+    <filename>nsupdate</filename> ë„êµ¬ë¥¼ ì‚¬ìš©í•˜ì—¬
+    ëª…ë ¹í–‰(non-interactive) í˜¹ì€ ëŒ€í™”í˜•(interactive)ìœ¼ë¡œ ì¡°ìž‘ì´ ê°€ëŠ¥í•˜ë‹¤.
+    ëŒ€í™”í˜• ëª¨ë“œì—ì„œ ì£¼ì–´ì§„ ëª…ë ¹ë¬¸ì€ ë¬¶ìŒ(ì¡°ê±´ë¬¸ê³¼ ëª…ë ¹ë¬¸)ìœ¼ë¡œ ì‹¤í–‰ì´
+    ê°€ëŠ¥í•˜ê¸° ë•Œë¬¸ì— ìž…ë ¥í•œ ëª…ë ¹ë¬¸(ë“¤)ì€ ê³µë°± ë¼ì¸ì—ì„œ ì—”í„°ë¥¼ í•œë²ˆ ë”
+    ìž…ë ¥í•˜ì—¬ì•¼ í•œë‹¤. ëª…ë ¹í–‰ ëª¨ë“œëŠ” ëª…ë ¹ë¬¸ì„ ì£¼ì–´ì§„ íŒŒì¼ì´ë‚˜ stdin ì—ì„œ
+    ìž…ë ¥ë°›ëŠ”ë‹¤. ë‹¤ìŒì€ <filename>nsupdate</filename>ì—ì„œ ì‚¬ìš©ê°€ëŠ¥í•œ
+    ëª…ë ¹ë¬¸ì´ë‹¤.</para>
 
     <variablelist>
       <varlistentry>
         <term>prereq yxdomain DOMAIN-NAME</term>
         <listitem>
-          <para>DOMAIN-NAMEÀÌ Á¸Àç(ÇÏ³ªÀÌ»óÀÇ ·¹ÄÚµå°¡ ¼³Á¤µÇ¾î ÀÖÀ½)ÇÔÀ»
-          ¿¬¼ÓµÈ ¸í·ÉÀÇ ¼±Çà Á¶°ÇÀ¸·Î »ï´Â´Ù.
+          <para>DOMAIN-NAMEì´ ì¡´ìž¬(í•˜ë‚˜ì´ìƒì˜ ë ˆì½”ë“œê°€ ì„¤ì •ë˜ì–´ ìžˆìŒ)í•¨ì„
+          ì—°ì†ëœ ëª…ë ¹ì˜ ì„ í–‰ ì¡°ê±´ìœ¼ë¡œ ì‚¼ëŠ”ë‹¤.
           </para>
         </listitem>
       </varlistentry>
@@ -124,8 +124,8 @@ zone "freebsd.org" {
       <varlistentry>
         <term>prereq nxdomain DOMAIN-NAME</term>
         <listitem>
-          <para>DOMAIN-NAME¿¡ ¾î¶°ÇÑ ·¹ÄÚµåµµ ¼³Á¤µÇ¾î ÀÖÁö ¾ÊÀ½À»
-          ¿¬¼ÓµÈ ¸í·ÉÀÇ ¼±Çà Á¶°ÇÀ¸·Î »ï´Â´Ù.
+          <para>DOMAIN-NAMEì— ì–´ë– í•œ ë ˆì½”ë“œë„ ì„¤ì •ë˜ì–´ ìžˆì§€ ì•ŠìŒì„
+          ì—°ì†ëœ ëª…ë ¹ì˜ ì„ í–‰ ì¡°ê±´ìœ¼ë¡œ ì‚¼ëŠ”ë‹¤.
           </para>
         </listitem>
       </varlistentry>
@@ -133,9 +133,9 @@ zone "freebsd.org" {
       <varlistentry>
         <term>prereq yxrrset DOMAIN-NAME [CLASS] TYPE [DATA]</term>
         <listitem>
-          <para>DOMAIN-NAME¿¡ ÇØ´ç ·¹ÄÚµå°¡ Á¸ÀçÇÔÀ» ¿¬¼ÓµÈ ¸í·ÉÀÇ ¼±Çà
-          Á¶°ÇÀ¸·Î »ï´Â´Ù. DATA°¡ ¸í½ÃµÇ¾î ÀÖÀ» °æ¿ì¿¡´Â Á¤È®ÇÏ°Ô
-          ¸ÅÄªÀÌ µÇ´Â °æ¿ì¿¡¸¸ Á¶°ÇÀÌ ¼º¸³µÈ´Ù.
+          <para>DOMAIN-NAMEì— í•´ë‹¹ ë ˆì½”ë“œê°€ ì¡´ìž¬í•¨ì„ ì—°ì†ëœ ëª…ë ¹ì˜ ì„ í–‰
+          ì¡°ê±´ìœ¼ë¡œ ì‚¼ëŠ”ë‹¤. DATAê°€ ëª…ì‹œë˜ì–´ ìžˆì„ ê²½ìš°ì—ëŠ” ì •í™•í•˜ê²Œ
+          ë§¤ì¹­ì´ ë˜ëŠ” ê²½ìš°ì—ë§Œ ì¡°ê±´ì´ ì„±ë¦½ëœë‹¤.
           </para>
         </listitem>
       </varlistentry>
@@ -143,8 +143,8 @@ zone "freebsd.org" {
       <varlistentry>
         <term>prereq nxrrset DOMAIN-NAME [CLASS] TYPE</term>
         <listitem>
-          <para>DOMAIN-NAME¿¡ ÇØ´ç ·¹ÄÚµå°¡ Á¸ÀçÇÏÁö ¾ÊÀ½À»
-          ¿¬¼ÓµÈ ¸í·ÉÀÇ ¼±Çà Á¶°ÇÀ¸·Î »ï´Â´Ù.
+          <para>DOMAIN-NAMEì— í•´ë‹¹ ë ˆì½”ë“œê°€ ì¡´ìž¬í•˜ì§€ ì•ŠìŒì„
+          ì—°ì†ëœ ëª…ë ¹ì˜ ì„ í–‰ ì¡°ê±´ìœ¼ë¡œ ì‚¼ëŠ”ë‹¤.
           </para>
         </listitem>
       </varlistentry>
@@ -152,16 +152,16 @@ zone "freebsd.org" {
       <varlistentry>
         <term>update delete DOMAIN-NAME [CLASS] [TYPE [DATA...]]</term>
         <listitem>
-          <para>TYPEÀÌ ¸í½ÃµÇÁö ¾Ê¾ÒÀ» °æ¿ì¿£ ÇØ´ç DOMAIN-NAME¿¡ ¼Ò¼ÓµÈ
-          ·¹ÄÚµå¸¦ ¸ðµÎ »èÁ¦ÇÑ´Ù. TYPEÀÌ ¸í½ÃµÉ °æ¿ì¿£ ¸ÅÄªµÇ´Â ·¹ÄÚµå¸¸ÀÌ
-          Á¦°ÅµÈ´Ù.</para>
+          <para>TYPEì´ ëª…ì‹œë˜ì§€ ì•Šì•˜ì„ ê²½ìš°ì—” í•´ë‹¹ DOMAIN-NAMEì— ì†Œì†ëœ
+          ë ˆì½”ë“œë¥¼ ëª¨ë‘ ì‚­ì œí•œë‹¤. TYPEì´ ëª…ì‹œë  ê²½ìš°ì—” ë§¤ì¹­ë˜ëŠ” ë ˆì½”ë“œë§Œì´
+          ì œê±°ëœë‹¤.</para>
         </listitem>
       </varlistentry>
 
       <varlistentry>
         <term>update add DOMAIN-NAME TTL [CLASS] TYPE DATA...</term>
         <listitem>
-          <para>ÁöÁ¤µÈ ·¹ÄÚµå¸¦ ÇØ´ç µµ¸ÞÀÎ¿¡ Ãß°¡ÇÑ´Ù.</para>
+          <para>ì§€ì •ëœ ë ˆì½”ë“œë¥¼ í•´ë‹¹ ë„ë©”ì¸ì— ì¶”ê°€í•œë‹¤.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -181,36 +181,36 @@ $ <userinput>nsupdate</userinput>
 > <userinput>^D</userinput>
 </screen>
 
-    <para>±âÁ¸¿¡ A, CNAME µîÀÇ ·¹ÄÚµå°¡ ¼³Á¤µÈ µµ¸ÞÀÎ¸í¿¡ ´ëÇØ¼­
-    delete¸¦ ¼öÇàÄ¡ ¾Ê°í add ¸í·ÉÀ» ÀÔ·ÂÇßÀ»¶§ ±âÁ¸ ·¹ÄÚµåÀÇ µ¥ÀÌÅÍ°¡
-    ÀÔ·ÂµÈ ·¹ÄÚµåÀÇ µ¥ÀÌÅÍ·Î ±³Ã¼µÉ°Å¶ó´Â »ý°¢Àº ÇÏÁö ¸»¾Æ¾ß ÇÑ´Ù.
-    Áßº¹µÈ A ·¹ÄÚµåÀÇ ÀÔ·ÂÀº µµ¸ÞÀÎ¿¡ ¿©·¯°³ÀÇ IP¸¦ ¸ÅÇÎÇÒ °ÍÀÌ°í,
-    CNAMEÀÌ ¼³Á¤µÈ µµ¸ÞÀÎ¸íÀº ´Ù¸¥ ·¹ÄÚµå°¡ Á¸ÀçÇÒ ¼ö ¾øÀ½¿¡µµ
-    CNAMEÀ» addÇÏ´Â ¸í·ÉÀÌ ÇØ´ç µµ¸ÞÀÎÀÇ A, MX¿Í °°Àº ·¹ÄÚµå¸¦
-    ÀÚµ¿À¸·Î Á¦°ÅÇØÁÖÁö´Â ¾Ê±â ¶§¹®ÀÌ´Ù.</para>
+    <para>ê¸°ì¡´ì— A, CNAME ë“±ì˜ ë ˆì½”ë“œê°€ ì„¤ì •ëœ ë„ë©”ì¸ëª…ì— ëŒ€í•´ì„œ
+    deleteë¥¼ ìˆ˜í–‰ì¹˜ ì•Šê³  add ëª…ë ¹ì„ ìž…ë ¥í–ˆì„ë•Œ ê¸°ì¡´ ë ˆì½”ë“œì˜ ë°ì´í„°ê°€
+    ìž…ë ¥ëœ ë ˆì½”ë“œì˜ ë°ì´í„°ë¡œ êµì²´ë ê±°ë¼ëŠ” ìƒê°ì€ í•˜ì§€ ë§ì•„ì•¼ í•œë‹¤.
+    ì¤‘ë³µëœ A ë ˆì½”ë“œì˜ ìž…ë ¥ì€ ë„ë©”ì¸ì— ì—¬ëŸ¬ê°œì˜ IPë¥¼ ë§¤í•‘í•  ê²ƒì´ê³ ,
+    CNAMEì´ ì„¤ì •ëœ ë„ë©”ì¸ëª…ì€ ë‹¤ë¥¸ ë ˆì½”ë“œê°€ ì¡´ìž¬í•  ìˆ˜ ì—†ìŒì—ë„
+    CNAMEì„ addí•˜ëŠ” ëª…ë ¹ì´ í•´ë‹¹ ë„ë©”ì¸ì˜ A, MXì™€ ê°™ì€ ë ˆì½”ë“œë¥¼
+    ìžë™ìœ¼ë¡œ ì œê±°í•´ì£¼ì§€ëŠ” ì•Šê¸° ë•Œë¬¸ì´ë‹¤.</para>
 
-    <para>Dynamic Update¸¦ ÅëÇØ ¼öÁ¤µÈ ³»¿ªÀº Áï½Ã Àû¿ëµÇ¸ç
-    <filename>named</filename>°¡ Á¾·áµÉ ¶§ ÇØ´ç Zone µ¥ÀÌÅÍº£ÀÌ½º¿¡
-    Á÷Á¢ ±â·ÏµÇ¾î ´ÙÀ½¹ø ±¸µ¿½Ã¿¡µµ ±× ³»¿ªÀÌ º¯ÇÔ¾øÀÌ Àû¿ëµÉ ¼ö
-    ÀÖµµ·Ï ÇÑ´Ù.</para>
+    <para>Dynamic Updateë¥¼ í†µí•´ ìˆ˜ì •ëœ ë‚´ì—­ì€ ì¦‰ì‹œ ì ìš©ë˜ë©°
+    <filename>named</filename>ê°€ ì¢…ë£Œë  ë•Œ í•´ë‹¹ Zone ë°ì´í„°ë² ì´ìŠ¤ì—
+    ì§ì ‘ ê¸°ë¡ë˜ì–´ ë‹¤ìŒë²ˆ êµ¬ë™ì‹œì—ë„ ê·¸ ë‚´ì—­ì´ ë³€í•¨ì—†ì´ ì ìš©ë  ìˆ˜
+    ìžˆë„ë¡ í•œë‹¤.</para>
 
-    <para>Dynamic Update¿¡ ´ëÇÑ ¿äÃ»ÀÌ ÇØ´ç µµ¸ÞÀÎÀÇ Authority¸¦ °®´Â
-    Secondary·Î º¸³»¾î Á³´Ù¸é Secondary ³×ÀÓ¼­¹ö´Â Primary ³×ÀÓ¼­¹ö·Î
-    ¿äÃ»À» Àü´ÞÇÏµµ·Ï µÇ¾îÀÖ´Ù. ¹°·Ð ÀÌ·¯ÇÒ °æ¿ì¿£ PrimaryÀÇ allow-update
-    ¾ï¼¼½º ¸®½ºÆ®¿¡´Â Secondary°¡ Æ÷ÇÔµÇ¾î ÀÖ¾î¾ß ÇÑ´Ù.</para>
+    <para>Dynamic Updateì— ëŒ€í•œ ìš”ì²­ì´ í•´ë‹¹ ë„ë©”ì¸ì˜ Authorityë¥¼ ê°–ëŠ”
+    Secondaryë¡œ ë³´ë‚´ì–´ ì¡Œë‹¤ë©´ Secondary ë„¤ìž„ì„œë²„ëŠ” Primary ë„¤ìž„ì„œë²„ë¡œ
+    ìš”ì²­ì„ ì „ë‹¬í•˜ë„ë¡ ë˜ì–´ìžˆë‹¤. ë¬¼ë¡  ì´ëŸ¬í•  ê²½ìš°ì—” Primaryì˜ allow-update
+    ì–µì„¸ìŠ¤ ë¦¬ìŠ¤íŠ¸ì—ëŠ” Secondaryê°€ í¬í•¨ë˜ì–´ ìžˆì–´ì•¼ í•œë‹¤.</para>
   </sect1>
 
-  <sect1 id="load-sharing" xreflabel="¹Ì·¯¸µ ¼­¹ö°£ÀÇ ºÎÇÏ °øÀ¯">
-    <title>¹Ì·¯¸µ ¼­¹ö°£ÀÇ ºÎÇÏ °øÀ¯</title>
+  <sect1 id="load-sharing" xreflabel="ë¯¸ëŸ¬ë§ ì„œë²„ê°„ì˜ ë¶€í•˜ ê³µìœ ">
+    <title>ë¯¸ëŸ¬ë§ ì„œë²„ê°„ì˜ ë¶€í•˜ ê³µìœ </title>
 
-    <para>¼­¹ö°¡ È÷Æ®¼ö¸¦ °¨´çÇÏÁö ¸øÇÒ °æ¿ì, ±× ÇØ°áÃ¥À¸·Î½á ´Ù¼öÀÇ ¹Ì·¯¸µ
-    ¼­¹ö¸¦ ¿î¿µÇÏ¿©, ºÎÇÏ¸¦ ºÐ´ã½ÃÅ°´Â ¹æ¹ýÀ» »ý°¢ÇÒ ¼ö ÀÖ´Ù. ÇÏÁö¸¸, ÀÌ·¯ÇÑ
-    ¹æ¹ýÀº ¹Ì·¯¸µ ¼­¹ö¸¦ »ç¿ëÀÚ¿¡°Ô È«º¸ÇÏ¿© ¼­¹öÀÇ ºÎÇÏ°¡ ÀÌµ¿ÇÏ´Âµ¥ ½ÇÁúÀûÀ¸·Î
-    ¸¹Àº ½Ã°£ÀÌ ¼Ò¿äµÇ°í, ÀûÀýÇÑ ºÎÇÏ ºÐ¹è¸¦ ±â´ëÇÏ±â°¡ ÈûÀÌµç ¹®Á¦°¡ ÀÖ´Ù.
-    ±×·¡¼­ ÀüÈ­±¹ÀÇ ´ëÇ¥ ¹øÈ£ ¼­ºñ½º¿Í °°ÀÌ, »ç¿ëÀÚÀÇ ¿äÃ»À» °¢°¢ÀÇ ¹Ì·¯¸µ
-    ¼­¹ö·Î ¿¬°áÇØÁÖ´Â ´ëÇ¥ µµ¸ÞÀÎÀ» »ý°¢ÇÒ ¼ö ÀÖ´Âµ¥, ¿©±â¿¡¼­ ±× ¹æ¹ýÀ»
-    ¼Ò°³ÇÑ´Ù. Shuffle AddressesÀÌ¶ó ºÒ¸®´Â ÀÌ Æ¯º°ÇÑ ±â¹ýÀº BIND 4.9 ºÎÅÍ
-    Áö¿øµÈ´Ù.</para>
+    <para>ì„œë²„ê°€ ížˆíŠ¸ìˆ˜ë¥¼ ê°ë‹¹í•˜ì§€ ëª»í•  ê²½ìš°, ê·¸ í•´ê²°ì±…ìœ¼ë¡œì¨ ë‹¤ìˆ˜ì˜ ë¯¸ëŸ¬ë§
+    ì„œë²„ë¥¼ ìš´ì˜í•˜ì—¬, ë¶€í•˜ë¥¼ ë¶„ë‹´ì‹œí‚¤ëŠ” ë°©ë²•ì„ ìƒê°í•  ìˆ˜ ìžˆë‹¤. í•˜ì§€ë§Œ, ì´ëŸ¬í•œ
+    ë°©ë²•ì€ ë¯¸ëŸ¬ë§ ì„œë²„ë¥¼ ì‚¬ìš©ìžì—ê²Œ í™ë³´í•˜ì—¬ ì„œë²„ì˜ ë¶€í•˜ê°€ ì´ë™í•˜ëŠ”ë° ì‹¤ì§ˆì ìœ¼ë¡œ
+    ë§Žì€ ì‹œê°„ì´ ì†Œìš”ë˜ê³ , ì ì ˆí•œ ë¶€í•˜ ë¶„ë°°ë¥¼ ê¸°ëŒ€í•˜ê¸°ê°€ íž˜ì´ë“  ë¬¸ì œê°€ ìžˆë‹¤.
+    ê·¸ëž˜ì„œ ì „í™”êµ­ì˜ ëŒ€í‘œ ë²ˆí˜¸ ì„œë¹„ìŠ¤ì™€ ê°™ì´, ì‚¬ìš©ìžì˜ ìš”ì²­ì„ ê°ê°ì˜ ë¯¸ëŸ¬ë§
+    ì„œë²„ë¡œ ì—°ê²°í•´ì£¼ëŠ” ëŒ€í‘œ ë„ë©”ì¸ì„ ìƒê°í•  ìˆ˜ ìžˆëŠ”ë°, ì—¬ê¸°ì—ì„œ ê·¸ ë°©ë²•ì„
+    ì†Œê°œí•œë‹¤. Shuffle Addressesì´ë¼ ë¶ˆë¦¬ëŠ” ì´ íŠ¹ë³„í•œ ê¸°ë²•ì€ BIND 4.9 ë¶€í„°
+    ì§€ì›ëœë‹¤.</para>
 
 <screen>
 www             180     IN      A       210.105.79.101
@@ -218,8 +218,8 @@ www             180     IN      A       210.105.79.101
                 180     IN      A       210.105.79.103
 </screen>
 
-    <para>ÇÏ³ªÀÇ È£½ºÆ®¸í¿¡ ¿©·¯°³ÀÇ IPÁÖ¼Ò¸¦ ÁÖ¾úÀ» °æ¿ì, ³×ÀÓ¼­¹ö´Â ÇØ´ç
-    µµ¸ÞÀÎ¿¡ ´ëÇØ ´ÙÀ½°ú °°ÀÌ ¶ó¿îµå ·Îºó ¹æ½ÄÀ¸·Î ÀÀ´ä ÇÑ´Ù.</para>
+    <para>í•˜ë‚˜ì˜ í˜¸ìŠ¤íŠ¸ëª…ì— ì—¬ëŸ¬ê°œì˜ IPì£¼ì†Œë¥¼ ì£¼ì—ˆì„ ê²½ìš°, ë„¤ìž„ì„œë²„ëŠ” í•´ë‹¹
+    ë„ë©”ì¸ì— ëŒ€í•´ ë‹¤ìŒê³¼ ê°™ì´ ë¼ìš´ë“œ ë¡œë¹ˆ ë°©ì‹ìœ¼ë¡œ ì‘ë‹µ í•œë‹¤.</para>
 
 <screen>
 $ <userinput>nslookup www.nobreak.com</userinput>
@@ -235,15 +235,15 @@ Name:    www.nobreak.com
 Addresses:  210.105.79.103, 210.105.79.101, 210.105.79.102
 </screen>
 
-    <para>ÀÌ°ÍÀÌ ·Îµå ¹ß·£½Ì(Load Balancing)Àº ¾Æ´ÏÁö¸¸, Å¬¶óÀÌ¾ðÆ®´Â 3´ëÀÇ
-    ¼­¹ö¿¡ ¾î´ÀÁ¤µµ °øÆòÇÏ°Ô Á¢¼ÓµÇ¹Ç·Î, ºÎÇÏ¸¦ °øÀ¯ÇÏ´Â È¿°ú¸¦ ¾òÀ» ¼ö ÀÖ°í,
-    ¶ÇÇÑ ¿ÜºÎ·Î´Â ´ëÇ¥ µµ¸ÞÀÎ¸¸À» ¾Ë¸®¸é µÇ¹Ç·Î, ¼­¹öÀÇ È®Àå ¹× Ãà¼Ò¿¡ À¯¿¬ÇÏ´Ù.
-    º» ±â¹ýÀ» Àû¿ëÇÒ ¶§¿¡´Â ¶ó¿îµå ·ÎºóÀÌ Áö¿øµÇÁö ¾Ê´Â ³×ÀÓ¼­¹ö¸¦ °í·ÁÇÏ¿©
-    TTLÀ» ³·°Ô Ã¥Á¤(TTLÀÌ ¸¸±âÇÏ¿© ´Ù½Ã ¿äÃ»ÀÌ µé¾î¿Àµµ·Ï)ÇÏ´Â °Íµµ ÁÁ´Ù.</para>
+    <para>ì´ê²ƒì´ ë¡œë“œ ë°œëžœì‹±(Load Balancing)ì€ ì•„ë‹ˆì§€ë§Œ, í´ë¼ì´ì–¸íŠ¸ëŠ” 3ëŒ€ì˜
+    ì„œë²„ì— ì–´ëŠì •ë„ ê³µí‰í•˜ê²Œ ì ‘ì†ë˜ë¯€ë¡œ, ë¶€í•˜ë¥¼ ê³µìœ í•˜ëŠ” íš¨ê³¼ë¥¼ ì–»ì„ ìˆ˜ ìžˆê³ ,
+    ë˜í•œ ì™¸ë¶€ë¡œëŠ” ëŒ€í‘œ ë„ë©”ì¸ë§Œì„ ì•Œë¦¬ë©´ ë˜ë¯€ë¡œ, ì„œë²„ì˜ í™•ìž¥ ë° ì¶•ì†Œì— ìœ ì—°í•˜ë‹¤.
+    ë³¸ ê¸°ë²•ì„ ì ìš©í•  ë•Œì—ëŠ” ë¼ìš´ë“œ ë¡œë¹ˆì´ ì§€ì›ë˜ì§€ ì•ŠëŠ” ë„¤ìž„ì„œë²„ë¥¼ ê³ ë ¤í•˜ì—¬
+    TTLì„ ë‚®ê²Œ ì±…ì •(TTLì´ ë§Œê¸°í•˜ì—¬ ë‹¤ì‹œ ìš”ì²­ì´ ë“¤ì–´ì˜¤ë„ë¡)í•˜ëŠ” ê²ƒë„ ì¢‹ë‹¤.</para>
 
-    <para>¶ÇÇÏ³ªÀÇ ¹æ¹ýÀ¸·Î´Â ´Ù¼öÀÇ CNAMEÀ» ¿¬°áÇÏ´Â ¹æ¹ýÀÌ´Ù. ¿øÄ¢ÀûÀ¸·Î
-    ´Ù¼öÀÇ CNAMEÀº °ÅºÎµÇ±â ¶§¹®¿¡, ¹Ýµå½Ã ´ÙÀ½°ú °°ÀÌ ºÎÆ® ÆÄÀÏ¿¡ º°µµÀÇ ¿É¼ÇÀ»
-    ÁÖ¾î¾ß ÇÑ´Ù.</para>
+    <para>ë˜í•˜ë‚˜ì˜ ë°©ë²•ìœ¼ë¡œëŠ” ë‹¤ìˆ˜ì˜ CNAMEì„ ì—°ê²°í•˜ëŠ” ë°©ë²•ì´ë‹¤. ì›ì¹™ì ìœ¼ë¡œ
+    ë‹¤ìˆ˜ì˜ CNAMEì€ ê±°ë¶€ë˜ê¸° ë•Œë¬¸ì—, ë°˜ë“œì‹œ ë‹¤ìŒê³¼ ê°™ì´ ë¶€íŠ¸ íŒŒì¼ì— ë³„ë„ì˜ ì˜µì…˜ì„
+    ì£¼ì–´ì•¼ í•œë‹¤.</para>
 
 <screen>
 options {
@@ -251,8 +251,8 @@ options {
 };
 </screen>
 
-    <para>ÀÌ°ÍÀº BIND-8 ¿¡¼­¸¸ °¡´ÉÇÏ¸ç, ´ëÇ¥ÀûÀ¸·Î YAHOO!(www.yahoo.com)°¡
-    ÀÌ·¸ÇÑ ¹æ¹ýÀ¸·Î ¿î¿µµÈ´Ù.</para>
+    <para>ì´ê²ƒì€ BIND-8 ì—ì„œë§Œ ê°€ëŠ¥í•˜ë©°, ëŒ€í‘œì ìœ¼ë¡œ YAHOO!(www.yahoo.com)ê°€
+    ì´ë ‡í•œ ë°©ë²•ìœ¼ë¡œ ìš´ì˜ëœë‹¤.</para>
 
 <screen>
 www             180     IN      CNAME   www1.nobreak.com.
@@ -265,14 +265,14 @@ www3            180     IN      A       210.105.79.103
 		180	IN	A	210.105.79.105
 </screen>
 
-    <para>´Ù¼öÀÇ A ·¹ÄÚµå ¹æ½ÄÀº ResolverÀÇ ·ÎÄÃ NS°¡ Authority NS¿¡¼­ ´Ù¼öÀÇ
-    IP(¶ó¿îµå ·ÎºóµÈ)¸¦ ³Ñ°Ü¹Þ¾Æ Ä³½¬¿¡ ÀúÀåÇØ µÐ ÈÄ ÀÚÃ¼ÀûÀ¸·Îµµ ¶ó¿îµå
-    ·ÎºóÃ³¸®¸¦ ÇØÁÖÁö¸¸, ´Ù¼öÀÇ CNAME ¹æ½ÄÀº ·ÎÄÃ NS°¡ ÇÑ °³ÀÇ ÁÖ¼Ò¸¸À» ³Ñ°Ü¹Þ±â
-    ¶§¹®¿¡ ÀÚÃ¼ ¶ó¿îµå ·ÎºóÀÌ ºÒ°¡´ÉÇÏ¸ç, TTLÀÌ ¸¸±âµÉ ¶§±îÁö ÇØ´ç ResolverµéÀº
-    ÇÏ³ªÀÇ ÁÖ¼Ò¸¦ »ç¿ëÇÏ°Ô µÈ´Ù.</para>
+    <para>ë‹¤ìˆ˜ì˜ A ë ˆì½”ë“œ ë°©ì‹ì€ Resolverì˜ ë¡œì»¬ NSê°€ Authority NSì—ì„œ ë‹¤ìˆ˜ì˜
+    IP(ë¼ìš´ë“œ ë¡œë¹ˆëœ)ë¥¼ ë„˜ê²¨ë°›ì•„ ìºì‰¬ì— ì €ìž¥í•´ ë‘” í›„ ìžì²´ì ìœ¼ë¡œë„ ë¼ìš´ë“œ
+    ë¡œë¹ˆì²˜ë¦¬ë¥¼ í•´ì£¼ì§€ë§Œ, ë‹¤ìˆ˜ì˜ CNAME ë°©ì‹ì€ ë¡œì»¬ NSê°€ í•œ ê°œì˜ ì£¼ì†Œë§Œì„ ë„˜ê²¨ë°›ê¸°
+    ë•Œë¬¸ì— ìžì²´ ë¼ìš´ë“œ ë¡œë¹ˆì´ ë¶ˆê°€ëŠ¥í•˜ë©°, TTLì´ ë§Œê¸°ë  ë•Œê¹Œì§€ í•´ë‹¹ Resolverë“¤ì€
+    í•˜ë‚˜ì˜ ì£¼ì†Œë¥¼ ì‚¬ìš©í•˜ê²Œ ëœë‹¤.</para>
 
 <screen>
-<userinput>* Authority NS¿¡ Á÷Á¢ ÁúÀÇÇÏ¿´À» °æ¿ì</userinput>
+<userinput>* Authority NSì— ì§ì ‘ ì§ˆì˜í•˜ì˜€ì„ ê²½ìš°</userinput>
 $ <userinput>nslookup  www.nobreak.com  ns.nobreak.com</userinput>
 Name:    www1.nobreak.com
 Address:  210.105.79.101
@@ -290,7 +290,7 @@ Aliases:  www.nobreak.com
 </screen>
 
 <screen>
-<userinput>* ³×ÀÓ¼­¹öÀÇ Ä³½¬(Third Party Name Server)¿¡¼­ ¹Þ¾Æ¿Ã °æ¿ì</userinput>
+<userinput>* ë„¤ìž„ì„œë²„ì˜ ìºì‰¬(Third Party Name Server)ì—ì„œ ë°›ì•„ì˜¬ ê²½ìš°</userinput>
 $ <userinput>nslookup  www.nobreak.com  ns.kornet.ne.kr</userinput>
 Name:    www2.nobreak.com
 Address:  210.105.79.102
@@ -302,7 +302,7 @@ Name:    www2.nobreak.com
 Address:  210.105.79.102
 Aliases:  www.nobreak.com
 
-$ <userinput>sleep 180</userinput>  (TTLÀÌ ¸¸±âµÉ ¶§ ±îÁö ±â´Ù¸° ÈÄ)
+$ <userinput>sleep 180</userinput>  (TTLì´ ë§Œê¸°ë  ë•Œ ê¹Œì§€ ê¸°ë‹¤ë¦° í›„)
 
 $ <userinput>nslookup  www.nobreak.com  ns.kornet.ne.kr</userinput>
 Non-authoritative answer:
@@ -324,8 +324,8 @@ Aliases:  www.nobreak.com
 
 </screen>
 
-    <para>Âü°í·Î, ·Îµå ¹ë·±½ÌÀ» ±¸ÇöÇÏ±â À§ÇØ¼­´Â ½Ã½ºÅÛÀÇ ºÎÇÏ¿¡ µû¶ó ¶ó¿ìÆÃÀ»
-    Á¶Á¤ÇÏ´Â ½ºÀ§Ä¡³ª Å¬·¯½ºÅÍ¸µ(Clustering) ¼Ö·ç¼ÇÀ» ÅëÇÏ¿©¾ß ÇÑ´Ù.</para>
+    <para>ì°¸ê³ ë¡œ, ë¡œë“œ ë°¸ëŸ°ì‹±ì„ êµ¬í˜„í•˜ê¸° ìœ„í•´ì„œëŠ” ì‹œìŠ¤í…œì˜ ë¶€í•˜ì— ë”°ë¼ ë¼ìš°íŒ…ì„
+    ì¡°ì •í•˜ëŠ” ìŠ¤ìœ„ì¹˜ë‚˜ í´ëŸ¬ìŠ¤í„°ë§(Clustering) ì†”ë£¨ì…˜ì„ í†µí•˜ì—¬ì•¼ í•œë‹¤.</para>
   </sect1>
 </chapter>
 

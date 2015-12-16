@@ -16,7 +16,7 @@
     </author>
 
     <abstract>
-      <para><emphasis>&edition; Edition, ÃÖÁ¾¼öÁ¤ÀÏ &lastupdate;,
+      <para><emphasis>&edition; Edition, ìµœì¢…ìˆ˜ì •ì¼ &lastupdate;,
       Revision &revision;</emphasis></para>
 
       <para>
@@ -31,11 +31,11 @@
     </abstract>
 
     <legalnotice>
-      <para><emphasis>Àß¸ø ¾²¿©Áø ³»¿ëÀÌ ÀÖ´Ù¸é ¾à°£ÀÇ ½Ã°£À» ÇÒ¾ÖÇÏ¿© ÀúÀÚ¿¡°Ô
-      ¾Ë·ÁÁÖ½Ã±â ¹Ù¶ø´Ï´Ù. ÀÌ°ÍÀº ´ÙÀ½ »ç¶÷µé¿¡°Ô ¿Ã¹Ù¸¥ Áö½ÄÀ» Àü´ÞÇÏ´Âµ¥ Å«
-      µµ¿òÀÌ µË´Ï´Ù. º» ±ÛÀÇ ÃÖÁ¾ ¼öÁ¤º»Àº
-      <ulink url="&disturl;">&disturl;</ulink>¿¡¼­ ±¸ÇÒ ¼ö ÀÖÀ¸¸ç, µµ¿òÀÌ µÈ´Ù¸é
-      ÀÚÀ¯·Ó°Ô È°¿ëÇÏ¼Åµµ ÁÁ½À´Ï´Ù.
+      <para><emphasis>ìž˜ëª» ì“°ì—¬ì§„ ë‚´ìš©ì´ ìžˆë‹¤ë©´ ì•½ê°„ì˜ ì‹œê°„ì„ í• ì• í•˜ì—¬ ì €ìžì—ê²Œ
+      ì•Œë ¤ì£¼ì‹œê¸° ë°”ëžë‹ˆë‹¤. ì´ê²ƒì€ ë‹¤ìŒ ì‚¬ëžŒë“¤ì—ê²Œ ì˜¬ë°”ë¥¸ ì§€ì‹ì„ ì „ë‹¬í•˜ëŠ”ë° í°
+      ë„ì›€ì´ ë©ë‹ˆë‹¤. ë³¸ ê¸€ì˜ ìµœì¢… ìˆ˜ì •ë³¸ì€
+      <ulink url="&disturl;">&disturl;</ulink>ì—ì„œ êµ¬í•  ìˆ˜ ìžˆìœ¼ë©°, ë„ì›€ì´ ëœë‹¤ë©´
+      ìžìœ ë¡­ê²Œ í™œìš©í•˜ì…”ë„ ì¢‹ìŠµë‹ˆë‹¤.
       </emphasis></para>
     </legalnotice>
   </bookinfo>

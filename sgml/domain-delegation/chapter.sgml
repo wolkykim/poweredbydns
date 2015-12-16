@@ -1,37 +1,37 @@
-<chapter id="domain-delegation" xreflabel="µµ¸ÞÀÎ À§ÀÓ">
-  <title>µµ¸ÞÀÎ À§ÀÓ (Domain Parenting &amp; Delegation)</title>
+<chapter id="domain-delegation" xreflabel="ë„ë©”ì¸ ìœ„ìž„">
+  <title>ë„ë©”ì¸ ìœ„ìž„ (Domain Parenting &amp; Delegation)</title>
 
-  <para>¿©·¯ °è¿­»ç¸¦ °®´Â ´ë±â¾÷ÀÇ °æ¿ì, °è¿­»ç¸¦ www.core.nobreak.com °ú
-  °°ÀÌ ¼­ºê µµ¸ÞÀÎÀ¸·Î ºÐ·ùÇÏ¿© ¿î¿µÇÒ ÇÊ¿ä°¡ ÀÖ´Ù. ¶ÇÇÑ ÇØ´ç °è¿­»çÀÇ
-  ³×Æ®¿öÅ©°¡ ¹æ´ëÇÒ °æ¿ì, È¿À²ÀûÀÎ °ü¸®¸¦ À§ÇØ ÇØ´ç µµ¸ÞÀÎÀ» ÇØ´ç °è¿­»ç·Î
-  À§ÀÓÇÒ ¼öµµ ÀÖ´Ù.</para>
+  <para>ì—¬ëŸ¬ ê³„ì—´ì‚¬ë¥¼ ê°–ëŠ” ëŒ€ê¸°ì—…ì˜ ê²½ìš°, ê³„ì—´ì‚¬ë¥¼ www.core.nobreak.com ê³¼
+  ê°™ì´ ì„œë¸Œ ë„ë©”ì¸ìœ¼ë¡œ ë¶„ë¥˜í•˜ì—¬ ìš´ì˜í•  í•„ìš”ê°€ ìžˆë‹¤. ë˜í•œ í•´ë‹¹ ê³„ì—´ì‚¬ì˜
+  ë„¤íŠ¸ì›Œí¬ê°€ ë°©ëŒ€í•  ê²½ìš°, íš¨ìœ¨ì ì¸ ê´€ë¦¬ë¥¼ ìœ„í•´ í•´ë‹¹ ë„ë©”ì¸ì„ í•´ë‹¹ ê³„ì—´ì‚¬ë¡œ
+  ìœ„ìž„í•  ìˆ˜ë„ ìžˆë‹¤.</para>
 
     <figure id="fig-namespace-tree">
-      <title>Domain Delegation¿¡ ÀÇÇÑ Namespace °èÃþµµ</title>
+      <title>Domain Delegationì— ì˜í•œ Namespace ê³„ì¸µë„</title>
       <mediaobject>
         <imageobject>
           <imagedata fileref="images/delegation_namespace.jpg" format="jpg">
         </imageobject>
         <textobject>
-          <phrase>Domain Delegation¿¡ ÀÇÇÑ Namespace °èÃþµµ</phrase>
+          <phrase>Domain Delegationì— ì˜í•œ Namespace ê³„ì¸µë„</phrase>
         </textobject>
       </mediaobject>
     </figure>
 
-    <para><xref linkend="fig-namespace-tree">¸¦ º¸ÀÚ.FreeBSD.ORG µµ¸ÞÀÎÀº °¢ ±¹°¡º°·Î
-    ¼­ºê µµ¸ÞÀÎÀ» À§ÀÓÇÏ¿© ¿î¿µÇÏ°í ÀÖ°í, KR.FreeBSD.ORG µµ¸ÞÀÎÀº °¢ ÇÁ·ÎÁ§Æ®
-    ÆÀÀ» CORE µµ¸ÞÀÎ¾Æ·¡ À§Ä¡½ÃÅ´À¸·Î ½á, doc-kr.core.kr.FreeBSD.org ¿Í °°Àº
-    °èÃþ±¸Á¶¸¦ À¯ÁöÇÑ´Ù. ÀÌ ¸ðµç °¡Áö¸¦ ÇÏ³ªÀÇ ³×ÀÓ¼­¹ö¿¡¼­ °ü¸® ÇÒ ¼öµµ ÀÖÁö¸¸
-    ³×Æ®¿öÅ©ÀÇ ±Ô¸ð°¡ ºÒ¾î³²¿¡ µû¶ó ÇàÇØÁö´Â µµ¸ÞÀÎ À§ÀÓ °ü¸®´Â ÀüÃ¼ ³×Æ®¿öÅ©¸¦
-    ºÎµå·´°Ô ÇÑ´Ù.</para>
+    <para><xref linkend="fig-namespace-tree">ë¥¼ ë³´ìž.FreeBSD.ORG ë„ë©”ì¸ì€ ê° êµ­ê°€ë³„ë¡œ
+    ì„œë¸Œ ë„ë©”ì¸ì„ ìœ„ìž„í•˜ì—¬ ìš´ì˜í•˜ê³  ìžˆê³ , KR.FreeBSD.ORG ë„ë©”ì¸ì€ ê° í”„ë¡œì íŠ¸
+    íŒ€ì„ CORE ë„ë©”ì¸ì•„ëž˜ ìœ„ì¹˜ì‹œí‚´ìœ¼ë¡œ ì¨, doc-kr.core.kr.FreeBSD.org ì™€ ê°™ì€
+    ê³„ì¸µêµ¬ì¡°ë¥¼ ìœ ì§€í•œë‹¤. ì´ ëª¨ë“  ê°€ì§€ë¥¼ í•˜ë‚˜ì˜ ë„¤ìž„ì„œë²„ì—ì„œ ê´€ë¦¬ í•  ìˆ˜ë„ ìžˆì§€ë§Œ
+    ë„¤íŠ¸ì›Œí¬ì˜ ê·œëª¨ê°€ ë¶ˆì–´ë‚¨ì— ë”°ë¼ í–‰í•´ì§€ëŠ” ë„ë©”ì¸ ìœ„ìž„ ê´€ë¦¬ëŠ” ì „ì²´ ë„¤íŠ¸ì›Œí¬ë¥¼
+    ë¶€ë“œëŸ½ê²Œ í•œë‹¤.</para>
 
   <sect1 id="creating-subdomain-under-parentzone"
-  xreflabel="ºÎ¸ð Zone¿¡¼­ÀÇ ¼­ºê µµ¸ÞÀÎ »ý¼º">
-    <title>ºÎ¸ð Zone¿¡¼­ÀÇ ¼­ºê µµ¸ÞÀÎ »ý¼º</title>
+  xreflabel="ë¶€ëª¨ Zoneì—ì„œì˜ ì„œë¸Œ ë„ë©”ì¸ ìƒì„±">
+    <title>ë¶€ëª¨ Zoneì—ì„œì˜ ì„œë¸Œ ë„ë©”ì¸ ìƒì„±</title>
 
-    <para>¼­ºê µµ¸ÞÀÎÀÌ ¹Ýµå½Ã À§ÀÓµÇ¾î¾ß ÇÏ´Â °ÍÀº ¾Æ´Ï´Ù. ´ÙÀ½°ú °°ÀÌ ºÎ¸ð
-    Zone µ¥ÀÌÅÍº£ÀÌ½º¿¡ ÇÔ²² Á¤ÀÇµÉ ¼öµµ ÀÖ´Ù. ¿©±â¼­´Â È¸»ç³» ¸Á°ü¸® ±×·ìÀ»
-    nms.nobreak.com À¸·Î ºÐ·ùÇÏ°í, ±× ¾Æ·¡ DNS µµ¸ÞÀÎÀ» »ý¼ºÇÑ °æ¿ìÀÌ´Ù.</para>
+    <para>ì„œë¸Œ ë„ë©”ì¸ì´ ë°˜ë“œì‹œ ìœ„ìž„ë˜ì–´ì•¼ í•˜ëŠ” ê²ƒì€ ì•„ë‹ˆë‹¤. ë‹¤ìŒê³¼ ê°™ì´ ë¶€ëª¨
+    Zone ë°ì´í„°ë² ì´ìŠ¤ì— í•¨ê»˜ ì •ì˜ë  ìˆ˜ë„ ìžˆë‹¤. ì—¬ê¸°ì„œëŠ” íšŒì‚¬ë‚´ ë§ê´€ë¦¬ ê·¸ë£¹ì„
+    nms.nobreak.com ìœ¼ë¡œ ë¶„ë¥˜í•˜ê³ , ê·¸ ì•„ëž˜ DNS ë„ë©”ì¸ì„ ìƒì„±í•œ ê²½ìš°ì´ë‹¤.</para>
 
 <screen>
 <userinput>* zone-nobreak.com (NS.NOBREAK.COM)</userinput>
@@ -44,17 +44,17 @@ mail.nms                IN      A       150.183.110.10
 mail2.nms               IN      A       150.183.110.11
 </screen>
 
-    <para>nobreak.com ÀÇ SOA ·¹ÄÚµå°¡ ±×´ë·Î Àû¿ëµÇ±â ¶§¹®¿¡, »ý¼ºµÈ ¼­ºê
-    µµ¸ÞÀÎ nms.nobreak.com ¿¡ ´ëÇÑ SOA ·¹ÄÚµå´Â ÇÊ¿ä°¡ ¾ø´Ù.</para>
+    <para>nobreak.com ì˜ SOA ë ˆì½”ë“œê°€ ê·¸ëŒ€ë¡œ ì ìš©ë˜ê¸° ë•Œë¬¸ì—, ìƒì„±ëœ ì„œë¸Œ
+    ë„ë©”ì¸ nms.nobreak.com ì— ëŒ€í•œ SOA ë ˆì½”ë“œëŠ” í•„ìš”ê°€ ì—†ë‹¤.</para>
   </sect1>
 
-  <sect1 id="delegate-subdomain" xreflabel="¼­ºê µµ¸ÞÀÎ À§ÀÓ">
-    <title>¼­ºê µµ¸ÞÀÎ À§ÀÓ</title>
+  <sect1 id="delegate-subdomain" xreflabel="ì„œë¸Œ ë„ë©”ì¸ ìœ„ìž„">
+    <title>ì„œë¸Œ ë„ë©”ì¸ ìœ„ìž„</title>
 
-    <para>nms.nobreak.com ÀÇ ±Ô¸ð°¡ Ä¿Á® °ü¸®¸¦ ºÐ»ê½ÃÅ°±â À§ÇØ Å¸ ³×ÀÓ ¼­¹ö·Î
-    ÇØ´ç µµ¸ÞÀÎÀ» À§ÀÓÇÏ°íÀÚ ÇÒ ¶§¿¡´Â NS ·¹ÄÚµå¸¦ »ç¿ëÇØ ÇØ´ç µµ¸ÞÀÎÀ» ·¹ÆÛ·±½Ì
-    ÇØÁÖ¾î¾ß ÇÑ´Ù. ´ÙÀ½Àº nobreak.com  µµ¸ÞÀÎ¿¡¼­ nms ¸¦ ns.nms.nobreak.com
-    À¸·Î À§ÀÓÇÑ ¿¹ÀÌ´Ù.</para>
+    <para>nms.nobreak.com ì˜ ê·œëª¨ê°€ ì»¤ì ¸ ê´€ë¦¬ë¥¼ ë¶„ì‚°ì‹œí‚¤ê¸° ìœ„í•´ íƒ€ ë„¤ìž„ ì„œë²„ë¡œ
+    í•´ë‹¹ ë„ë©”ì¸ì„ ìœ„ìž„í•˜ê³ ìž í•  ë•Œì—ëŠ” NS ë ˆì½”ë“œë¥¼ ì‚¬ìš©í•´ í•´ë‹¹ ë„ë©”ì¸ì„ ë ˆí¼ëŸ°ì‹±
+    í•´ì£¼ì–´ì•¼ í•œë‹¤. ë‹¤ìŒì€ nobreak.com  ë„ë©”ì¸ì—ì„œ nms ë¥¼ ns.nms.nobreak.com
+    ìœ¼ë¡œ ìœ„ìž„í•œ ì˜ˆì´ë‹¤.</para>
 
 <screen>
 <userinput>* zone-nobreak.com (NS.NOBREAK.COM)</userinput>
@@ -64,19 +64,19 @@ ns.nms                  IN      A       150.183.110.2 ; Glue Record
 ns2.nms                 IN      A       150.183.110.3
 </screen>
 
-    <para>IP ÁÖ¼Ò´Â A ·¹ÄÚµå¿¡¼­¸¸ ¼³Á¤ ÇÒ ¼ö ÀÖÀ¸¹Ç·Î, ¹Ýµå½Ã ±Û·ç ·¹ÄÚµå¸¦
-    »ç¿ëÇÏ¿© NS¿¡ ¿¬°áÇÏ¿©¾ß ÇÑ´Ù. (Âü°í: <xref linkend="glue-record">)</para>
+    <para>IP ì£¼ì†ŒëŠ” A ë ˆì½”ë“œì—ì„œë§Œ ì„¤ì • í•  ìˆ˜ ìžˆìœ¼ë¯€ë¡œ, ë°˜ë“œì‹œ ê¸€ë£¨ ë ˆì½”ë“œë¥¼
+    ì‚¬ìš©í•˜ì—¬ NSì— ì—°ê²°í•˜ì—¬ì•¼ í•œë‹¤. (ì°¸ê³ : <xref linkend="glue-record">)</para>
 
-    <para>³×ÀÓ¼­¹ö ns.nms.nobreak.com Àº ºÎÆ®ÆÄÀÏ¿¡ ´ÙÀ½°ú °°ÀÌ À§ÀÓ¹ÞÀº
-    µµ¸ÞÀÎ¿¡ ´ëÇÑ primary ¼³Á¤ÀÌ ÇÊ¿äÇÏ´Ù.</para>
+    <para>ë„¤ìž„ì„œë²„ ns.nms.nobreak.com ì€ ë¶€íŠ¸íŒŒì¼ì— ë‹¤ìŒê³¼ ê°™ì´ ìœ„ìž„ë°›ì€
+    ë„ë©”ì¸ì— ëŒ€í•œ primary ì„¤ì •ì´ í•„ìš”í•˜ë‹¤.</para>
 
 <screen>
 <userinput>* named.boot (NS.NMS.NOBREAK.COM)</userinput>
 primary         nms.nobreak.com         zone-nms.nobreak.com
 </screen>
 
-    <para>±×¸®°í, Zone µ¥ÀÌÅÍº£ÀÌ½º <filename>zone-nms.nobreak.com</filename>À»
-    ´ÙÀ½°ú °°ÀÌ ÀÛ¼ºÇÑ´Ù.</para>
+    <para>ê·¸ë¦¬ê³ , Zone ë°ì´í„°ë² ì´ìŠ¤ <filename>zone-nms.nobreak.com</filename>ì„
+    ë‹¤ìŒê³¼ ê°™ì´ ìž‘ì„±í•œë‹¤.</para>
 
 <screen>
 <userinput>* zone-nms.nobreak.com (NS.NMS.NOBREAK.COM)</userinput>
@@ -101,16 +101,16 @@ dns             IN      A       150.183.110.53
                 IN      MX 20   mail2
 </screen>
 
-    <para>³×ÀÓ¼­¹ö ns2.nms.nobreak.com ¸¦ Secondary·Î ¼³Á¤ÇÏ±â À§ÇØ ºÎÆ®ÆÄÀÏ¿¡
-    ´ÙÀ½À» Ãß°¡ÇÑ´Ù.</para>
+    <para>ë„¤ìž„ì„œë²„ ns2.nms.nobreak.com ë¥¼ Secondaryë¡œ ì„¤ì •í•˜ê¸° ìœ„í•´ ë¶€íŠ¸íŒŒì¼ì—
+    ë‹¤ìŒì„ ì¶”ê°€í•œë‹¤.</para>
 
 <screen>
 <userinput>* named.boot (NS2.NMS.NOBREAK.COM)</userinput>
 secondary       nms.nobreak.com  150.183.110.2  sec-nms.nobreak.com
 </screen>
 
-    <para>ÀÌÁ¦ ns, ns.nms, ns2.nmsÀÇ BIND¸¦ ¸ðµÎ Çà¾÷ÇÑÈÄ, ¿ÜºÎ ³×ÀÓ¼­¹ö¸¦ ÅëÇØ
-    µ¿ÀÛÀ» È®ÀÎÇÑ´Ù.</para>
+    <para>ì´ì œ ns, ns.nms, ns2.nmsì˜ BINDë¥¼ ëª¨ë‘ í–‰ì—…í•œí›„, ì™¸ë¶€ ë„¤ìž„ì„œë²„ë¥¼ í†µí•´
+    ë™ìž‘ì„ í™•ì¸í•œë‹¤.</para>
 
 <screen>
 $ <userinput>nslookup  -type=NS  nms.nobreak.com  ns.kornet.ne.kr</userinput>
@@ -123,10 +123,10 @@ Address:  150.183.110.53
 </screen>
   </sect1>
 
-  <sect1 id="elegate-in-addr-arpa" xreflabel="¿ÁÅÝ ±â¹Ý in-addr.arpa À§ÀÓ">
-    <title>¿ÁÅÝ ±â¹Ý in-addr.arpa À§ÀÓ</title>
-    <para>nobreak.com ÀÌ B Å¬·¡½º 150.183À» ´ÙÀ½°ú °°ÀÌ ÇÒ´ç¹Þ¾Ò°í,
-    nms.nobreak.com Àº ±×Áß ¼­ºê³Ý 150.183.110À» »ç¿ëÇÑ´Ù°í °¡Á¤ÇÏÀÚ.</para>
+  <sect1 id="elegate-in-addr-arpa" xreflabel="ì˜¥í…Ÿ ê¸°ë°˜ in-addr.arpa ìœ„ìž„">
+    <title>ì˜¥í…Ÿ ê¸°ë°˜ in-addr.arpa ìœ„ìž„</title>
+    <para>nobreak.com ì´ B í´ëž˜ìŠ¤ 150.183ì„ ë‹¤ìŒê³¼ ê°™ì´ í• ë‹¹ë°›ì•˜ê³ ,
+    nms.nobreak.com ì€ ê·¸ì¤‘ ì„œë¸Œë„· 150.183.110ì„ ì‚¬ìš©í•œë‹¤ê³  ê°€ì •í•˜ìž.</para>
 
 <screen>
 $ <userinput>nslookup  -type=NS  183.150.in-addr.arpa</userinput>
@@ -134,9 +134,9 @@ $ <userinput>nslookup  -type=NS  183.150.in-addr.arpa</userinput>
 183.150.in-addr.arpa    nameserver = ns2.nobreak.com
 </screen>
 
-    <para>¿ÁÅÝ ´ÜÀ§ÀÇ Inverse µµ¸ÞÀÎ À§ÀÓÀº ¼­ºê µµ¸ÞÀÎ À§ÀÓ°ú °°Àº ´À³¦À¸·Î
-    ¼ö¿ùÇÏ°Ô ÀÌ·ç¾îÁø´Ù. ´ÙÀ½Àº 183.150.in-addr.arpa ¿¡¼­
-    110.183.150.in-addr.arpa À» À§ÀÓÇÏ±â À§ÇÑ Zone ¼³Á¤ÀÌ´Ù.</para>
+    <para>ì˜¥í…Ÿ ë‹¨ìœ„ì˜ Inverse ë„ë©”ì¸ ìœ„ìž„ì€ ì„œë¸Œ ë„ë©”ì¸ ìœ„ìž„ê³¼ ê°™ì€ ëŠë‚Œìœ¼ë¡œ
+    ìˆ˜ì›”í•˜ê²Œ ì´ë£¨ì–´ì§„ë‹¤. ë‹¤ìŒì€ 183.150.in-addr.arpa ì—ì„œ
+    110.183.150.in-addr.arpa ì„ ìœ„ìž„í•˜ê¸° ìœ„í•œ Zone ì„¤ì •ì´ë‹¤.</para>
 
 <screen>
 <userinput>* zone-183.150.in-addr.arpa (NS.NOBREAK.COM)</userinput>
@@ -144,9 +144,9 @@ $ <userinput>nslookup  -type=NS  183.150.in-addr.arpa</userinput>
                 IN      NS      ns2.nms.nobreak.com.
 </screen>
 
-    <para>±×¸®°í, ns.nms.nobreak.com °ú ns2.nms.nobreak.com ¿¡ primary,
-    secondary ¼³Á¤À» ³Ö°í Inverse Zone ÆÄÀÏÀ» »ý¼ºÇÔÀ¸·Î½á, ÀÎ¹ö½º µµ¸ÞÀÎ À§ÀÓÀÌ
-    ¸¶¹«¸® µÈ´Ù.</para>
+    <para>ê·¸ë¦¬ê³ , ns.nms.nobreak.com ê³¼ ns2.nms.nobreak.com ì— primary,
+    secondary ì„¤ì •ì„ ë„£ê³  Inverse Zone íŒŒì¼ì„ ìƒì„±í•¨ìœ¼ë¡œì¨, ì¸ë²„ìŠ¤ ë„ë©”ì¸ ìœ„ìž„ì´
+    ë§ˆë¬´ë¦¬ ëœë‹¤.</para>
 
 <screen>
 <userinput>* named.boot (NS.NMS.NOBREAK.COM)</userinput>
@@ -178,42 +178,42 @@ secondary       110.183.150.in-addr.arpa        150.183.110.2   sec-110.183.150.
   </sect1>
 
   <sect1 id="delegate-classless-in-addr-arpa"
-  xreflabel="Classless in-addr.arpa À§ÀÓ">
-    <title>Classless in-addr.arpa À§ÀÓ</title>
+  xreflabel="Classless in-addr.arpa ìœ„ìž„">
+    <title>Classless in-addr.arpa ìœ„ìž„</title>
 
-    <para>Âü°í: <ulink url="&rfc2317;">RFC2317</ulink></para>
+    <para>ì°¸ê³ : <ulink url="&rfc2317;">RFC2317</ulink></para>
 
-    <para>µµ¸ÞÀÎ À§ÀÓÀº µµÆ®·Î ºÐ¸®µÇ´Â ¼¼±×¸ÕÆ® È¤Àº ¿ÁÅÝ(octet) ±â¹ÝÀ¸·Î
-    ¼³°èµÇ¾ú±â ¶§¹®¿¡, ¿ÁÅÝ ±â¹ÝÀÇ ÀÎ¹ö½º µµ¸ÞÀÎ À§ÀÓ¿£ º°´Ù¸¥ ¹®Á¦°¡ ¾ø´Ù.
-    ÇÏÁö¸¸ ¼¼±×¸ÕÆ®¸¦ ³ª´©¾î 210.105.79.1-128 ±îÁö´Â nobreak.com ÀÌ
-    129-256±îÁö´Â nms.nobreak.com ÀÌ »ç¿ëÇÏ´Â °æ¿ì¿¡´Â ÀÎ¹ö½º µµ¸ÞÀÎ À§ÀÓÀÌ
-    ¼ö¿ùÄ¡ ¾Ê´Ù.</para>
+    <para>ë„ë©”ì¸ ìœ„ìž„ì€ ë„íŠ¸ë¡œ ë¶„ë¦¬ë˜ëŠ” ì„¸ê·¸ë¨¼íŠ¸ í˜¹ì€ ì˜¥í…Ÿ(octet) ê¸°ë°˜ìœ¼ë¡œ
+    ì„¤ê³„ë˜ì—ˆê¸° ë•Œë¬¸ì—, ì˜¥í…Ÿ ê¸°ë°˜ì˜ ì¸ë²„ìŠ¤ ë„ë©”ì¸ ìœ„ìž„ì—” ë³„ë‹¤ë¥¸ ë¬¸ì œê°€ ì—†ë‹¤.
+    í•˜ì§€ë§Œ ì„¸ê·¸ë¨¼íŠ¸ë¥¼ ë‚˜ëˆ„ì–´ 210.105.79.1-128 ê¹Œì§€ëŠ” nobreak.com ì´
+    129-256ê¹Œì§€ëŠ” nms.nobreak.com ì´ ì‚¬ìš©í•˜ëŠ” ê²½ìš°ì—ëŠ” ì¸ë²„ìŠ¤ ë„ë©”ì¸ ìœ„ìž„ì´
+    ìˆ˜ì›”ì¹˜ ì•Šë‹¤.</para>
 
-    <para>°°Àº ±â°üÀÌ ÆíÀÇ»ó ³ª´©´Â °ÍÀÌ¶ó¸é, ÀÎ¹ö½º µµ¸ÞÀÎ¿¡ ÇÑÇØ À§ÀÓÄ¡ ¾Ê°í,
-    Áß¾Ó¿¡¼­ ÅëÇÕ°ü¸®ÇÏ´Â °ÍÀÌ °¡´ÉÇÏ³ª, IP °í°¥·Î ÀÎÇØ ISPµéÀÌ Å¬·¡½º¸¦
-    ÇÒÇÁ(half) ¶Ç´Â ´õ Àß°Ô ³ª´©¾î ¹è±ÞÇÏ°í ÀÖÀ¸¹Ç·Î, ÀÌ·¯ÇÑ ±â°üµé »çÀÌ¿¡¼­´Â
-    ÇÑÂÊ ±â°üÀÇ ÇÇÇØ°¡ ¾øµµ·Ï À§ÀÓÀÌ ¹è·ÁµÇ¾î¾ß ÇÏ°Ú´Ù.</para>
+    <para>ê°™ì€ ê¸°ê´€ì´ íŽ¸ì˜ìƒ ë‚˜ëˆ„ëŠ” ê²ƒì´ë¼ë©´, ì¸ë²„ìŠ¤ ë„ë©”ì¸ì— í•œí•´ ìœ„ìž„ì¹˜ ì•Šê³ ,
+    ì¤‘ì•™ì—ì„œ í†µí•©ê´€ë¦¬í•˜ëŠ” ê²ƒì´ ê°€ëŠ¥í•˜ë‚˜, IP ê³ ê°ˆë¡œ ì¸í•´ ISPë“¤ì´ í´ëž˜ìŠ¤ë¥¼
+    í• í”„(half) ë˜ëŠ” ë” ìž˜ê²Œ ë‚˜ëˆ„ì–´ ë°°ê¸‰í•˜ê³  ìžˆìœ¼ë¯€ë¡œ, ì´ëŸ¬í•œ ê¸°ê´€ë“¤ ì‚¬ì´ì—ì„œëŠ”
+    í•œìª½ ê¸°ê´€ì˜ í”¼í•´ê°€ ì—†ë„ë¡ ìœ„ìž„ì´ ë°°ë ¤ë˜ì–´ì•¼ í•˜ê² ë‹¤.</para>
 
-    <para>Ã¹¹øÂ° ¹æ¹ýÀ¸·Î´Â 79.105.210.in-addr.arpaÀÇ ¼³Á¤¿¡ ÀÖ¾î¼­ 129-256(B¿¡
-    ÇÒ´çµÈ)±îÁöÀÇ IP ºí·°À» NS ·¹ÄÚµå¸¦ »ç¿ëÇØ ¸ðµÎ ³×ÀÓ¼­¹ö ns.nms.nobreak.com
-    ·Î ·¹ÆÛ·±½Ì ÇØÁØ´Ù. 79.105.210.in-addr.arpa ¿¡ ´ëÇÑ Zone µ¥ÀÌÅÍ º£ÀÌ½º ÀÛ¼º
-    ¿¹¸¦ º¸ÀÚ.</para>
+    <para>ì²«ë²ˆì§¸ ë°©ë²•ìœ¼ë¡œëŠ” 79.105.210.in-addr.arpaì˜ ì„¤ì •ì— ìžˆì–´ì„œ 129-256(Bì—
+    í• ë‹¹ëœ)ê¹Œì§€ì˜ IP ë¸”ëŸ­ì„ NS ë ˆì½”ë“œë¥¼ ì‚¬ìš©í•´ ëª¨ë‘ ë„¤ìž„ì„œë²„ ns.nms.nobreak.com
+    ë¡œ ë ˆí¼ëŸ°ì‹± í•´ì¤€ë‹¤. 79.105.210.in-addr.arpa ì— ëŒ€í•œ Zone ë°ì´í„° ë² ì´ìŠ¤ ìž‘ì„±
+    ì˜ˆë¥¼ ë³´ìž.</para>
 
 <screen>
 <userinput>* zone-79.105.210.in-addr.arpa (NS.NOBREAK.COM)</userinput>
 2               IN      PTR     ns.nobreak.com.
 3               IN      PTR     ns2.nobreak.com.
 ...
-129             IN      NS      ns.nms.nobreak.com.   # 129-254±îÁö À§ÀÓ
+129             IN      NS      ns.nms.nobreak.com.   # 129-254ê¹Œì§€ ìœ„ìž„
                 IN      NS      ns2.nms.nobreak.com.
 ...
 254             IN      NS      ns.nms.nobreak.com.
                 IN      NS      ns2.nms.nobreak.com.
 </screen>
 
-    <para>NS ·¹ÄÚµå¸¦ »ç¿ëÇØ Æä¾î¸°ÆÃ Çß±â ¶§¹®¿¡, ns.nms.nobreak.com ÀÇ ºÎÆ®
-    ÆÄÀÏ¿¡´Â IP 129-254¿¡ ´ëÇØ ´ÙÀ½°ú °°ÀÌ ¸ðµÎ primary ¼³Á¤ÀÌ µé¾î°¡ ÀÖ¾î¾ß
-    ÇÑ´Ù. Á¶±Ý ¹ø°Å·Î¿î ¸éÀÌ ÀÖ´Ù.</para>
+    <para>NS ë ˆì½”ë“œë¥¼ ì‚¬ìš©í•´ íŽ˜ì–´ë¦°íŒ… í–ˆê¸° ë•Œë¬¸ì—, ns.nms.nobreak.com ì˜ ë¶€íŠ¸
+    íŒŒì¼ì—ëŠ” IP 129-254ì— ëŒ€í•´ ë‹¤ìŒê³¼ ê°™ì´ ëª¨ë‘ primary ì„¤ì •ì´ ë“¤ì–´ê°€ ìžˆì–´ì•¼
+    í•œë‹¤. ì¡°ê¸ˆ ë²ˆê±°ë¡œìš´ ë©´ì´ ìžˆë‹¤.</para>
 
 <screen>
 <userinput>* named.boot (NS.NMS.NOBREAK.COM)</userinput>
@@ -222,8 +222,8 @@ primary  129.79.105.210.in-addr.arpa  zone-129.79.105.210.in-addr.arpa
 primary  254.79.105.210.in-addr.arpa  zone-254.79.105.210.in-addr.arpa
 </screen>
 
-    <para>¶ÇÇÑ, °¢ Zone ÆÄÀÏ 129.79.105.210.in-addr.arpa -
-    254.79.105.210.in-addr.arpa´Â ¸ðµÎ ´ÙÀ½°ú °°Àº Çü½ÄÀ¸·Î ÀÛ¼ºµÇ¾î¾ß ÇÑ´Ù.
+    <para>ë˜í•œ, ê° Zone íŒŒì¼ 129.79.105.210.in-addr.arpa -
+    254.79.105.210.in-addr.arpaëŠ” ëª¨ë‘ ë‹¤ìŒê³¼ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ìž‘ì„±ë˜ì–´ì•¼ í•œë‹¤.
     </para>
 
 <screen>
@@ -252,14 +252,14 @@ primary  254.79.105.210.in-addr.arpa  zone-254.79.105.210.in-addr.arpa
                 IN      PTR     dhcp.nms.nobreak.com.
 </screen>
 
-    <para>IPv4´Â 4°³ÀÇ ¿ÁÅÝÀ¸·Î ±¸ºÐµÇ°í, ÀÌ°ÍÀº ¸¶Áö¸· 4¹øÂ° ¿ÁÅÝ¿¡ ´ëÇÑ Zone
-    ÀÌ¹Ç·Î, Ãß°¡ÀûÀÎ Á¤ÀÇ°¡ ÀÖÀ» ¼ö ¾ø´Ù.</para>
+    <para>IPv4ëŠ” 4ê°œì˜ ì˜¥í…Ÿìœ¼ë¡œ êµ¬ë¶„ë˜ê³ , ì´ê²ƒì€ ë§ˆì§€ë§‰ 4ë²ˆì§¸ ì˜¥í…Ÿì— ëŒ€í•œ Zone
+    ì´ë¯€ë¡œ, ì¶”ê°€ì ì¸ ì •ì˜ê°€ ìžˆì„ ìˆ˜ ì—†ë‹¤.</para>
 
-    <para>ÀÌ ¹æ¹ýÀº À§ÀÓµÈ IP °³¼ö¸¸Å­ÀÇ Zone µ¥ÀÌÅÍº£ÀÌ½º°¡ ¿ä±¸µÇ±â ¶§¹®¿¡,
-    ¹ø°Å·Î¿ö ½ÇÁ¦·Î´Â °ÅÀÇ »ç¿ëÇÏÁö ¾Ê´Âµ¥, µµ¸ÞÀÎ ÆäÀÌ·±ÆÃÀÇ ÇÑ°è¿Í ´À³¦À»
-    Àü´ÞÇÏ°íÀÚ ¼Ò°³ÇÏ¿´´Ù.</para>
+    <para>ì´ ë°©ë²•ì€ ìœ„ìž„ëœ IP ê°œìˆ˜ë§Œí¼ì˜ Zone ë°ì´í„°ë² ì´ìŠ¤ê°€ ìš”êµ¬ë˜ê¸° ë•Œë¬¸ì—,
+    ë²ˆê±°ë¡œì›Œ ì‹¤ì œë¡œëŠ” ê±°ì˜ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë°, ë„ë©”ì¸ íŽ˜ì´ëŸ°íŒ…ì˜ í•œê³„ì™€ ëŠë‚Œì„
+    ì „ë‹¬í•˜ê³ ìž ì†Œê°œí•˜ì˜€ë‹¤.</para>
 
-    <para>¿©±â Á¶±Ý ¼¼·ÃµÈ ¹æ¹ýÀÌ ÀÖ´Ù.</para>
+    <para>ì—¬ê¸° ì¡°ê¸ˆ ì„¸ë ¨ëœ ë°©ë²•ì´ ìžˆë‹¤.</para>
 
 <screen>
 <userinput>* zone-79.105.210.in-addr.arpa (NS.NOBREAK.COM)</userinput>
@@ -273,15 +273,15 @@ nms             IN      NS      ns.nms.nobreak.com.
                 IN      NS      ns2.nms.nobreak.com.
 </screen>
 
-    <para>Namespace »ó¿¡¼­ Inverse µµ¸ÞÀÎÀ» À§ÇÑ in-addr.arpa °¡Áö¿Í, ÀÏ¹ÝÀûÀÎ
-    ¹®ÀÚ µµ¸ÞÀÎ °¡ÁöÀÇ ±â¼úÀû Â÷ÀÌ°¡ ÀüÇô ¾øÀ½À» »ó±âÇÏÀÚ. ÆíÀÇ»ó arpa µµ¸ÞÀÎÀ»
-    IP ¸ÅÇÎ¿ëÀ¸·Î »ç¿ëÇÏ´Â °Í »ÓÀÌ´Ï, nms.79.105.210.in-addr.arpa ¿Í °°Àº
-    µµ¸ÞÀÎÀ» ¸¸µé°í ÆÐ¾î·±ÆÃÇÏ´Â °ÍÀÌ °¡´ÉÇÏ°í, ¿©±â¼­´Â ÀÌÁ¡À» ÀÌ¿ëÇØ Classless
-    in-addr.arpa¸¦ ÇØ°áÇÏ°í ÀÖ´Ù.</para>
+    <para>Namespace ìƒì—ì„œ Inverse ë„ë©”ì¸ì„ ìœ„í•œ in-addr.arpa ê°€ì§€ì™€, ì¼ë°˜ì ì¸
+    ë¬¸ìž ë„ë©”ì¸ ê°€ì§€ì˜ ê¸°ìˆ ì  ì°¨ì´ê°€ ì „í˜€ ì—†ìŒì„ ìƒê¸°í•˜ìž. íŽ¸ì˜ìƒ arpa ë„ë©”ì¸ì„
+    IP ë§¤í•‘ìš©ìœ¼ë¡œ ì‚¬ìš©í•˜ëŠ” ê²ƒ ë¿ì´ë‹ˆ, nms.79.105.210.in-addr.arpa ì™€ ê°™ì€
+    ë„ë©”ì¸ì„ ë§Œë“¤ê³  íŒ¨ì–´ëŸ°íŒ…í•˜ëŠ” ê²ƒì´ ê°€ëŠ¥í•˜ê³ , ì—¬ê¸°ì„œëŠ” ì´ì ì„ ì´ìš©í•´ Classless
+    in-addr.arpaë¥¼ í•´ê²°í•˜ê³  ìžˆë‹¤.</para>
 
-    <para>Áï 129.79.105.210.in-addr.arpa ´Â 129.nms.79.105.210.in-addr.arpa ¸¦
-    CNAME ÇÏ´Âµ¥, nms.79.104.210.in-addr.arpa ÀÇ primary´Â ns.nms.nobreak.com
-    ÀÌ¹Ç·Î, °á±¹ À§ÀÓÀº ¼º°øÀûÀ¸·Î ¼º¸³µÈ´Ù.</para>
+    <para>ì¦‰ 129.79.105.210.in-addr.arpa ëŠ” 129.nms.79.105.210.in-addr.arpa ë¥¼
+    CNAME í•˜ëŠ”ë°, nms.79.104.210.in-addr.arpa ì˜ primaryëŠ” ns.nms.nobreak.com
+    ì´ë¯€ë¡œ, ê²°êµ­ ìœ„ìž„ì€ ì„±ê³µì ìœ¼ë¡œ ì„±ë¦½ëœë‹¤.</para>
 
 <screen>
 <userinput>* named.boot (NS.NMS.NOBREAK.COM)</userinput>
@@ -305,25 +305,25 @@ primary  nms.79.105.210.in-addr.arpa  zone-nms.79.105.210.in-addr.arpa
 254             IN      PTR     layla.nms.nobreak.com.
 </screen>
 
-    <para>129-254±îÁöÀÇ PTRÀ» ¿©±â¿¡ ¸ðµÎ ³ª¿­ÇÑ´Ù. 79.105.210.in-addr.arpa
-    Zone¿¡¼­ °¢ IP¸¦ ¸ðµÎ CNAMEÀ¸·Î Àâ¾ÆÁÖ¾î¾ß ÇÏ´Â ºÒÆíÇÔÀ» »©¸é ÇöÀçÀÇ DNS
-    ¾Ë°í¸®Áò»ó¿¡¼± ÃÖ¼±ÀÇ ¹æ¾ÈÀÌ ¾Æ´Ñ°¡ ÇÑ´Ù.</para>
+    <para>129-254ê¹Œì§€ì˜ PTRì„ ì—¬ê¸°ì— ëª¨ë‘ ë‚˜ì—´í•œë‹¤. 79.105.210.in-addr.arpa
+    Zoneì—ì„œ ê° IPë¥¼ ëª¨ë‘ CNAMEìœ¼ë¡œ ìž¡ì•„ì£¼ì–´ì•¼ í•˜ëŠ” ë¶ˆíŽ¸í•¨ì„ ë¹¼ë©´ í˜„ìž¬ì˜ DNS
+    ì•Œê³ ë¦¬ì¦˜ìƒì—ì„  ìµœì„ ì˜ ë°©ì•ˆì´ ì•„ë‹Œê°€ í•œë‹¤.</para>
 
-    <para>¼­·Î ´Ù¸¥ ±â°üÀ¸·Î ÇÒ´çµÈ ÂÉ°³¾îÁø ÇÏ³ªÀÇ Class¿¡ ´ëÇÑ Reverse µµ¸ÞÀÎ
-    À§ÀÓÀº ISP ´Ü°è¿¡¼­ ÀÌ·ç¾îÁ®¾ß ÇÏÁö¸¸, ½ÇÁ¦ ISPµéÀº Class ´ÜÀ§·Î¸¸
-    À§ÀÓÃ³¸®¸¦ ÇÏ´Â°æ¿ì°¡ ´ëºÎºÐÀÌ¿©¼­, ÇØ´ç Class ÀüÃ¼¸¦ ÇÑÂÊ ±â°üÀ¸·Î À§ÀÓÇÏ´Â
-    °æ¿ì°¡ ´ëºÎºÐÀÌ´Ù. µû¶ó¼­ ÀÌ·¯ÇÑ °æ¿ì¿¡´Â À§ÀÓ¹ÞÀº ±â°ü¿¡¼­ Å¸ ±â°üÀ¸·Î
-    ÇÒ´çµÈ IP ºí¶ôÀ» ¼Ò°³ÇÑ ¹æ¹ý°ú °°ÀÌ ·¹ÆÛ·±½Ì ÇØÁÖ¾î Å¸ ±â°üÀÇ ÇÇÇØ°¡ ¾øµµ·Ï
-    ÇÏÀÚ. ³×ÀÓ¼­¹ö¸¦ ºñ·ÔÇÏ¿© Public IP¸¦ °®´Â È£½ºÆ®(PC¸¦ Æ÷ÇÔÇÏ¿©)°¡ Reverse
-    ¸ÅÇÎÀÌ ¾ÈµÇ¾î ÀÖÀ» °æ¿ì¿¡´Â ¸î¸î ¼­ºñ½ºÀÇ »ç¿ëÀÌ °ÅºÎµÉ ¼öµµ ÀÖÀ¸¸ç, ÇØ´ç
-    È£½ºÆ®·ÎÀÇ Reverse Resolving µô·¹ÀÌ°¡ Áõ°¡ÇÏ´Âµî Å©°í ÀÛÀº ÀáÀçÀû ¹®Á¦°¡
-    ¾ß±âµÈ´Ù.</para>
+    <para>ì„œë¡œ ë‹¤ë¥¸ ê¸°ê´€ìœ¼ë¡œ í• ë‹¹ëœ ìª¼ê°œì–´ì§„ í•˜ë‚˜ì˜ Classì— ëŒ€í•œ Reverse ë„ë©”ì¸
+    ìœ„ìž„ì€ ISP ë‹¨ê³„ì—ì„œ ì´ë£¨ì–´ì ¸ì•¼ í•˜ì§€ë§Œ, ì‹¤ì œ ISPë“¤ì€ Class ë‹¨ìœ„ë¡œë§Œ
+    ìœ„ìž„ì²˜ë¦¬ë¥¼ í•˜ëŠ”ê²½ìš°ê°€ ëŒ€ë¶€ë¶„ì´ì—¬ì„œ, í•´ë‹¹ Class ì „ì²´ë¥¼ í•œìª½ ê¸°ê´€ìœ¼ë¡œ ìœ„ìž„í•˜ëŠ”
+    ê²½ìš°ê°€ ëŒ€ë¶€ë¶„ì´ë‹¤. ë”°ë¼ì„œ ì´ëŸ¬í•œ ê²½ìš°ì—ëŠ” ìœ„ìž„ë°›ì€ ê¸°ê´€ì—ì„œ íƒ€ ê¸°ê´€ìœ¼ë¡œ
+    í• ë‹¹ëœ IP ë¸”ë½ì„ ì†Œê°œí•œ ë°©ë²•ê³¼ ê°™ì´ ë ˆí¼ëŸ°ì‹± í•´ì£¼ì–´ íƒ€ ê¸°ê´€ì˜ í”¼í•´ê°€ ì—†ë„ë¡
+    í•˜ìž. ë„¤ìž„ì„œë²„ë¥¼ ë¹„ë¡¯í•˜ì—¬ Public IPë¥¼ ê°–ëŠ” í˜¸ìŠ¤íŠ¸(PCë¥¼ í¬í•¨í•˜ì—¬)ê°€ Reverse
+    ë§¤í•‘ì´ ì•ˆë˜ì–´ ìžˆì„ ê²½ìš°ì—ëŠ” ëª‡ëª‡ ì„œë¹„ìŠ¤ì˜ ì‚¬ìš©ì´ ê±°ë¶€ë  ìˆ˜ë„ ìžˆìœ¼ë©°, í•´ë‹¹
+    í˜¸ìŠ¤íŠ¸ë¡œì˜ Reverse Resolving ë”œë ˆì´ê°€ ì¦ê°€í•˜ëŠ”ë“± í¬ê³  ìž‘ì€ ìž ìž¬ì  ë¬¸ì œê°€
+    ì•¼ê¸°ëœë‹¤.</para>
 
-    <para>Classless in-addr.arpa À§ÀÓ°ú´Â Á¶±Ý ´Ù¸£°Ô, ´Ù¼öÀÇ C Å¬·¡½º
-    210.105.79 - 210.105.81 ¸¦ ÇÒ´ç¹Þ¾Ò°í, ÀÌÁß 81 ³×Æ®¿öÅ©¸¦ À§ÀÓÄÚÀÚÇÒ °æ¿ì¸¦
-    »ý°¢ÇØº¸ÀÚ. ÇÑ°¡Áö ¹æ¹ýÀº, ÇØ´ç ISP¿¡ 81.105.210.in-addr.arpa¿¡ ´ëÇÑ
-    ³×ÀÓ¼­¹ö º¯°æ ½ÅÃ»¸¸À» ÇÏ´Â °ÍÀÌ°ÚÁö¸¸, º¸ÅëÀº ÀÌ·¸°Ô ÇÏÁö ¾Ê°í, ¿©±â¼­
-    ¼³¸íÇÏ´Â °Í°ú °°ÀÌ Namespace»óÀÇ ¸µÅ©°¡ ÇØ´ç ³×Æ®¿öÅ©ÀÇ ³×ÀÓ ¼­¹ö¿¡ÀÇÇØ
-    Æ÷ÀÎÆÃ µÇµµ·ÏÇÏ¿©, ³×Æ®¿öÅ©ÀÇ º¯µ¿¿¡ ºü¸£°Ô ´ëÃ³Åä·Ï ÇÑ´Ù.</para>
+    <para>Classless in-addr.arpa ìœ„ìž„ê³¼ëŠ” ì¡°ê¸ˆ ë‹¤ë¥´ê²Œ, ë‹¤ìˆ˜ì˜ C í´ëž˜ìŠ¤
+    210.105.79 - 210.105.81 ë¥¼ í• ë‹¹ë°›ì•˜ê³ , ì´ì¤‘ 81 ë„¤íŠ¸ì›Œí¬ë¥¼ ìœ„ìž„ì½”ìží•  ê²½ìš°ë¥¼
+    ìƒê°í•´ë³´ìž. í•œê°€ì§€ ë°©ë²•ì€, í•´ë‹¹ ISPì— 81.105.210.in-addr.arpaì— ëŒ€í•œ
+    ë„¤ìž„ì„œë²„ ë³€ê²½ ì‹ ì²­ë§Œì„ í•˜ëŠ” ê²ƒì´ê² ì§€ë§Œ, ë³´í†µì€ ì´ë ‡ê²Œ í•˜ì§€ ì•Šê³ , ì—¬ê¸°ì„œ
+    ì„¤ëª…í•˜ëŠ” ê²ƒê³¼ ê°™ì´ Namespaceìƒì˜ ë§í¬ê°€ í•´ë‹¹ ë„¤íŠ¸ì›Œí¬ì˜ ë„¤ìž„ ì„œë²„ì—ì˜í•´
+    í¬ì¸íŒ… ë˜ë„ë¡í•˜ì—¬, ë„¤íŠ¸ì›Œí¬ì˜ ë³€ë™ì— ë¹ ë¥´ê²Œ ëŒ€ì²˜í† ë¡ í•œë‹¤.</para>
   </sect1>
 </chapter>

@@ -1,13 +1,13 @@
-<chapter id="dns-tools" xreflabel="DNS ¿À·ù ¼öÁ¤ µµ±¸">
-  <title>DNS ¿À·ù ¼öÁ¤ µµ±¸</title>
+<chapter id="dns-tools" xreflabel="DNS ì˜¤ë¥˜ ìˆ˜ì • ë„êµ¬">
+  <title>DNS ì˜¤ë¥˜ ìˆ˜ì • ë„êµ¬</title>
 
   <sect1 id="nslookup" xreflabel="NSLOOKUP">
     <title>NSLOOKUP</title>
 
-    <para>³×ÀÓ¼­¹ö¸¦ ¿î¿µÇÏ°í °ü¸®ÇÏ´Âµ¥ ÀÖ¾î ¹®Á¦¸¦ ¹ß°ßÇÏ°í ÇØ°áÇÏ±â À§ÇØ
-    ResolverÀÇ ÀÔÀåÀ¸·Î ³×ÀÓ¼­¹ö¸¦ ½ÃÇèÇØº¼ ÇÊ¿ä°¡ ÀÖ´Ù. ´ëºÎºÐÀÇ ½Ã½ºÅÛ¿¡ ±âº»
-    ¼³Ä¡µÇ¾î ÀÖ´Â nslookupÀº dig¿Í ÇÔ²² °¡Àå ³Î¸® »ç¿ëµÇ´Â ³×ÀÓ¼­¹ö ÁúÀÇ
-    µµ±¸·Î½á, µµ¸ÞÀÎ ¸Þ´ÏÀúÀÇ ±âº» ¹«±âÁß ÇÏ³ªÀÌ´Ù.</para>
+    <para>ë„¤ìž„ì„œë²„ë¥¼ ìš´ì˜í•˜ê³  ê´€ë¦¬í•˜ëŠ”ë° ìžˆì–´ ë¬¸ì œë¥¼ ë°œê²¬í•˜ê³  í•´ê²°í•˜ê¸° ìœ„í•´
+    Resolverì˜ ìž…ìž¥ìœ¼ë¡œ ë„¤ìž„ì„œë²„ë¥¼ ì‹œí—˜í•´ë³¼ í•„ìš”ê°€ ìžˆë‹¤. ëŒ€ë¶€ë¶„ì˜ ì‹œìŠ¤í…œì— ê¸°ë³¸
+    ì„¤ì¹˜ë˜ì–´ ìžˆëŠ” nslookupì€ digì™€ í•¨ê»˜ ê°€ìž¥ ë„ë¦¬ ì‚¬ìš©ë˜ëŠ” ë„¤ìž„ì„œë²„ ì§ˆì˜
+    ë„êµ¬ë¡œì¨, ë„ë©”ì¸ ë©”ë‹ˆì €ì˜ ê¸°ë³¸ ë¬´ê¸°ì¤‘ í•˜ë‚˜ì´ë‹¤.</para>
 
 <screen>
 $ <userinput>nslookup</userinput>
@@ -16,48 +16,48 @@ Address:  210.105.79.2
 > <userinput>exit</userinput>
 </screen>
 
-    <para><command>nslookup</command>Àº ½ÇÇàÈÄ ´ëÈ­Çü ÇÁ·ÒÇÁÆ® '>'¸¦ Ç¥½ÃÇÏ°í
-    <filename>/etc/resolv.conf</filename>¿¡ Á¤ÀÇµÈ Ã¹ ¹øÂ° ³×ÀÓ¼­¹ö¸¦ ±âº» ÁúÀÇ
-    ¼­¹ö·Î ¼³Á¤ÇÑ´Ù. <command>nslookup</command>Àº BIND¿Í ´Þ¸® ÇÏ³ªÀÇ ¼­¹ö¸¸À»
-    ÁúÀÇ¿¡ »ç¿ëÇÏ±â ¶§¹®¿¡ 'Default NS -> Timeout -> Error'¿Í °°ÀÌ µ¿ÀÛÇÑ´Ù.
+    <para><command>nslookup</command>ì€ ì‹¤í–‰í›„ ëŒ€í™”í˜• í”„ë¡¬í”„íŠ¸ '>'ë¥¼ í‘œì‹œí•˜ê³ 
+    <filename>/etc/resolv.conf</filename>ì— ì •ì˜ëœ ì²« ë²ˆì§¸ ë„¤ìž„ì„œë²„ë¥¼ ê¸°ë³¸ ì§ˆì˜
+    ì„œë²„ë¡œ ì„¤ì •í•œë‹¤. <command>nslookup</command>ì€ BINDì™€ ë‹¬ë¦¬ í•˜ë‚˜ì˜ ì„œë²„ë§Œì„
+    ì§ˆì˜ì— ì‚¬ìš©í•˜ê¸° ë•Œë¬¸ì— 'Default NS -> Timeout -> Error'ì™€ ê°™ì´ ë™ìž‘í•œë‹¤.
     </para>
 
-  <sect2 id="nslookup-lookup" xreflabel="µµ¸ÞÀÎ ³×ÀÓ °Ë»ö">
-    <title>µµ¸ÞÀÎ ³×ÀÓ °Ë»ö</title>
+  <sect2 id="nslookup-lookup" xreflabel="ë„ë©”ì¸ ë„¤ìž„ ê²€ìƒ‰">
+    <title>ë„ë©”ì¸ ë„¤ìž„ ê²€ìƒ‰</title>
 
-    <para><command>nslookup</command>Àº ±âº»ÀûÀ¸·Î ÀÔ·ÂµÈ µµ¸ÞÀÎ¿¡ ´ëÇØ A
-    ·¹ÄÚµå¸¦ °Ë»öÇÏ°í, IP ÁÖ¼Ò(in-addr.arpa)¿¡ ´ëÇØ¼­´Â PTR ·¹ÄÚµå¸¦ °Ë»öÇÑ´Ù.
-    <command>set type=RR</command> ¼³Á¤À¸·Î A ·¹ÄÚµå ÀÌ¿ÜÀÇ ·¹ÄÚµå ¶ÇÇÑ °Ë»öÇÒ
-    ¼ö ÀÖÀ¸¸ç, RR(Resource Record)¿¡´Â A, ANY, CNAME, HINFO, MX, NS, PTR, SOA,
-    TXT µîÀÌ ¿Ã ¼ö ÀÖ´Ù. ÀÌÁß ANY´Â °ü·ÃµÈ ·¹ÄÚµåµéÀ» ¸ðµÎ Ãâ·ÂÇÏ¶ó´Â ¾à¼Ó
-    ±âÈ£ÀÌ´Ù.</para>
+    <para><command>nslookup</command>ì€ ê¸°ë³¸ì ìœ¼ë¡œ ìž…ë ¥ëœ ë„ë©”ì¸ì— ëŒ€í•´ A
+    ë ˆì½”ë“œë¥¼ ê²€ìƒ‰í•˜ê³ , IP ì£¼ì†Œ(in-addr.arpa)ì— ëŒ€í•´ì„œëŠ” PTR ë ˆì½”ë“œë¥¼ ê²€ìƒ‰í•œë‹¤.
+    <command>set type=RR</command> ì„¤ì •ìœ¼ë¡œ A ë ˆì½”ë“œ ì´ì™¸ì˜ ë ˆì½”ë“œ ë˜í•œ ê²€ìƒ‰í• 
+    ìˆ˜ ìžˆìœ¼ë©°, RR(Resource Record)ì—ëŠ” A, ANY, CNAME, HINFO, MX, NS, PTR, SOA,
+    TXT ë“±ì´ ì˜¬ ìˆ˜ ìžˆë‹¤. ì´ì¤‘ ANYëŠ” ê´€ë ¨ëœ ë ˆì½”ë“œë“¤ì„ ëª¨ë‘ ì¶œë ¥í•˜ë¼ëŠ” ì•½ì†
+    ê¸°í˜¸ì´ë‹¤.</para>
 
 <screen>
-> <userinput>www.kr.freebsd.org.</userinput>                 # IP °Ë»ö
+> <userinput>www.kr.freebsd.org.</userinput>                 # IP ê²€ìƒ‰
 Name:    www.kr.freebsd.org
 Address:  150.183.110.39
 
 > <userinput>ftp.kr.freebsd.org.</userinput>
-Name:    www.kr.freebsd.org           # ftp´Â wwwÀÇ CNAME
+Name:    www.kr.freebsd.org           # ftpëŠ” wwwì˜ CNAME
 Address:  150.183.110.39
 Aliases:  ftp.kr.freebsd.org
 
-> <userinput>150.183.110.39</userinput>                      # µµ¸ÞÀÎ °Ë»ö
+> <userinput>150.183.110.39</userinput>                      # ë„ë©”ì¸ ê²€ìƒ‰
 Name:    www.kr.freebsd.org
 Address:  150.183.110.39
 
-> <userinput>set type=MX</userinput>                         # MX ·¹ÄÚµå °Ë»ö
+> <userinput>set type=MX</userinput>                         # MX ë ˆì½”ë“œ ê²€ìƒ‰
 > <userinput>kr.freebsd.org.</userinput>
 kr.freebsd.org  preference = 10, mail exchanger = mail.kr.freebsd.org
 
-> <userinput>set type=NS</userinput>                         # NS ·¹ÄÚµå °Ë»ö
-> <userinput>kr.freebsd.org.</userinput>                     # µµ¸ÞÀÎ À§ÀÓ È®ÀÎ
+> <userinput>set type=NS</userinput>                         # NS ë ˆì½”ë“œ ê²€ìƒ‰
+> <userinput>kr.freebsd.org.</userinput>                     # ë„ë©”ì¸ ìœ„ìž„ í™•ì¸
 kr.freebsd.org     nameserver = ns.kr.freebsd.org
 kr.freebsd.org     nameserver = ns2.kr.freebsd.org
 ns.kr.freebsd.org  internet address = 150.183.110.2
 ns2.kr.freebsd.org internet address = 150.183.110.3
 
-> <userinput>46.102.39.in-addr.arpa.</userinput>             # ÀÎ¹ö½º µµ¸ÞÀÎ À§ÀÓ È®ÀÎ
+> <userinput>46.102.39.in-addr.arpa.</userinput>             # ì¸ë²„ìŠ¤ ë„ë©”ì¸ ìœ„ìž„ í™•ì¸
 kr.freebsd.org     nameserver = ns.kr.freebsd.org
 kr.freebsd.org     nameserver = ns2.kr.freebsd.org
 ns.kr.freebsd.org  internet address = 150.183.110.2
@@ -65,19 +65,19 @@ ns2.kr.freebsd.org internet address = 150.183.110.3
 </screen>
   </sect2>
 
-  <sect2 id="nslookup-change-nameserver" xreflabel="±âº» Äõ¸® ¼­¹ö º¯°æ">
-    <title>±âº» Äõ¸® ¼­¹ö º¯°æ</title>
+  <sect2 id="nslookup-change-nameserver" xreflabel="ê¸°ë³¸ ì¿¼ë¦¬ ì„œë²„ ë³€ê²½">
+    <title>ê¸°ë³¸ ì¿¼ë¦¬ ì„œë²„ ë³€ê²½</title>
 
-    <para>nslookupÀº ±âº»ÀûÀ¸·Î recurse ¸ðµå·Î µ¿ÀÛÇÏ±â ¶§¹®¿¡, ¶§·Ð ÇØ´ç
-    µµ¸ÞÀÎÀÇ Authority¸¦ °®´Â Æ¯Á¤ ³×ÀÓ¼­¹ö¿¡ Á÷Á¢ ÁúÀÇ¸¦ ÇÏ¿© Authoritative
-    ÀÀ´ä(³×ÀÓ¼­¹öÀÇ Ä³½¬¿¡¼­°¡ ¾Æ´Ñ)À» È®ÀÎ ÇÒ ÇÊ¿ä°¡ ÀÖ´Ù. server,
-    lserver ¸í·ÉÀ¸·Î ±âº» ÁúÀÇ ¼­¹ö¸¦ º¯°æ ÇÒ ¼ö ÀÖ´Ù. µÎ ¸í·ÉÀº ÁÖ¾îÁø
-    ³×ÀÓ¼­¹öÀÇ ÁÖ¼Ò(Äõ¸®°¡ ¾Æ´Ñ)¸¦ Ã£À» ¶§ »ç¿ëÇÒ ÁúÀÇ ¼­¹öÀÇ Â÷ÀÌÀÎµ¥,
-    server ´Â ÇöÀçÀÇ ±âº» ¼­¹ö¸¦ ÅëÇÏ°í, lserver ´Â ½Ã½ºÅÛ ±âº»
-    ¼­¹ö(nslookup ±¸µ¿½Ã ÃÊ±â ¼³Á¤µÇ´Â)¸¦ »ç¿ëÇÔÀÌ ´Ù¸£´Ù. lserver ¸í·ÉÀº
-    Å¸ ³×ÀÓ¼­¹ö·Î ½ºÀ§Äª ÇÑ ÈÄ, ´Ù½Ã ´Ù¸¥ ³×ÀÓ¼­¹ö·Î ½ºÀ§ÄªÇÏ·Á ÇÏ´Âµ¥, ÇöÀçÀÇ
-    ³×ÀÓ¼­¹ö°¡ µ¿ÀÛÇÏÁö ¾Ê¾Æ ÇØ´ç ³×ÀÓ¼­¹öÀÇ ÁÖ¼Ò¸¦ °Ë»öÇÏÁö ¸øÇÒ ¶§ »ç¿ëÇÑ´Ù.
-    ´ÙÀ½À» º¸ÀÚ.</para>
+    <para>nslookupì€ ê¸°ë³¸ì ìœ¼ë¡œ recurse ëª¨ë“œë¡œ ë™ìž‘í•˜ê¸° ë•Œë¬¸ì—, ë•Œë¡  í•´ë‹¹
+    ë„ë©”ì¸ì˜ Authorityë¥¼ ê°–ëŠ” íŠ¹ì • ë„¤ìž„ì„œë²„ì— ì§ì ‘ ì§ˆì˜ë¥¼ í•˜ì—¬ Authoritative
+    ì‘ë‹µ(ë„¤ìž„ì„œë²„ì˜ ìºì‰¬ì—ì„œê°€ ì•„ë‹Œ)ì„ í™•ì¸ í•  í•„ìš”ê°€ ìžˆë‹¤. server,
+    lserver ëª…ë ¹ìœ¼ë¡œ ê¸°ë³¸ ì§ˆì˜ ì„œë²„ë¥¼ ë³€ê²½ í•  ìˆ˜ ìžˆë‹¤. ë‘ ëª…ë ¹ì€ ì£¼ì–´ì§„
+    ë„¤ìž„ì„œë²„ì˜ ì£¼ì†Œ(ì¿¼ë¦¬ê°€ ì•„ë‹Œ)ë¥¼ ì°¾ì„ ë•Œ ì‚¬ìš©í•  ì§ˆì˜ ì„œë²„ì˜ ì°¨ì´ì¸ë°,
+    server ëŠ” í˜„ìž¬ì˜ ê¸°ë³¸ ì„œë²„ë¥¼ í†µí•˜ê³ , lserver ëŠ” ì‹œìŠ¤í…œ ê¸°ë³¸
+    ì„œë²„(nslookup êµ¬ë™ì‹œ ì´ˆê¸° ì„¤ì •ë˜ëŠ”)ë¥¼ ì‚¬ìš©í•¨ì´ ë‹¤ë¥´ë‹¤. lserver ëª…ë ¹ì€
+    íƒ€ ë„¤ìž„ì„œë²„ë¡œ ìŠ¤ìœ„ì¹­ í•œ í›„, ë‹¤ì‹œ ë‹¤ë¥¸ ë„¤ìž„ì„œë²„ë¡œ ìŠ¤ìœ„ì¹­í•˜ë ¤ í•˜ëŠ”ë°, í˜„ìž¬ì˜
+    ë„¤ìž„ì„œë²„ê°€ ë™ìž‘í•˜ì§€ ì•Šì•„ í•´ë‹¹ ë„¤ìž„ì„œë²„ì˜ ì£¼ì†Œë¥¼ ê²€ìƒ‰í•˜ì§€ ëª»í•  ë•Œ ì‚¬ìš©í•œë‹¤.
+    ë‹¤ìŒì„ ë³´ìž.</para>
 
 <screen>
 $ <userinput>nslookup</userinput>
@@ -85,11 +85,11 @@ Default Server:  ns.nobreak.com
 Address:  210.105.79.2
 </screen>
 
-    <para>nslookup ±¸µ¿½ÃÀÇ ±âº» ¼­¹ö ns.nobreak.com ÀÌ lserver ¸í·É¿¡¼­
-    ÁÖ¾îÁø NSÀÇ ÁÖ¼Ò¸¦ Ã£±âÀ§ÇÑ ÁúÀÇ ¼­¹ö°¡ µÈ´Ù.</para>
+    <para>nslookup êµ¬ë™ì‹œì˜ ê¸°ë³¸ ì„œë²„ ns.nobreak.com ì´ lserver ëª…ë ¹ì—ì„œ
+    ì£¼ì–´ì§„ NSì˜ ì£¼ì†Œë¥¼ ì°¾ê¸°ìœ„í•œ ì§ˆì˜ ì„œë²„ê°€ ëœë‹¤.</para>
 
 <screen>
-> <userinput>server ns.jp.freebsd.org.</userinput>        # ±âº» ¼­¹ö º¯°æ
+> <userinput>server ns.jp.freebsd.org.</userinput>        # ê¸°ë³¸ ì„œë²„ ë³€ê²½
 Default Server:  ns.jp.freebsd.org
 Address:  199.100.7.25
 
@@ -97,9 +97,9 @@ Address:  199.100.7.25
 *** Can't find address for server ns.nobreak.com: Non-existent host/domain
 </screen>
 
-    <para>ns.jp.freebsd.org¸¦ ÅëÇØ ns.nobreak.comÀ» Ã£À» ¼ö°¡ ¾ø´Ù. ÀÌ¶§¿¡´Â
-    <command>lserver</command> ¸í·ÉÀ¸·Î ½Ã½ºÅÛ ±âº» ¼­¹ö¸¦ ÅëÇØ
-    ns.nobreak.com ÀÇ ÁÖ¼Ò¸¦ °Ë»öÇÑ´Ù.</para>
+    <para>ns.jp.freebsd.orgë¥¼ í†µí•´ ns.nobreak.comì„ ì°¾ì„ ìˆ˜ê°€ ì—†ë‹¤. ì´ë•Œì—ëŠ”
+    <command>lserver</command> ëª…ë ¹ìœ¼ë¡œ ì‹œìŠ¤í…œ ê¸°ë³¸ ì„œë²„ë¥¼ í†µí•´
+    ns.nobreak.com ì˜ ì£¼ì†Œë¥¼ ê²€ìƒ‰í•œë‹¤.</para>
 
 <screen>
 > <userinput>lserver ns.nobreak.com.</userinput>
@@ -107,8 +107,8 @@ Default Server:  ns.nobreak.com
 Address:  210.105.79.2
 </screen>
 
-    <para>·çÆ® ³×ÀÓ¼­¹ö¸¦ ÁúÀÇ ¼­¹ö·Î ÇÏ°íÀÚ ÇÒ ¶§´Â, °£´ÜÈ÷ root ¸í·ÉÀ»
-    »ç¿ëÇÒ ¼ö ÀÖ´Ù.</para>
+    <para>ë£¨íŠ¸ ë„¤ìž„ì„œë²„ë¥¼ ì§ˆì˜ ì„œë²„ë¡œ í•˜ê³ ìž í•  ë•ŒëŠ”, ê°„ë‹¨ížˆ root ëª…ë ¹ì„
+    ì‚¬ìš©í•  ìˆ˜ ìžˆë‹¤.</para>
 
 <screen>
 > <userinput>root</userinput>
@@ -118,30 +118,30 @@ Address:  198.41.0.4
   </sect2>
 
   <sect2 id="nslookup-querying-like-nameserver"
-  xreflabel="³×ÀÓ ¼­¹öÃ³·³ ÁúÀÇÇÏ±â">
-    <title>³×ÀÓ ¼­¹öÃ³·³ ÁúÀÇÇÏ±â</title>
+  xreflabel="ë„¤ìž„ ì„œë²„ì²˜ëŸ¼ ì§ˆì˜í•˜ê¸°">
+    <title>ë„¤ìž„ ì„œë²„ì²˜ëŸ¼ ì§ˆì˜í•˜ê¸°</title>
 
-    <para>³×ÀÓ¼­¹ö´Â ResolverÀÇ ¿äÃ»À» Ã³¸®ÇÏ±â À§ÇØ, ³×ÀÓ½ºÆäÀÌ½º¸¦ °Ë»öÇÏ¸ç,
-    ¿©·¯ ³×ÀÓ¼­¹ö¿Í Åë½ÅÀ» ÇÏ´Âµ¥, nslookupÀ¸·Î µ¿ÀÏÇÑ °úÁ¤À» ¹â¾Æº¸µµ·Ï ÇÏÀÚ.
-    ³×ÀÓ¼­¹ö°¡ ÀÎÅÍ³Ý»ó¿¡¼­ ¾î¶»°Ô µ¿ÀÛÇÏ¸ç, ³×ÀÓ¼­¹öµé °£¿¡´Â ¾î¶² »ç°ÇµéÀÌ
-    ¹ß»ýÇÏ°í, ¿©·¯ºÐÀ» À§ÇØ ¹«¾ùÀ» ÇÏ´ÂÁö, ±¸Ã¼ÀûÀÎ ´À³¦À» ¹ÞÀ» ¼ö ÀÖÀ» °ÍÀÌ´Ù.
+    <para>ë„¤ìž„ì„œë²„ëŠ” Resolverì˜ ìš”ì²­ì„ ì²˜ë¦¬í•˜ê¸° ìœ„í•´, ë„¤ìž„ìŠ¤íŽ˜ì´ìŠ¤ë¥¼ ê²€ìƒ‰í•˜ë©°,
+    ì—¬ëŸ¬ ë„¤ìž„ì„œë²„ì™€ í†µì‹ ì„ í•˜ëŠ”ë°, nslookupìœ¼ë¡œ ë™ì¼í•œ ê³¼ì •ì„ ë°Ÿì•„ë³´ë„ë¡ í•˜ìž.
+    ë„¤ìž„ì„œë²„ê°€ ì¸í„°ë„·ìƒì—ì„œ ì–´ë–»ê²Œ ë™ìž‘í•˜ë©°, ë„¤ìž„ì„œë²„ë“¤ ê°„ì—ëŠ” ì–´ë–¤ ì‚¬ê±´ë“¤ì´
+    ë°œìƒí•˜ê³ , ì—¬ëŸ¬ë¶„ì„ ìœ„í•´ ë¬´ì—‡ì„ í•˜ëŠ”ì§€, êµ¬ì²´ì ì¸ ëŠë‚Œì„ ë°›ì„ ìˆ˜ ìžˆì„ ê²ƒì´ë‹¤.
     </para>
 
     <figure id="fig-query-like-nameserver">
-      <title>³×ÀÓ¼­¹öÃ³·³ ÁúÀÇÇÏ±â</title>
+      <title>ë„¤ìž„ì„œë²„ì²˜ëŸ¼ ì§ˆì˜í•˜ê¸°</title>
       <mediaobject>
         <imageobject>
           <imagedata fileref="images/lookup_like_ns.jpg" format="jpg">
         </imageobject>
         <textobject>
-          <phrase>³×ÀÓ¼­¹öÃ³·³ ÁúÀÇÇÏ±â</phrase>
+          <phrase>ë„¤ìž„ì„œë²„ì²˜ëŸ¼ ì§ˆì˜í•˜ê¸°</phrase>
         </textobject>
       </mediaobject>
     </figure>
 
 <screen>
 <userinput>(1)</userinput>
-> <userinput>set norecurse</userinput>     # Iterative ¸ðµå·Î ÀüÈ¯
+> <userinput>set norecurse</userinput>     # Iterative ëª¨ë“œë¡œ ì „í™˜
 > <userinput>www.kr.freebsd.org.</userinput>
 Server:  ns.nobreak.com
 Address:  210.105.79.2
@@ -157,7 +157,7 @@ Served by:
 ...
 </screen>
 
-    <para>ORG. °¡ °ü¸®µÇ´Â ·çÆ® ¼­¹öµéÀÇ ¸ñ·ÏÀ» ·¹ÆÛ·±½Ì ÇØÁØ´Ù.</para>
+    <para>ORG. ê°€ ê´€ë¦¬ë˜ëŠ” ë£¨íŠ¸ ì„œë²„ë“¤ì˜ ëª©ë¡ì„ ë ˆí¼ëŸ°ì‹± í•´ì¤€ë‹¤.</para>
 
 <screen>
 <userinput>(2)</userinput>
@@ -207,16 +207,16 @@ Address:  150.183.110.39
   <sect2 id="nslookup-zone-transfer" xreflabel="Zone Transfer">
     <title>Zone Transfer</title>
 
-    <para>ÇØ´ç µµ¸ÞÀÎÀÇ Zone¿¡ ´ëÇÑ º¹»çº»À» ¾ò±âÀ§ÇØ, Primary·ÎºÎÅÍ Zone
-    µ¥ÀÌÅÍº£ÀÌ½º¸¦ ²ø¾î¿À´Â ÀÛ¾÷À» Zone Transfer¶ó ÇÑ´Ù. ÀÌ ÀÛ¾÷Àº ÁÖ·Î
-    Secondary NS Ãø¿¡¼­ ÀÌ·ç¾îÁö¸ç, ¶§¶§·Î ¾ó¸¶³ª ¸¹Àº ¼öÀÇ È£½ºÆ®°¡ µî·ÏµÇ¾î
-    ÀÖ´ÂÁö È¤Àº ZoneÀÇ ¹®¹ýÀû ¿À·ù¸¦ °Ë»çÇÏ±â À§ÇØ °ü¸®ÀÚ°¡ ¼öµ¿À¸·Î Á¶ÀÛÇÏ±âµµ
-    ÇÑ´Ù. Zone Transfer´Â Authority¸¦ °®´Â ³×ÀÓ¼­¹ö¿¡ Á÷Á¢ ÁúÀÇÇÏ¿©¾ß ÇÏ¹Ç·Î,
-    nslookup »ó¿¡¼­ ÇØ´ç NS·Î ÁúÀÇ ¼­¹ö¸¦ º¯°æÇÑÈÄ, ls ¸í·ÉÀ» »ç¿ëÇÑ´Ù.</para>
+    <para>í•´ë‹¹ ë„ë©”ì¸ì˜ Zoneì— ëŒ€í•œ ë³µì‚¬ë³¸ì„ ì–»ê¸°ìœ„í•´, Primaryë¡œë¶€í„° Zone
+    ë°ì´í„°ë² ì´ìŠ¤ë¥¼ ëŒì–´ì˜¤ëŠ” ìž‘ì—…ì„ Zone Transferë¼ í•œë‹¤. ì´ ìž‘ì—…ì€ ì£¼ë¡œ
+    Secondary NS ì¸¡ì—ì„œ ì´ë£¨ì–´ì§€ë©°, ë•Œë•Œë¡œ ì–¼ë§ˆë‚˜ ë§Žì€ ìˆ˜ì˜ í˜¸ìŠ¤íŠ¸ê°€ ë“±ë¡ë˜ì–´
+    ìžˆëŠ”ì§€ í˜¹ì€ Zoneì˜ ë¬¸ë²•ì  ì˜¤ë¥˜ë¥¼ ê²€ì‚¬í•˜ê¸° ìœ„í•´ ê´€ë¦¬ìžê°€ ìˆ˜ë™ìœ¼ë¡œ ì¡°ìž‘í•˜ê¸°ë„
+    í•œë‹¤. Zone TransferëŠ” Authorityë¥¼ ê°–ëŠ” ë„¤ìž„ì„œë²„ì— ì§ì ‘ ì§ˆì˜í•˜ì—¬ì•¼ í•˜ë¯€ë¡œ,
+    nslookup ìƒì—ì„œ í•´ë‹¹ NSë¡œ ì§ˆì˜ ì„œë²„ë¥¼ ë³€ê²½í•œí›„, ls ëª…ë ¹ì„ ì‚¬ìš©í•œë‹¤.</para>
 
 <screen>
 > <userinput>server ns.kr.freebsd.org.</userinput>
-> <userinput>ls -t A kr.freebsd.org.</userinput>      # A ·¹ÄÚµå Ãâ·Â
+> <userinput>ls -t A kr.freebsd.org.</userinput>      # A ë ˆì½”ë“œ ì¶œë ¥
  kr.freebsd.org.                server = ns.kr.freebsd.org
  kr.freebsd.org.                server = ns2.kr.freebsd.org
  mail                           150.183.110.32
@@ -224,7 +224,7 @@ Address:  150.183.110.39
  www                            150.183.110.39
  www2                           150.183.110.40
 
-> <userinput>ls -d kr.freebsd.org.</userinput>        # ¸ðµç ·¹ÄÚµå Ãâ·Â
+> <userinput>ls -d kr.freebsd.org.</userinput>        # ëª¨ë“  ë ˆì½”ë“œ ì¶œë ¥
  kr.freebsd.org.                SOA   ns.nobreak.com hostmaster.kr.freebsd.org.
                                 (1999031501 21600 1800 1209600 86400)
  kr.freebsd.org.                NS    ns.nobreak.com
@@ -244,49 +244,49 @@ Address:  150.183.110.39
  www2                           HINFO Pentium-133MHz  FreeBSD 2.2.8
  www2                           TXT  "Korea FreeBSD Users Group"
 
-> <userinput>ls -t MX kr.freebsd.org > MX-kr.freebsd.org</userinput>   # ÆÄÀÏ·Î ÀúÀå
-> <userinput>view MX-kr.freebsd.org</userinput>                        # ÆÄÀÏ ³»¿ë È®ÀÎ
+> <userinput>ls -t MX kr.freebsd.org > MX-kr.freebsd.org</userinput>   # íŒŒì¼ë¡œ ì €ìž¥
+> <userinput>view MX-kr.freebsd.org</userinput>                        # íŒŒì¼ ë‚´ìš© í™•ì¸
 </screen>
 
-    <para>BINDÀÇ °æ¿ì <command>named-xfer</command>¶ó´Â ¿ÜºÎ ÇÁ·Î±×·¥À» »ç¿ëÇØ
-    Zone Transfer¸¦ ¼öÇàÇÑ´Ù. ³×ÀÓ¼­¹öÀÇ ÀÔÀå¿¡¼­ ºÎÆ® ÆÄÀÏ¿¡ Secondary ¼³Á¤ÀÌ
-    ÀÖÀ» °æ¿ìÀÇ Ã³¸®°úÁ¤À» »ìÆìº¸ÀÚ.</para>
+    <para>BINDì˜ ê²½ìš° <command>named-xfer</command>ë¼ëŠ” ì™¸ë¶€ í”„ë¡œê·¸ëž¨ì„ ì‚¬ìš©í•´
+    Zone Transferë¥¼ ìˆ˜í–‰í•œë‹¤. ë„¤ìž„ì„œë²„ì˜ ìž…ìž¥ì—ì„œ ë¶€íŠ¸ íŒŒì¼ì— Secondary ì„¤ì •ì´
+    ìžˆì„ ê²½ìš°ì˜ ì²˜ë¦¬ê³¼ì •ì„ ì‚´íŽ´ë³´ìž.</para>
 
 <screen>
 secondary       kr.freebsd.org  210.105.79.2    sec-kr.freebsd.org
 </screen>
 
-    <para>BIND´Â secondary ¸í·ÉÀ» ¸¸³ª¸é ³»ºÎÀûÀ¸·Î ´ÙÀ½°ú °°ÀÌ µ¿ÀÛÇÑ´Ù.
+    <para>BINDëŠ” secondary ëª…ë ¹ì„ ë§Œë‚˜ë©´ ë‚´ë¶€ì ìœ¼ë¡œ ë‹¤ìŒê³¼ ê°™ì´ ë™ìž‘í•œë‹¤.
     </para>
 
 <screen>
 loop(Interval == TTL) {
         named-xfer -z kr.freebsd.org -f /var/named/sec-kr.freebsd.org -s Current_Serial 210.105.79.2
-        switch ( $? ) {      // named-xfer ´Â È¯°æ º¯¼ö '$?'¿¡ °á°ú¸¦ º¹±ÍÇÔ
-                case 0 : OK; // ½Ã¸®¾óÀÌ °°À½, Zone Transfer°¡ ÇÊ¿äÄ¡ ¾ÊÀ½
-                case 1 : OK; // ½Ã¸®¾óÀÌ Áõ°¡ÇßÀ½, Zone Transfer°¡ ¼º°øÀûÀ¸·Î ¼öÇàµÊ
-                case 2 : ERROR; // ³×ÀÓ¼­¹ö¸¦ Ã£À» ¼ö ¾øÀ½
-                                // È¤Àº ³×ÀÓ¼­¹ö°¡ µµ¸ÞÀÎÀÇ Authority¸¦ °®Áö ¾ÊÀ½
-                case 3 : ERROR: // ½Ã¸®¾óÀÌ °¨¼ÒÇßÀ½, ±âÁ¸ÀÇ ¹é¾÷Ä«ÇÇ À¯Áö
+        switch ( $? ) {      // named-xfer ëŠ” í™˜ê²½ ë³€ìˆ˜ '$?'ì— ê²°ê³¼ë¥¼ ë³µê·€í•¨
+                case 0 : OK; // ì‹œë¦¬ì–¼ì´ ê°™ìŒ, Zone Transferê°€ í•„ìš”ì¹˜ ì•ŠìŒ
+                case 1 : OK; // ì‹œë¦¬ì–¼ì´ ì¦ê°€í–ˆìŒ, Zone Transferê°€ ì„±ê³µì ìœ¼ë¡œ ìˆ˜í–‰ë¨
+                case 2 : ERROR; // ë„¤ìž„ì„œë²„ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ
+                                // í˜¹ì€ ë„¤ìž„ì„œë²„ê°€ ë„ë©”ì¸ì˜ Authorityë¥¼ ê°–ì§€ ì•ŠìŒ
+                case 3 : ERROR: // ì‹œë¦¬ì–¼ì´ ê°ì†Œí–ˆìŒ, ê¸°ì¡´ì˜ ë°±ì—…ì¹´í”¼ ìœ ì§€
         }
         primary  kr.freebsd.org  sec-kr.freebsd.org
 }
 </screen>
 
-    <para>º¸¾ÈÀÇ ÀÌÀ¯·Î Çã¶ôµÈ °÷(¿¹: Secondary NS's IP)¿¡¼­¸¸ Zone Transfer¸¦
-    Çã¿ëÇÏ°íÀÚ ÇÑ´Ù¸é, Primary NSÀÇ ºÎÆ®ÆÄÀÏ¿¡ ´ÙÀ½°ú °°Àº ¿É¼ÇÀ» ÁØ´Ù.
-    (Zone Transfer¸¸À» Á¦ÇÑÇÏ´Â °ÍÀÌ±â ¶§¹®¿¡, È£½ºÆ®¿¡ ´ëÇÑ °³º° Äõ¸®´Â
-    Çã¿ëµÈ´Ù)</para>
+    <para>ë³´ì•ˆì˜ ì´ìœ ë¡œ í—ˆë½ëœ ê³³(ì˜ˆ: Secondary NS's IP)ì—ì„œë§Œ Zone Transferë¥¼
+    í—ˆìš©í•˜ê³ ìž í•œë‹¤ë©´, Primary NSì˜ ë¶€íŠ¸íŒŒì¼ì— ë‹¤ìŒê³¼ ê°™ì€ ì˜µì…˜ì„ ì¤€ë‹¤.
+    (Zone Transferë§Œì„ ì œí•œí•˜ëŠ” ê²ƒì´ê¸° ë•Œë¬¸ì—, í˜¸ìŠ¤íŠ¸ì— ëŒ€í•œ ê°œë³„ ì¿¼ë¦¬ëŠ”
+    í—ˆìš©ëœë‹¤)</para>
 
 <screen>
 xfrnets  210.105.79.3&255.255.255.255  210.105.80.128&255.255.255.128
 </screen>
 
-    <para>ÀÌ°ÍÀº BIND-4ÀÇ ¼³Á¤¿¹ÀÎµ¥, IP 210.105.79.3°ú 210.105.80.129-254
-    ¿¡¼­¸¸ Zone Transfer¸¦ Çã¿ëÇÏ¶ó´Â ÀÇ¹ÌÀÌ´Ù. BIND-4¿¡¼­´Â °³º° IP¿Í
-    ¼­ºê³ÝÀ¸·Î ³ª´©¾îÁø ºí·°¿¡ ´ëÇØ "IP&amp;Mask"ÀÇ Çü½ÄÀ¸·Î ¸ñ·ÏÀ» ÀÛ¼ºÇÏ¸ç,
-    Å¬·¡½º ÀüÃ¼¸¦ Çã¿ëÇÏ°íÀÚ ÇÒ °æ¿ì¿£ 210.105.79.0 °ú °°ÀÌ ¸¶½ºÅ©¸¦ »ý·«ÇÏ¿©µµ
-    µÈ´Ù.</para>
+    <para>ì´ê²ƒì€ BIND-4ì˜ ì„¤ì •ì˜ˆì¸ë°, IP 210.105.79.3ê³¼ 210.105.80.129-254
+    ì—ì„œë§Œ Zone Transferë¥¼ í—ˆìš©í•˜ë¼ëŠ” ì˜ë¯¸ì´ë‹¤. BIND-4ì—ì„œëŠ” ê°œë³„ IPì™€
+    ì„œë¸Œë„·ìœ¼ë¡œ ë‚˜ëˆ„ì–´ì§„ ë¸”ëŸ­ì— ëŒ€í•´ "IP&amp;Mask"ì˜ í˜•ì‹ìœ¼ë¡œ ëª©ë¡ì„ ìž‘ì„±í•˜ë©°,
+    í´ëž˜ìŠ¤ ì „ì²´ë¥¼ í—ˆìš©í•˜ê³ ìž í•  ê²½ìš°ì—” 210.105.79.0 ê³¼ ê°™ì´ ë§ˆìŠ¤í¬ë¥¼ ìƒëžµí•˜ì—¬ë„
+    ëœë‹¤.</para>
 
 <screen>
 options {
@@ -294,21 +294,21 @@ options {
 };
 </screen>
 
-    <para>BIND-8ÀÇ °æ¿ì¿¡ ÇØ´ç ¼­¹ö°¡ ¼ÓÇÑ ³×Æ®¿öÅ©¿Í, 210.105.79.3¸¸À» Çã¿ëÇÑ
-    ¿¹ÀÌ´Ù. localnets´Â ¿¹¾à¾îÀÌ¸ç ´Ù¸¥ ¿¹¾à¾î·Î´Â any, none, localhost °¡ ÀÖ´Ù.
+    <para>BIND-8ì˜ ê²½ìš°ì— í•´ë‹¹ ì„œë²„ê°€ ì†í•œ ë„¤íŠ¸ì›Œí¬ì™€, 210.105.79.3ë§Œì„ í—ˆìš©í•œ
+    ì˜ˆì´ë‹¤. localnetsëŠ” ì˜ˆì•½ì–´ì´ë©° ë‹¤ë¥¸ ì˜ˆì•½ì–´ë¡œëŠ” any, none, localhost ê°€ ìžˆë‹¤.
     </para>
   </sect2>
 
-  <sect2 id="nslookup-nslookuprc" xreflabel="ÃÊ±âÈ­ ÆÄÀÏ .nslookuprc">
-    <title>ÃÊ±âÈ­ ÆÄÀÏ .nslookuprc</title>
+  <sect2 id="nslookup-nslookuprc" xreflabel="ì´ˆê¸°í™” íŒŒì¼ .nslookuprc">
+    <title>ì´ˆê¸°í™” íŒŒì¼ .nslookuprc</title>
 
-    <para><command>nslookup</command>Àº ½ÇÇà½Ã
-    <filename>~/.nslookuprc</filename> ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é, ³»¿ëÀ» ÀÐ¾î ¿É¼ÇÀ»
-    Á¶Á¤ÇÑ´Ù. ¸Å¹ø ¼³Á¤ÇÏ´Â ¿É¼ÇÀÌ ÀÖ´Ù¸é, º» ÆÄÀÏÀ» ÅëÇØ °£ÆíÈ­ÇÒ ¼ö ÀÖ°Ú´Ù.
+    <para><command>nslookup</command>ì€ ì‹¤í–‰ì‹œ
+    <filename>~/.nslookuprc</filename> íŒŒì¼ì´ ì¡´ìž¬í•˜ë©´, ë‚´ìš©ì„ ì½ì–´ ì˜µì…˜ì„
+    ì¡°ì •í•œë‹¤. ë§¤ë²ˆ ì„¤ì •í•˜ëŠ” ì˜µì…˜ì´ ìžˆë‹¤ë©´, ë³¸ íŒŒì¼ì„ í†µí•´ ê°„íŽ¸í™”í•  ìˆ˜ ìžˆê² ë‹¤.
     </para>
 
 <screen>
-<userinput>* .nslookuprc ÆÄÀÏ ¿¹</userinput>
+<userinput>* .nslookuprc íŒŒì¼ ì˜ˆ</userinput>
 set type=NS
 set nosearch
 set debug
@@ -319,13 +319,13 @@ set debug
   <sect1 id="dig" xreflabel="DIG">
     <title>DIG</title>
 
-    <para>Dig(Domain Information Groper)ÀÇ »ç¿ë¹ýÀ» Á¶±Ý¸¸ Â¤¾îº¸µµ·Ï ÇÏÀÚ.
-    <command>nslookup</command>°úÀÇ ±â´ÉÀû Â÷ÀÌ´Â Å©°Ô ¾øÁö¸¸, »ç¿ëÀÌ °£°áÇÏ°í,
-    Ãâ·ÂÀÌ »ó¼¼ÇÏ¿©, Shell Scriptµî¿¡¼­ ÁÖ·Î »ç¿ëµÈ´Ù. ´ÙÀ½Àº ns.kornet.ne.krÀ»
-    ÅëÇØ www.nobreak.comÀÇ A ·¹ÄÚµå¸¦ °Ë»öÇÑ °á°úÀÌ´Ù.</para>
+    <para>Dig(Domain Information Groper)ì˜ ì‚¬ìš©ë²•ì„ ì¡°ê¸ˆë§Œ ì§šì–´ë³´ë„ë¡ í•˜ìž.
+    <command>nslookup</command>ê³¼ì˜ ê¸°ëŠ¥ì  ì°¨ì´ëŠ” í¬ê²Œ ì—†ì§€ë§Œ, ì‚¬ìš©ì´ ê°„ê²°í•˜ê³ ,
+    ì¶œë ¥ì´ ìƒì„¸í•˜ì—¬, Shell Scriptë“±ì—ì„œ ì£¼ë¡œ ì‚¬ìš©ëœë‹¤. ë‹¤ìŒì€ ns.kornet.ne.krì„
+    í†µí•´ www.nobreak.comì˜ A ë ˆì½”ë“œë¥¼ ê²€ìƒ‰í•œ ê²°ê³¼ì´ë‹¤.</para>
 
 <screen>
-$ <userinput>dig [@³×ÀÓ¼­¹ö] µµ¸ÞÀÎ [Äõ¸®Å¸ÀÔ] [+Äõ¸®¿É¼Ç]</userinput>
+$ <userinput>dig [@ë„¤ìž„ì„œë²„] ë„ë©”ì¸ [ì¿¼ë¦¬íƒ€ìž…] [+ì¿¼ë¦¬ì˜µì…˜]</userinput>
 $ <userinput>dig  @ns.kornet.ne.kr  www.nobreak.com  A</userinput>
 ;; ANSWER SECTION:
 www.nobreak.com.        16h12m36s IN CNAME  ns.nobreak.com.
@@ -338,19 +338,19 @@ ns.nobreak.com.         1d19h12m27s IN A  210.105.79.2
 ns2.nobreak.com.        1d1h46m58s IN A  210.105.79.3
 </screen>
 
-    <para>DIG´Â Äõ¸®¿¡ ´ëÇÑ °á°ú¸¦ ANSWER SECTION¿¡, ÇØ´ç µµ¸ÞÀÎÀÇ ÀÎÁõÀ» °®´Â
-    ³×ÀÓ¼­¹ö Á¤º¸¸¦ AUTHORITY SECTION¿¡, ±×¸®°í, ±Û·ç·¹ÄÚµå µîÀÌ ÀÖÀ» °æ¿ì
-    ±×¿¡´ëÇÑ Á¤º¸¸¦ ADDITIONAL SECTION¿¡ Ãâ·ÂÇÏ¿© ÁØ´Ù.</para>
+    <para>DIGëŠ” ì¿¼ë¦¬ì— ëŒ€í•œ ê²°ê³¼ë¥¼ ANSWER SECTIONì—, í•´ë‹¹ ë„ë©”ì¸ì˜ ì¸ì¦ì„ ê°–ëŠ”
+    ë„¤ìž„ì„œë²„ ì •ë³´ë¥¼ AUTHORITY SECTIONì—, ê·¸ë¦¬ê³ , ê¸€ë£¨ë ˆì½”ë“œ ë“±ì´ ìžˆì„ ê²½ìš°
+    ê·¸ì—ëŒ€í•œ ì •ë³´ë¥¼ ADDITIONAL SECTIONì— ì¶œë ¥í•˜ì—¬ ì¤€ë‹¤.</para>
   </sect1>
 
   <sect1 id="dnswalk" xreflabel="DNSWALK">
     <title>DNSWALK</title>
 
-    <para>Dnswalk´Â Perl·Î Á¦ÀÛµÈ ½ºÅ©¸³Æ®·Î½á Á¸ÀçÇÏÁö ¾Ê´Â È£½ºÆ®¸¦ °¡¸£Å°´Â
-    MX, PTRÀÌ ¾ø´Â A, Àß¸øµÈ CNAME, À¯È¿ÇÏÁö ¾ÊÀº ÀÌ¸§¹®ÀÚ, ´©¶ôµÈ Æ®·¹ÀÏ¸µ
-    µµÆ®, ºÒÇÊ¿ä³ª ±Û·ç ·¹ÄÚµå, Lame Delegation µî Zone µ¥ÀÌÅÍº£ÀÌ½ºÀÇ ´Ù¾çÇÑ
-    ¿À·ù¸¦ Ã£¾ÆÁØ´Ù. ¹ÌÃ³ ¹ß°ßÄ¡ ¸øÇÑ ¹®Á¦Á¡À» Áø´ÜÇÏ´Âµ¥ µµ¿òÀÌ µÉ °ÍÀÌ´Ù.
-    DnswalkÀÇ ÃÖ½Å ¹öÁ¯Àº ´ÙÀ½ ÁÖ¼Ò¿¡¼­ ¾òÀ» ¼ö ÀÖ´Ù. </para>
+    <para>DnswalkëŠ” Perlë¡œ ì œìž‘ëœ ìŠ¤í¬ë¦½íŠ¸ë¡œì¨ ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” í˜¸ìŠ¤íŠ¸ë¥¼ ê°€ë¥´í‚¤ëŠ”
+    MX, PTRì´ ì—†ëŠ” A, ìž˜ëª»ëœ CNAME, ìœ íš¨í•˜ì§€ ì•Šì€ ì´ë¦„ë¬¸ìž, ëˆ„ë½ëœ íŠ¸ë ˆì¼ë§
+    ë„íŠ¸, ë¶ˆí•„ìš”ë‚˜ ê¸€ë£¨ ë ˆì½”ë“œ, Lame Delegation ë“± Zone ë°ì´í„°ë² ì´ìŠ¤ì˜ ë‹¤ì–‘í•œ
+    ì˜¤ë¥˜ë¥¼ ì°¾ì•„ì¤€ë‹¤. ë¯¸ì²˜ ë°œê²¬ì¹˜ ëª»í•œ ë¬¸ì œì ì„ ì§„ë‹¨í•˜ëŠ”ë° ë„ì›€ì´ ë  ê²ƒì´ë‹¤.
+    Dnswalkì˜ ìµœì‹  ë²„ì ¼ì€ ë‹¤ìŒ ì£¼ì†Œì—ì„œ ì–»ì„ ìˆ˜ ìžˆë‹¤. </para>
 
     <itemizedlist>
       <listitem><para>
@@ -373,8 +373,8 @@ WARN: irc2.freebsd.org CNAME va.i-Plus.net: unknown host
 1 failures, 3 warnings, 1 errors.
 </screen>
 
-    <para>Dnswalk´Â °Ë»ç¸¦ ¼öÇàÇÏ±â À§ÇØ ÇØ´ç µµ¸ÞÀÎÀ» Zone Transfer ÇÑ ÈÄ
-    ³»ºÎÀûÀ¸·Î Dig¿Í Resolver ·çÆ¾À» »ç¿ëÇÑ´Ù. DelegationµÈ µµ¸ÞÀÎÀ» µû¶ó°¡¸ç
-    °Ë»ç¸¦ ÇàÇÏ±â ¶§¹®¿¡ °Å´ë µµ¸ÞÀÎÀ» °ü¸®ÇÑ´Ù¸é ÇÑ¹øÂë »ç¿ëÇØº½Á÷ ÇÏ´Ù.</para>
+    <para>DnswalkëŠ” ê²€ì‚¬ë¥¼ ìˆ˜í–‰í•˜ê¸° ìœ„í•´ í•´ë‹¹ ë„ë©”ì¸ì„ Zone Transfer í•œ í›„
+    ë‚´ë¶€ì ìœ¼ë¡œ Digì™€ Resolver ë£¨í‹´ì„ ì‚¬ìš©í•œë‹¤. Delegationëœ ë„ë©”ì¸ì„ ë”°ë¼ê°€ë©°
+    ê²€ì‚¬ë¥¼ í–‰í•˜ê¸° ë•Œë¬¸ì— ê±°ëŒ€ ë„ë©”ì¸ì„ ê´€ë¦¬í•œë‹¤ë©´ í•œë²ˆì¯¤ ì‚¬ìš©í•´ë´„ì§ í•˜ë‹¤.</para>
   </sect1>
 </chapter>
