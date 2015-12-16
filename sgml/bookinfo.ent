@@ -1,0 +1,11 @@
+<!ENTITY title		"Powered by DNS">
+<!ENTITY docname	"PoweredByDNS">
+<!ENTITY edition	"3rd">
+<!ENTITY revision	"3.4.3">
+<!ENTITY lastupdate	"2001³â 6¿ù 25ÀÏ">
+
+<!ENTITY surname	"±è½Â¿µ">
+<!ENTITY author		"&surname;">
+<!ENTITY email		"nobreak@openbird.com">
+
+<!ENTITY disturl	"http://www.openbird.com/doc/PoweredByDNS/">

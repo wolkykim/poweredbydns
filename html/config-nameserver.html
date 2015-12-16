@@ -1,0 +1,700 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Name Server 설정</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Name Server 운영" href=
+    "running-nameserver.html">
+    <link rel="PREVIOUS" title="인버스 도메인(Inverse Domain) 신청"
+    href="reg-inverse.html">
+    <link rel="NEXT" title="Name Server 구동" href=
+    "launch-nameserver.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "reg-inverse.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 2.
+          Name Server 운영</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "launch-nameserver.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="CONFIG-NAMESERVER">2.5. Name
+      Server 설정</a></h1>
+
+      <p>다음은 nobreak.com 도메인에 대한 가상 네트워크 구성도
+      이다.</p>
+
+      <div class="FIGURE">
+        <a name="FIG-NETWORK"></a>
+
+        <p><b>Figure 2-1. 네트워크 구성도</b></p>
+
+        <div class="MEDIAOBJECT">
+          <p><img src="images/nobreak_network.jpg" alt=
+          "네트워크 구성도"></p>
+        </div>
+      </div>
+
+      <p>네트워크엔 서버가 3대 연결되어 있다. DNS를 구축하기 전에,
+      그림과 같이 미리 각 서버에 호스트명과 IP를 부여하자. 보통
+      네임서버는 ns(primary), ns2(secondary)를 호스트명으로
+      사용하고, IP 1(할프로 받았을 경우엔 129)을 라우터 혹은
+      스위치, 2를 NS, 3을 NS2에 할당한다. 도메인 NOBREAK.COM은 앞서
+      등록기관에 신청하였으니, NS.NOBREAK.COM, NS2.NOBREAK.COM에
+      네임서버 설정을 하면 된다.</p>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="BIND4-BOOTFILE">2.5.1. BIND-4
+        부트 파일 named.boot</a></h2>
+
+        <p>BIND-4 부트 파일 named.boot는 BIND 시동시 참조되며, 네임
+        데몬이 필요로 하는 환경정보와 운영할 도메인에 대한
+        Primary/Secondary 설정이 기술된다. 일반적으로 시스템의 <tt
+        class="FILENAME">/etc/named.boot</tt>에 위치하며, 대부분의
+        유닉스 스타트업 스크립트는 부트 파일이 존재하면 시동시
+        BIND를 자동으로 구동한다. 부트 파일상의 모든 엔트리는
+        반드시 1열 에서 시작하여야 하며 ';'은 주석을 의미한다.</p>
+<pre class="SCREEN">
+    directory  /var/named
+</pre>
+
+        <p>directory 엔트리는 관련 파일들이 위치한 경로를 나타낸다.
+        이 경로는 부트 파일에 나타나는 파일들의 베이스 경로로
+        작용한다. 따라서 파일들은 본 경로를 기준으로 상대경로
+        표기해야 하며 여기서는 <tt class="FILENAME">/var/named</tt>
+        디렉토리를 베이스 디렉토리로 한다. (대부분의 시스템 기본
+        베이스 경로는 <tt class="FILENAME">/var/named</tt>, <tt
+        class="FILENAME">/etc/named</tt> 혹은 <tt class="FILENAME">
+        /etc/namedb</tt>이다)</p>
+<pre class="SCREEN">
+    cache  . named.root
+</pre>
+
+        <p>cache 레코드는 말 그대로의 캐쉬가 아니라 루트 네임서버
+        정보가 들어있는 데이터베이스 파일을 나타낸다. BIND는 타
+        도메인 정보를 루트 네임서버에서부터 추적하는데, 이 루트
+        네임서버에 대한 정보를 본 파일에서 참조하게 된다. <tt
+        class="FILENAME">/var/named/named.root</tt>와 같이 베이스
+        디렉토리에 위치시키면 된다.</p>
+
+        <p>캐쉬 파일은 Internic(현재는 존재하지 않고 일부
+        서비스만이 남아있다)에서 배포하며 <a href=
+        "ftp://ftp.rs.internic.net/domain/named.root" target=
+        "_top">ftp://ftp.rs.internic.net/domain/named.root</a> 에서
+        구할 수 있다. 루트 네임서버 목록이 자주 수정되진 않지만
+        조금씩 바뀌기 때문에, 한달 걸러 한번씩은 업데이트 해줄
+        필요가 있다. 스크립트를 Cron으로 정기적으로 수행해 캐쉬
+        파일을 업데이트하는 것도 좋은 방법이다.</p>
+<pre class="SCREEN">
+    primary  nobreak.com  zone-nobreak.com
+</pre>
+
+        <p>해당 도메인에 대해 Primary 네임서버로 동작함을 말한다.
+        예는 nobreak.com 도메인에 대해 본 서버가 Primary 이며,
+        데이터베이스 파일은 <tt class="FILENAME">
+        /var/named/zone-nobreak.com</tt> 임을 나타낸다.</p>
+<pre class="SCREEN">
+    secondary  nobreak.com  210.105.79.2  sec-nobreak.com
+</pre>
+
+        <p>도메인에 대해 Secondary 네임서버로 동작한다. 세 번째
+        필드는 Primary 네임서버의 IP 주소이고, 네 번째 필드는
+        Primary에서 전송 받은 zone 파일이 저장될 파일명이다.
+        210.105.79.2로부터 nobreak.com 도메인의 데이터베이스를
+        전송(Zone Transfer)받아 <tt class="FILENAME">
+        /var/named/sec-nobreak.com</tt>로 관리함을 뜻한다.</p>
+
+        <p><a href="config-nameserver.html#FIG-NETWORK">Figure
+        2-1</a>의 네트워크에 대한 부트 파일은 다음과 같이 작성될 수
+        있다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* NS.NOBREAK.COM(Primary NS)의 /etc/named.boot 파일</b></tt>
+    directory                           /var/named
+    cache      .                        named.root
+    primary    0.0.127.in-addr.arpa     zone-0.0.127.in-addr.arpa    ; loopback
+    primary    79.105.210.in-addr.arpa  zone-79.105.210.in-addr.arpa ; Reverse ZONE
+    primary    nobreak.com              zone-nobreak.com             ; Forward ZONE
+</pre>
+
+        <p>0.0.127.in-addr.arpa는 loopback 주소 127.0.0.1를 위한
+        것이다. loopback 주소가 사용되지 않는 시스템은 없기 때문에,
+        'primary 0.0.127.in-addr.arpa ...'와 같은 라인은
+        네임서버마다 갖고 있다. 그 다음 두 라인이 할당받은 C Class
+        IP 블락 210.105.79와 도메인 nobreak.com 을 위한
+        설정이다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* NS2.NOBREAK.COM(Secondary NS)의 /etc/named.boot 파일</b></tt>
+    directory                           /var/named
+    cache      .                        named.root
+    primary    0.0.127.in-addr.arpa     zone-0.0.127.in-addr.arpa
+    secondary  79.105.210.in-addr.arpa  210.105.79.2  sec-79.105.210.in-addr.arpa
+    secondary  nobreak.com              210.105.79.2  sec-nobreak.com
+</pre>
+
+        <p>Secondary 네임서버 설정이다. loopback은 Primary로
+        놓아둔다. Secondary의 설정은 이것이 전부이다. (<tt class=
+        "FILENAME">/var/named/zone-0.0.127.in-addr.arpa</tt>는
+        있어야 함)</p>
+
+        <p>Secondary는 해당 도메인의 Primary에 접속하여 데이터
+        베이스를 전송받아, <tt class="FILENAME">
+        sec-79.105.210.in-addr.arpa</tt>, <tt class="FILENAME">
+        sec-nobreak.com</tt>으로 저장, 관리한다.</p>
+      </div>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="BIND8-BOOTFILE">2.5.2. BIND-8
+        부트 파일 named.conf</a></h2>
+
+        <p>BIND-4와 BIND-8의 관련 파일 작성법중 유일하게 차이가
+        나는 부분이 바로 이 부트 파일이다. BIND-8 부트 파일의
+        기본적인 구성은 BIND-4와 비슷하지만, 많은 부분 추가
+        확장되었기 때문에, 이를 수용하고 앞으로의 추가사항을 손쉽게
+        적용할 수 있도록 파일 포맷이 변경되었다. 그리고 구버젼 부트
+        파일과의 혼동을 막기위해 named.conf로 리네임 되었다. 어떻게
+        보면 C 언어의 문법과 매우 흡사한 것을 알 수 있다. 설정을
+        좀더 세밀하게 할 수 있도록 작성법이 바뀌었을 뿐, BIND-4의
+        부트 파일과 크게 다를 것은 없다. 다음은 앞서 작성한 BIND-4
+        기반 부트 파일을 BIND-8에 맞게 변환한 예이다. 일반적으로
+        BIND-8 기반의 부트 파일은 다음에 나열된 레코드정도만이
+        활용되지만, 재미난 부분이 많으므로 좀더 깊숙히 알고 싶다면
+        <a href="http://www.isc.org/products/BIND/docs/" target=
+        "_top">http://www.isc.org/products/BIND/docs/</a> 를
+        참고하기 바란다.</p>
+
+        <p>다음은 Primary 네임서버를 위한 부트 파일이다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* NS.NOBREAK.COM(Primary NS)의 /etc/named.conf 파일</b></tt>
+    // 이것은 주석이다. BIND-8에서 ';'은 주석이 아니라, 라인의 끝을 의미한다.
+    options {
+            directory "/var/named";             // Zone 파일의 베이스 디렉토리
+            dump-file "/var/tmp/named_dump.db"; // Dump 파일이 생성되는 경로
+            statistics-file "/var/tmp/named.stats"; // 통계 파일이 생성되는 경로
+            pid-file  "/var/run/named.pid";     // 프로세스 ID가 담긴 파일 생성 경로
+    };
+    logging {   // 불필요한 정보를 로그파일에 남기지 않는다.
+            category lame-servers { null; };
+            category cname { null; };
+            category response-checks { null; };
+            category notify { null; };
+    };
+    
+    zone "." IN {                       // 캐쉬 파일
+            type hint;
+            file "named.root";
+    };
+    zone "0.0.127.in-addr.arpa" IN {    // localhost를 위한 Primary 도메인 설정
+            type master;
+            file "zone-0.0.127.in-addr.arpa";
+    };
+    zone "79.105.210.in-addr.arpa" IN { // 할당 IP 블락에 대한 Reverse Zone
+            type master;
+            file "zone-79.105.210.in-addr.arpa";
+    };
+    zone "nobreak.com" IN {             // 도메인 nobreak.com 에 대한 Forward Zone
+            type master;
+            file "zone-nobreak.com";
+    };
+</pre>
+
+        <p>Secondary 네임서버를 위한 부트 파일은 다음과 같이
+        작성된다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* NS2.NOBREAK.COM(Secondary NS)의 /etc/named.conf 파일</b></tt>
+    options {
+            directory "/var/named";
+    };
+    logging {
+            category lame-servers { null; };
+            category cname { null; };
+    };
+    
+    zone "." IN {
+            type hint;
+            file "named.root";
+    };
+    zone "0.0.127.in-addr.arpa" IN {    // localhost를 위한 Primary 도메인 설정
+            type master;
+            file "zone-0.0.127.in-addr.arpa";
+    };
+    zone "79.105.210.in-addr.arpa" IN { // Reverse Zone에대한 Secondary 설정
+            type slave;
+            file "sec-79.105.210.in-addr.arpa";
+            masters { 210.105.79.2; };  // Primary NS의 IP 주소
+    };
+    zone "nobreak.com" IN {             // nobreak.com 의 Secondary 설정
+            type slave;
+            file "sec-nobreak.com";
+            masters { 210.105.79.2; };
+    };
+</pre>
+      </div>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="RESOURCE-RECORDS">2.5.3. 리소스
+        레코드(Resource Record)</a></h2>
+
+        <p>Zone 파일은 Forward, Reverse 두 가지로 구분된다. Forward
+        Zone은 도메인에 대한 IP 정보를 갖고 있는 데이터베이스이고,
+        Reverse Zone은 IP에 대한 도메인정보를 갖는
+        데이터베이스이다. 앞서 <tt class="FILENAME">named.boot</tt>
+        파일에 네임서버가 loopback, 79.105.210.in-addr.arpa,
+        nobreak.com 도메인에 대해 Primary로 동작하도록 설정하였다.
+        이중 <tt class="FILENAME">zone-0.0.127.in-addr.arpa</tt>와
+        <tt class="FILENAME">zone-79.105.210.in-addr.arpa</tt>가
+        Reverse Zone 파일이고, <tt class="FILENAME">
+        zone-nobreak.com</tt>이 Forward Zone 파일이다. Zone 파일은
+        BIND-4와 BIND-8에서 작성법이 동일하다.</p>
+
+        <p>먼저 <a href="config-nameserver.html#FIG-NETWORK">Figure
+        2-1</a>의 네트워크 구성에 따라 Forward Zone 파일 <tt class=
+        "FILENAME">zone-nobreak.com</tt>을 작성하여 보자.</p>
+
+        <div class="SECT3">
+          <h3 class="SECT3"><a name="RR-SOA">2.5.3.1. SOA 레코드
+          (Start Of Authority)</a></h3>
+
+          <p>Zone 파일은 항상 SOA 레코드로 시작한다. SOA 레코드는
+          해당 도메인, nobreak.com에 대해 네임서버가
+          인증(authoritative)된 자료를 갖고 있음을 의미하며, 자료가
+          최적의 상태로 유지, 관리될 수 있도록 한다.</p>
+<pre class="SCREEN">
+    nobreak.com. IN  SOA  ns.nobreak.com. hostmaster.nobreak.com. (
+                          1998122800  ;Serial
+                          21600       ;Refresh ( 6 hours)
+                          1800        ;Retry   (30 minutes)
+                          1209600     ;Expire  (14 days)
+                          86400)      ;Minimum ( 1 day)
+</pre>
+
+          <p>1열에는 해당 Zone 파일에 대한 도메인명이 들어간다.
+          도메인명 끝의 도트를 잊지 말자. 다음과 같이 도메인명 대신
+          '@' 표시를 사용하여도 된다.</p>
+<pre class="SCREEN">
+    @            IN  SOA  ns.nobreak.com. hostmaster.nobreak.com. (
+</pre>
+
+          <p>IN(Internet)은 클래스명이다. HS, HESIOD, CHAOS와 같은
+          클래스도 존재하지만, 일반적으로 사용되지 않으므로 항상
+          IN이 사용된다고 생각하자.</p>
+
+          <p>SOA 다음엔 Primary 네임서버와 관리자 Email 주소가
+          들어간다. hostmaster.nobreak.com. 이 Email 주소인데,
+          일반적 Email 표기법에서 '@'를 도트로 바꾸어 쓰면 된다. 본
+          Email은 해당 도메인의 콘택 포인트(Responsible Person)로서
+          도메인에 문제가 발생할 경우 이를 리포팅하는 용도로
+          사용된다. Namespace를 쫓으며 도메인 오류를 점검하는
+          lamers 와 같은 도구들은 문제가 검출되었을 때 본 Email로
+          통지하여 준다.</p>
+
+          <p>다음 괄호로 둘러싸인 부분엔 Serial, Refresh, Retry,
+          Expire, Minimum 5개의 시간(초) 필드가 놓인다. Minimum을
+          제외한 4개 필드는 Secondary 네임서버를 제어하기 위한
+          값이다. 기본 단위는 '초'이고, 단위기호 M(Minute),
+          H(Hour), D(Day), W(Week)를 붙여 30M, 8H, 2D, 1W와 같이
+          사용할 수도 있다.</p>
+
+          <ul>
+            <li>
+              <p>Serial: Serial은 Secondary가 Zone 파일의
+              수정여부를 알 수 있도록 하기 위함이다. Secondary는
+              백업본의 Serial이 Primary의 Serial보다 작을 경우 Zone
+              파일을 재전송 받는다. 따라서 Zone 파일이 수정된 후
+              Serial이 변경되지 않는다면, Secondary는 백업카피를
+              업데이트하지 않음을 유의하자. Secondary가 없다면
+              Serial은 의미가 없지만 그렇다 할지라도 Zone 파일이
+              수정되었을 때 Serial을 증가하는 것은 좋은
+              습관이다.</p>
+            </li>
+
+            <li>
+              <p>Serial의 표기는 증가하는 임의 숫자보단 일반적으로
+              최종 수정일을 YYYYMMDDNN의 형식으로 표기한다.
+              YYYYMMDDNN 연도 표기법은 4294년까지 표기
+              가능하다.</p>
+            </li>
+
+            <li>
+              <p>Refresh: Primary측의 Zone 데이터베이스 수정여부를
+              Secondary가 검사하는 주기이다. 네트워크의 변경이 잦아
+              Zone파일이 자주 수정된다면, 3H(10800) 정도로
+              설정한다. Zone이 안정되는 시점에서는 일반적으로
+              6H(21600) - 12H로 설정한다.</p>
+            </li>
+
+            <li>
+              <p>Retry: Secondary측에서, Primary와 연결이 안될
+              경우, 재 시도 시간 주기이다. Refresh 기간 보다 적을때
+              의미가 있으며, 대부분의 경우 30M(1800) - 1H로
+              설정한다.</p>
+            </li>
+
+            <li>
+              <p>Expire: Secondary가 Expire로 지정된 시간동안
+              Primary에 연결하지 못할 경우, 오래된 백업카피의
+              자료가 더 이상 유효하지 않다고 보고, 해당 도메인에
+              대한 답변을 하지 않는다. 이 값을 너무 낮게 책정하는
+              것은 좋지 않다. 보통 1W - 2W(1209600)로 설정한다.</p>
+            </li>
+
+            <li>
+              <p>Minimum: 타 네임서버가 본 Zone에 기술된 자료를
+              갖고 갔을 경우, 그 자료에 대한 유효기간(캐쉬에
+              살아있는 시간)을 설정한다. TTL(Time To Live)값이
+              명시되지 않은 레코드는 본 값을 기본으로 갖게 된다.
+              특정 레코드가 변경되었을 때, 이것이 인터넷에 전파되어
+              업데이트되는 주기는 전적으로 이 Minimum 값에
+              의존한다. 일반적으로 SOA에서는 1D(86400)를 설정하여
+              전체 레코드에 적용하고, 잦은 변경이 예상되는 레코드만
+              명시적으로 1H - 3H 정도로 낮추는 방법을 사용한다. 0은
+              캐싱을 하지 말라는 의미이다.</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="SECT3">
+          <h3 class="SECT3"><a name="RR-NS">2.5.3.2. NS(Name
+          Server) 레코드</a></h3>
+
+          <p>NS 레코드로 해당 도메인에 대한 네임서버를 다음과 같이
+          나타낸다.</p>
+<pre class="SCREEN">
+    nobreak.com.   IN  NS      ns.nobreak.com.
+                   IN  NS      ns2.nobreak.com.
+</pre>
+
+          <p>또 다른 NS의 활용으로는, 거대 도메인에서 서브 도메인을
+          다른 네임서버로 위임할 때이다. Namespace상의 가지연결은
+          이 NS 레코드로 이루어 지는데, 거대 도메인일 경우 해당하는
+          부분이므로, 여기서는 해당 도메인에 대한 위임 정보만을
+          나타낸다고 알아두자. <a href="domain-delegation.html">
+          도메인 위임</a>에서 자세히 다룬다.</p>
+        </div>
+
+        <div class="SECT3">
+          <h3 class="SECT3"><a name="RR-A-AND-CNAME">2.5.3.3.
+          A(Address) &amp; CNAME(Canonical Name) 레코드</a></h3>
+
+          <p>A 레코드는 도메인에 IP를 부여한다. 다음 설정을 보자.
+          mail과 power에 A 레코드로 IP를 매핑 하였다. (mail과
+          mail.nobreak.com. 은 동일하게 해석된다.)</p>
+<pre class="SCREEN">
+    ; Host addresses
+    mail.nobreak.com.   IN  A      210.105.79.2
+    power               IN  A      210.105.79.103
+    ; Aliases
+    www                 IN  CNAME  power.nobreak.com.
+    ftp                 IN  CNAME  www
+</pre>
+
+          <p>CNAME 레코드는 도메인에 대한 또 다른 이름이 가능하도록
+          한다. 예에서는 power.nobreak.com, www.nobreak.com,
+          ftp.nobreak.com은 모두 같은 IP 210.105.79.103을 갖게
+          된다. ftp와 같이 CNAME이 CNAME을 포인팅 하는 경우는, 여러
+          DNS 관련 자료에서 다르게 얘기되고 있지만, 이것은
+          가능하다. CNAME은 포인팅하는 오리지널 도메인의 레코드를
+          모두 상속받기 때문에, CNAME으로 설정된 도메인은 추가
+          레코드를 갖을 수 없음을 유의한다. 또한, MX, NS 등의
+          레코드에도 CNAME으로 설정된 도메인을 넣어서는 안된다.
+          반드시 주의하여야 한다. CNAME의 잘못된 사용은 BIND 로그를
+          유심히 관찰하지 않으면 찾기 어려우므로, 확실히 할 수
+          없다면 CNAME으로 설정된 레코드를 아예 다른 레코드의
+          인자로 놓지 않는 것이 좋다. 숙련된 도메인 메니저 중에서도
+          트래픽과, 퍼포먼스라는 측면에서 CNAME을 전혀 사용하지
+          않는 경우도 있다. (참고: <a href="using-cname.html">
+          CNAME의 사용에 관해</a>)</p>
+<pre class="SCREEN">
+    ftp                 IN  CNAME  www  ; (X) CNAME엔 추가레코드를 갖을 수
+                        IN  MX     mail ;     없다.
+    
+    power               IN  MX 10  mail ; (X) MX에 CNAME으로 설정된
+    mail                IN  CNAME  ns   ;     레코드가 올 수 없다.
+</pre>
+        </div>
+
+        <div class="SECT3">
+          <h3 class="SECT3"><a name="RR-MX">2.5.3.4. MX(Mail
+          eXchanger) 레코드</a></h3>
+
+          <p>MX 레코드는 해당 호스트의 메일 라우팅 경로를 조정한다.
+          다음과 같이 설정되어 있을 경우, account@nobreak.com 으로
+          보내어 지는 편지는 실제 mail.nobreak.com. 으로 전송된다.
+          만약 mail.nobreak.com. 에 연결할 수 없다면, 다음
+          우선순위인 power.nobreak.com 으로 편지를 배송하게 된다.
+          MX Priority_Number 와 같이 사용하며, Priority_Number의
+          숫자는 적을수록 우선순위가 높다. <a href=
+          "dns-sendmail.html#MX-ALGORITHM">MX 알고리즘</a>에서
+          자세히 다룬다.</p>
+<pre class="SCREEN">
+    nobreak.com.        IN  MX  10  mail.nobreak.com.
+                        IN  MX  20  power.nobreak.com.
+    mail.nobreak.com.   IN  A       210.105.79.2
+    power.nobreak.com.  IN  A       210.105.79.103
+</pre>
+
+          <p>다음과 같이 MX 레코드에 CNAME으로 설정된 도메인을
+          넣으면 안된다. 이럴 경우 몇몇 MTA(Mail Transfer Agent:
+          sendmail)는 메일 라우팅 경로를 찾지 못하여, 메일을
+          주고받을 수 없다. 이는 송신인이 사용하는 MTA의 종류와
+          버전에 의존적이므로, 경험 많은 도메인 메니저가 아니면
+          문제의 원인을 진단하기도 어렵다. 반드시 주의하자.</p>
+<pre class="SCREEN">
+    nobreak.com.        IN  MX  10  mail.nobreak.com.  ; (X) 잘못된 사용
+    mail.nobreak.com.   IN  CNAME   power.nobreak.com.
+    power.nobreak.com.  IN  A       210.105.79.103
+</pre>
+        </div>
+
+        <div class="SECT3">
+          <h3 class="SECT3"><a name="RR-PTR">2.5.3.5. PTR(Pointer)
+          레코드</a></h3>
+
+          <p>PTR 레코드는 IP 주소에 대해 도메인명을 매핑하여 주며,
+          Reverse Zone 파일에서 사용된다. 다음은 IP 210.105.79.2에
+          대한 설정 예이다.</p>
+<pre class="SCREEN">
+    2.79.105.210.in-addr.arpa.  IN  PTR  ns.nobreak.com.
+</pre>
+
+          <p>Forward Zone에서는 다수의 도메인이 A(혹은 CNAME)
+          레코드를 통해 같은 IP를 갖을 수 있지만, PTR 레코드는
+          중복이 허용되지 않기 때문에, 해당 IP에 대한 대표 도메인명
+          하나만을 설정하여야 한다.</p>
+        </div>
+
+        <div class="SECT3">
+          <h3 class="SECT3"><a name="RR-MISC">2.5.3.6. 기타
+          레코드들</a></h3>
+
+          <p>Zone 데이터베이스에 필요한 레코드들은 위에 나열한
+          것만으로도 충분하지만, 더 많은 레코드들이 존재한다.
+          다음에 반드시 필요하지는 않으나, 종종 사용되는 레코드를
+          소개한다. 더 자세한 정보가 필요하다면 <a href=
+          "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc1035.txt" target=
+          "_top">RFC1035</a>, <a href=
+          "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc1183.txt" target=
+          "_top">RFC1183</a>, <a href=
+          "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc2163.txt" target=
+          "_top">RFC2163</a>을 참고하자.</p>
+<pre class="SCREEN">
+    power           IN  A      210.105.79.103
+                    IN  HINFO  "Sun Sparc Ultra 5"  "Solaris 2.6"
+                    IN  TXT    "Nobreak's Primary Server"
+                    IN  TXT    "WWW, FTP is now available"
+                    IN  RP     hostmaster.nobreak.com.  hostinfo.nobreak.com.
+    hostinfo        IN  TXT    "Seung-young Kim, +82-42-864-4440/1"
+</pre>
+
+          <p>HINFO(Host INFOrmation) 레코드는 두 개의 문자열(CPU
+          정보, OS 정보)을 갖으며 시스템 정보를 나타낸다. 문자열에
+          공백이 포함되어 있을 경우에는 반드시 큰따옴표를
+          사용하여야 한다.</p>
+
+          <p>TXT(TeXT) 레코드는 텍스트 정보를 갖으며 중첩되어
+          사용될 수 있다. RP(Responsible Person)는 담당자의 정보를
+          표시하는데, Email 주소(@를 도트로 치환한)와, 담당자
+          정보(TXT 레코드를 갖는 도메인을 포인팅함)를 갖는다.
+          HINFO를 포함한 몇몇 레코드는 보안을 이유로 사용치 말아야
+          한다는 의견도 있다.</p>
+        </div>
+      </div>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="ZONE-SAMPLE">2.5.4. Zone
+        데이터베이스 예제</a></h2>
+
+        <p><a href="config-nameserver.html#FIG-NETWORK">Figure
+        2-1</a>의 네트워크 구성에 대한 Forward Zone 파일
+        zone-nobreak.com은 다음과 같이 작성될 수 있다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* nobreak.com 도메인에 대한 Forward Zone 파일 /var/named/zone-nobreak.com</b></tt>
+    @               IN      SOA     ns.nobreak.com. hostmaster.nobreak.com. (
+                                    1998122801  ;Serial
+                                    21600       ;Refresh ( 6 hours)
+                                    1800        ;Retry   (30 minutes)
+                                    1209600     ;Expire  (14 days)
+                                    86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nobreak.com.
+                    IN      NS      ns2.nobreak.com.
+                    IN      MX 10   mail           ; 메일 라우팅 호스트
+    
+    mail            IN      A       210.105.79.2
+    
+    ; Hosts Here - This is comments
+    router          IN      A       210.105.79.1
+    ns              IN      A       210.105.79.2
+    ns2             IN      A       210.105.79.3
+    power           IN      A       210.105.79.103
+                    IN      HINFO   "Sun Sparc Ultra 5"         "Solaris 2.6"
+                    IN      TXT     "Nobreak Technologies, Inc."
+    www             IN      CNAME   power
+</pre>
+
+        <p>인버스 도메인을 위한 Reverse Zone 파일
+        zone-79.105.210.in-addr.arpa은 다음과 같이 작성된다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* Reverse Zone 파일 /var/named/zone-79.105.210.in-addr.arpa</b></tt>
+    @               IN      SOA     ns.nobreak.com. hostmaster.nobreak.com. (
+                                    1998122801  ;Serial
+                                    21600       ;Refresh ( 6 hours)
+                                    1800        ;Retry   (30 minutes)
+                                    1209600     ;Expire  (14 days)
+                                    86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nobreak.com.
+                    IN      NS      ns2.nobreak.com.
+    ; IP-Domain mapping here
+    1               IN      PTR     router.nobreak.com.
+    2               IN      PTR     ns.nobreak.com.
+    3               IN      PTR     ns2.nobreak.com.
+    103             IN      PTR     power.nobreak.com.
+</pre>
+
+        <p>loopback 주소를 위한 Reverse Zone 파일 또한 다음과 같이
+        작성된다. IP 127.0.0.1을 localhost. 로 매핑하는 것이
+        전부이므로, 본 파일은 어느 네트워크에서나 비슷하게 작성될
+        것이다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* loopback을 위한 Reverse Zone 파일 /var/named/zone-0.0.127.in-addr.arpa</b></tt>
+    
+    @               IN      SOA     ns.nobreak.com. hostmaster.nobreak.com. (
+                                    1998122801  ;Serial
+                                    21600       ;Refresh ( 6 hours)
+                                    1800        ;Retry   (30 minutes)
+                                    1209600     ;Expire  (14 days)
+                                    86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nobreak.com.
+                    IN      NS      ns2.nobreak.com.
+    ; IP-Domain mapping here
+    1               IN      PTR     localhost.
+</pre>
+
+        <p>Zone 파일에서의 도메인 표기는 반드시 FQDN 표기법을
+        따라야 한다. BIND는 도트로 끝나지 않는 문자열은
+        호스트명으로 처리하므로, ns.nobreak.com 을
+        ns.nobreak.com.nobreak.com. 으로 해석한다. 따라서
+        ns.nobreak.com. 과 같이 도트를 붙인 FQDN으로 표기하거나, ns
+        와 같이 호스트명만 사용하여야 한다. 도트를 빼먹는 실수는
+        매우 빈번히 발생하므로, 주의하자.</p>
+
+        <div class="SECT3">
+          <h3 class="SECT3"><a name="ZONE-SAMPLE-FOR-HOSTING">
+          2.5.4.1. 호스팅 업체를 위한 Zone 데이터베이스
+          예제</a></h3>
+
+          <p>호스팅업체의 경우 다음과 같이 다수의 도메인을 하나의
+          Zone 데이터베이스로 관리할 수가 있다. 만약, 호스팅
+          도메인별로 별도의 Zone을 유지한다면, 호스팅 서버의 IP
+          변화와 같이 관련된 모든 Zone이 수정되어야 하는 상황이
+          오지 않기를 기도하거나, 반나절을 편집기와 씨름할수 있는
+          끈기를 배워야할 것이다. 여기서 소개하는 팁은 사용자가
+          많은 호스팅 업체일수록 유용하게 활용될 수 있으며, 도메인
+          추가/수정/삭제에 드는 시간과 노력을 절약할 수 있을
+          것이다.</p>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* named.boot (BIND-4)</b></tt>
+    primary         netbsd.org                      zone-default
+    primary         openbsd.org                     zone-default
+    ...
+    primary         freebsd.org                     zone-freebsd.org ; 별도의 추가 도메인이 필요한 경우
+    ...
+</pre>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* named.conf (BIND-8)</b></tt>
+    zone "netbsd.org"       IN { type master; file "zone-default"; };
+    zone "openbsd.org"      IN { type master; file "zone-default"; };
+    ...
+    zone "freebsd.org"      IN { type master; file "zone-freebsd.org"; };
+    ...
+</pre>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* zone-default</b></tt>
+    @               IN      SOA     ns.nobreak.com. hostmaster.nobreak.com. (
+                                    1999030601  ;serial
+                                    21600       ;Refresh ( 6 hours)
+                                    1800        ;Retry   (30 minutes)
+                                    1209600     ;Expire  (14 days)
+                                    86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nobreak.com.
+                    IN      NS      ns2.nobreak.com.
+                    IN      A       210.105.79.39
+                    IN      MX 10   @
+                    IN      MX 20   mqueue.nobreak.com.
+    
+    www             IN      CNAME   @
+    telnet          IN      CNAME   @
+    ftp             IN      CNAME   @
+    mail            IN      CNAME   @
+    pop             IN      CNAME   @
+    news            IN      CNAME   news.nobreak.com.
+</pre>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* zone-freebsd.org</b></tt>
+    $INCLUDE zone-default
+    
+    ftp.kr          IN      A       147.46.102.39
+    www.kr          IN      CNAME   @
+</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "reg-inverse.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "launch-nameserver.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">인버스
+          도메인(Inverse Domain) 신청</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "running-nameserver.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">Name Server
+          구동</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

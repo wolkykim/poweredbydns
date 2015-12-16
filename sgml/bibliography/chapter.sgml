@@ -1,0 +1,82 @@
+<chapter id="bibliography" xreflabel="Bibliography">
+    <title>Bibliography</title>
+
+    <orderedlist>
+      <listitem>
+        <para><ulink url="http://www.ora.com/catalog/dns2/">Paul Albitz &amp;
+        Cricket Liu, "DNS and BIND 2rd Edition", O'Reilly &amp; Associates,
+        Inc., ISBN 1-56592-236-0, Dec 1996</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="http://www.ora.com/catalog/dns3/">Paul Albitz &amp;
+        Cricket Liu, "DNS and BIND 3rd Edition", O'Reilly &amp; Associates,
+        Inc., ISBN 1-56592-512-2, Sep 1998</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="http://www.ora.com/catalog/dnswinnt/">Paul Albitz,
+        Matt Larson &amp; Cricket Liu, "DNS on Windows NT", O'Reilly &amp;
+        Associates, ISBN 1-56592-511-4, Oct 1998</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="http://www.ora.com/catalog/sendmail2/">Bryan Costales
+        &amp; Eric Allman, "sendmail 2nd Edition", O'Reilly &amp; Associates,
+        ISBN 1-56592-222-0, Jan 1997</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="http://www.ora.com/catalog/sendmailqr/">Bryan Costales
+        &amp; Eric Allman, "sendmail Desktop Reference", O'Reilly &amp;
+        Associates, ISBN 1-56592-278-6, Mar 1997</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc2317;">H. Eidnes, G. de Groot &amp; P. Vixie,
+        "Classless IN-ADDR.ARPA delegation", RFC2317, Mar 1998</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc2308;">M. Andrews, "Negative Caching of
+        DNS Queries (DNS NCACHE)", RFC2308, Mar 1998</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc2240;">O. Vaughan, "A Legal Basis for Domain Name
+        Allocation", RFC2240, Nov 1997</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc2219;">M. Hamilton, "Use of DNS Aliases for
+        Network Services", RFC2219, Oct 1997</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc2182;">R. Elz, R. Bush &amp; S. Bradner,
+        "Selection and Operation of Secondary DNS Servers", RFC2182, Jul
+        1997</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc2136;">S. Thomson, Y. Rekhter &amp; J. Bound,
+        "Dynamic Updates in the Domain Name System (DNS UPDATE)", RFC2136,
+        Apr 1997</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc1996;">P. Vixie, "A Mechanism for Prompt
+        Notification of Zone Changes (DNS NOTIFY)", RFC1996, Aug 1996</ulink>
+        </para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc1183;">C. Everhart, L. Mamakos &amp; R. Ullmann,
+        "New DNS RR Definitions", RFC1183, Oct 1990</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc1035;">P. Mockapetris, "Domain Names -
+        Implementation and Specification", RFC1035, Nov 1987</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc1034;">P. Mockapetris, "Domain Names -
+        Concepts and Facilities", RFC1034, Nov 1987</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc1033;">M. Lottor, "Domain Administrators
+        Operations Guide", RFC1033, Nov 1987</ulink></para>
+      </listitem>
+      <listitem>
+        <para><ulink url="&rfc1032;">M. Stahl, "Domain Administrators Guide",
+        RFC1032, Nov 1987</ulink></para>
+      </listitem>
+    </orderedlist>
+</chapter>

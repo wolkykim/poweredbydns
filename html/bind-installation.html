@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>BIND(Berkeley Internet Name Daemon) 설치</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Name Server 운영" href=
+    "running-nameserver.html">
+    <link rel="PREVIOUS" title="Name Server 운영" href=
+    "running-nameserver.html">
+    <link rel="NEXT" title="퍼블릭 도메인(Public Domain) 신청"
+    href="reg-domain.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "running-nameserver.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 2.
+          Name Server 운영</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "reg-domain.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="BIND-INSTALLATION">2.2.
+      BIND(Berkeley Internet Name Daemon) 설치</a></h1>
+
+      <p>Name server를 운용하기 위해서는 서버측 데몬 프로그램이
+      필요하게 되는데, 이중 BIND는 db 파일의 구성이 손쉽고 표준을
+      충실히 따른 검증된 도구로서 인터넷에서 가장 널리 사용된다.
+      대부분의 Unix 시스템에서는 BIND가 이미 설치되어 있다. <tt
+      class="FILENAME">/usr/sbin</tt> 디렉토리에 <tt class=
+      "COMMAND">in.named</tt> 혹은 <tt class="COMMAND">named</tt>가
+      존재함을 확인하고, BIND가 이미 설치되어 있을 경우에는 다음과
+      같이 설치된 BIND의 버전을 확인한다. (BIND가 동작중이여야
+      함)</p>
+<pre class="SCREEN">
+    $ <tt class=
+"USERINPUT"><b>dig @ns.nobreak.com txt chaos version.bind. | grep VERSION</b></tt>
+    VERSION.BIND.           0S CHAOS TXT    "8.2"
+</pre>
+
+      <p>배포처인 <a href="http://www.isc.org" target="_top">
+      ISC(Internet Software Consortium)</a> 에서 BIND의 최신버젼을
+      확인하고, 버전차이가 많거나 현재 버전에 심각한 문제가
+      보고되었다면, 업그레이드를 고려하고, BIND-4가 설치되어
+      있다면, BIND-8로 마이그레이션하여 새로운 흐름에 조인하는것도
+      나쁘지 않겠다.</p>
+
+      <p>BIND의 설치는 매우 간단하다. <a href=
+      "ftp://ftp.isc.org/isc/bind/src/" target="_top">ISC
+      FTP사이트</a>에서 최신 버전의 소스를 내려받아, 압축을 푼후
+      다음과 같은 명령을 입력하는 것이 설치에 필요한 전부이다.</p>
+<pre class="SCREEN">
+    # <tt class=
+"USERINPUT"><b>make clean depend all install</b></tt>
+</pre>
+
+      <p>그리고, 시스템 rc 스크립트를 적절히 수정하여 시스템 부팅시
+      BIND가 자동으로 구동될 수 있도록 한다. (FreeBSD: <tt class=
+      "FILENAME">/etc/rc.conf</tt>, <tt class="FILENAME">
+      /etc/rc.network</tt>, Solaris: <tt class="FILENAME">
+      /etc/init.d/inetsvc</tt>, Linux: <tt class="FILENAME">
+      /etc/rc.d/init.d/named</tt>)</p>
+
+      <p>Windows NT, OS/2, MacOS 등에서 BIND를 운용하고자 한다면,
+      다음 페이지를 참고하자.</p>
+
+      <blockquote class="BLOCKQUOTE">
+        <p><a href="http://www.dns.net/dnsrd/docs/exotic.html"
+        target=
+        "_top">http://www.dns.net/dnsrd/docs/exotic.html</a></p>
+      </blockquote>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "running-nameserver.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "reg-domain.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Name Server
+          운영</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "running-nameserver.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">퍼블릭
+          도메인(Public Domain) 신청</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

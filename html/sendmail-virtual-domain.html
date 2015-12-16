@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Sendmail의 Virtual Domain 설정</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="DNS와 Sendmail" href="dns-sendmail.html">
+    <link rel="PREVIOUS" title="Nonrecursive MX lookup" href=
+    "nonrecursive-mx-lookup.html">
+    <link rel="NEXT" title="BIND 유지/보수" href=
+    "bind-maintenance.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "nonrecursive-mx-lookup.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 6.
+          DNS와 Sendmail</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "bind-maintenance.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="SENDMAIL-VIRTUAL-DOMAIN">6.5.
+      Sendmail의 Virtual Domain 설정</a></h1>
+
+      <p>하나의 호스트에 연결된 도메인 nobreak.com 과
+      kr.freebsd.org 에 대해, 일반적으로 nobreak@nobreak.com 과
+      nobreak@kr.freebsd.org 의 수신자는 같다. 여기에서는 각각의
+      도메인별로 aliases 테이블을 갖는 것과 같이, 도메인에 따라
+      수신되는 편지를 다르게 처리하는 방법에 대해 알아본다. 본 글이
+      Sendmail을 주제로 하지는 않기에, Sendmail을 어느 정도 알고
+      있다는 가정으로 골자내용만을 다루도록 하겠다. Sendmail에
+      익숙치 않다면 내용을 이해하기 위해 RuleSet, m4, aliases,
+      dbm/btree/hash 등에 대한 사전학습이 필요할 수도 있다.</p>
+
+      <p>설명하고자 하는 방법은 Sendmail 8.8 이상에서
+      가능하므로,먼저 다음과 같이 설치된 버젼을 확인한다.</p>
+<pre class="SCREEN">
+    $ <tt class="USERINPUT"><b>telnet localhost smtp</b></tt>
+    Trying 127.0.0.1...
+    220 kfug2.kr.freebsd.org ESMTP Sendmail 8.9.3/8.9.3
+</pre>
+
+      <p>버젼이 8.8보다 낮다면, <a href=
+      "ftp://ftp.sendmail.org/pub/sendmail/" target="_top">
+      ftp://ftp.sendmail.org/pub/sendmail/</a> 에서 최신버젼을
+      구하기 바란다. Sendmail 8.2 이상에서는 domaintable Feature를
+      사용해 구현될 수 있지만, 여기서 제시하는 Sendmail 8.8 이상의
+      virtusertable Feature로 대체되는 추세이므로 여기에서는 다루지
+      않겠다.</p>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="SENDMAIL-M4">6.5.1. m4를 사용한
+        sendmail.cf 생성</a></h2>
+
+        <p>먼저 <tt class="FILENAME">
+        sendmail-VERSION/cf/cf/</tt>에서 시스템에 적절한 mc 파일을
+        복사한 후, Virtual Domain 설정에 필요한 virtusertable,
+        genericstable Feature를 추가한다. 작성된 mc 파일은
+        일반적으로 다음과 같이 보인다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* generic-bsd4.4.mc 파일을 사용해 작성한 freebsd.mc 파일</b></tt>
+    divert(0)dnl
+    VERSIONID(`@(#)generic-bsd4.4.mc        8.7 (Berkeley) 5/19/1998')
+    OSTYPE(bsd4.4)dnl
+    DOMAIN(generic)dnl
+    MAILER(local)dnl
+    MAILER(smtp)dnl
+    <tt class=
+"USERINPUT"><b>FEATURE(virtusertable, btree /etc/domainaliases.db)dnl</b></tt>
+    <tt class=
+"USERINPUT"><b>FEATURE(genericstable, btree /etc/useraliases.db)dnl</b></tt>
+</pre>
+
+        <p>virtusertable Feature는 수신(in-bound)되는 편지를 로컬
+        사용자로 매핑하는 RuleSet을 생성하고, genericstable
+        Feature는 반대로 송신(out-bound)되는 편지에 대해 로컬
+        유저에 대한 메일주소(메일 헤더상의 From: 필드)를 매핑하는
+        RuleSet을 생성한다. DNS의 Forward Zone과 Reverse Zone을
+        생각하면 되겠다.</p>
+
+        <p>btree 는 해당 테이블(domainaliases.db)이 B-Tree(Berkeley
+        DB) 데이터베이스 형태로 저장됨을 의미한다. 가능한 다른
+        유형으로는 hash(Berkeley DB)와 dbm(NDBM)이 있는데, 테이블이
+        방대할 경우 효율은 btree(Berkeley DB) &gt; hash(Berkeley
+        DB) &gt; dbm(NDBM) 순이다. 속도가 빠른 btree와 hash를
+        사용하기 위해서는 Berkeley DB(FreeBSD를 비롯해 몇몇
+        Unix에는 기본으로 포함된다)가 설치되어 있어야 하며, <tt
+        class="FILENAME">sendmail</tt>과 <tt class="FILENAME">
+        makemap</tt> 컴파일시 -DNEWDB 플래그(Berkeley DB가 설치되어
+        있다면 자동으로 -DNEWDB 플래그가 사용된다)를 사용해야
+        한다.</p>
+
+        <p>Berkeley DB가 설치되어 있지 않을 경우엔 -DNDBM
+        플래그(NDBM 라이브러리는 대부분의 Unix에 기본으로
+        포함된다)로 컴파일 되는데 이때에는 DBM을 사용하여야 한다.
+        리눅스와 같이 Berkeley DB의 GNU판인 GDBM이 사용되는 경우엔
+        별도의 노력없이 세 종류의 DB를 모두 이용할 수 있다.</p>
+
+        <p>작성된 <tt class="FILENAME">freebsd.mc</tt> 파일은
+        다음과 같이 m4(Macro Language Processor)를 통해 <tt class=
+        "FILENAME">sendmail.cf</tt>로 변환한다.</p>
+<pre class="SCREEN">
+    # <tt class="USERINPUT"><b>cd sendmail-VERSION/cf/cf</b></tt>
+    # <tt class=
+"USERINPUT"><b>m4 ../m4/cf.m4 freebsd.mc &gt; freebsd.cf</b></tt>
+    # <tt class=
+"USERINPUT"><b>cp freebsd.cf /etc/sendmail.cf</b></tt>
+</pre>
+
+        <p>만약 기존의 <tt class="FILENAME">sendmail.cf</tt>가
+        유지되어야 하는 상황이라면, 실제 본 두 Feature가 생성하는
+        다음의 RuleSet을 참고하여 <tt class="FILENAME">
+        sendmail.cf</tt>를 직접 수정하여도 좋다. (RuleSet이
+        삽입되는 위치를 파악하기 위해 m4로 <tt class="FILENAME">
+        sendmail.cf</tt>를 생성하여 비교하기 바란다)</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* FEATURE(virtusertable, btree /etc/domainaliases.db)dnl</b></tt>
+    # Virtual user table (maps incoming users)
+    Kvirtuser btree /etc/domainaliases.db
+    
+    # handle virtual users (RuleSet 0의 Parse1 아래에 위치)
+    R$+ &lt; @ $=w . &gt;         $: &lt; $(virtuser $1 @ $2 $@ $1 $: @ $) &gt; $1 &lt; @ $2 . &gt;
+    R&lt;@&gt; $+ + $* &lt; @ $* . &gt;
+                            $: &lt; $(virtuser $1 + * @ $3 $@ $1 $: @ $) &gt; $1 + $2 &lt; @ $3 . &gt;
+    R&lt;@&gt; $+ + $* &lt; @ $* . &gt;
+                            $: &lt; $(virtuser $1 @ $3 $@ $1 $: @ $) &gt; $1 + $2 &lt; @ $3 . &gt;
+    R&lt;@&gt; $+ &lt; @ $+ . &gt;      $: &lt; $(virtuser @ $2 $@ $1 $: @ $) &gt; $1 &lt; @ $2 . &gt;
+    R&lt;@&gt; $+                 $: $1
+    R&lt; error : $- $+ &gt; $*   $#error $@ $(dequote $1 $) $: $2
+    R&lt; $+ &gt; $+ &lt; @ $+ &gt;     $: $&gt;97 $1
+</pre>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* FEATURE(genericstable, btree /etc/useraliases.db)dnl</b></tt>
+    # Generics table (mapping outgoing addresses)
+    Kgenerics btree /etc/useraliases.db
+    
+    # handle generics database (RuleSet 93 아래에 위치)
+    R$+ &lt; @ $=G . &gt; $: &lt; $1@$2 &gt; $1 &lt; @ $2 . &gt; @    mark
+    R$+ &lt; @ *LOCAL* &gt;       $: &lt; $1@$j &gt; $1 &lt; @ *LOCAL* &gt; @ mark
+    R&lt; $+ &gt; $+ &lt; $* &gt; @     $: &lt; $(generics $1 $: $) &gt; $2 &lt; $3 &gt;
+    R&lt; &gt; $+ &lt; @ $+ &gt;        $: &lt; $(generics $1 $: $) &gt; $1 &lt; @ $2 &gt;
+    R&lt; $* @ $* &gt; $* &lt; $* &gt;  $@ $&gt;3 $1 @ $2                  found qualified
+    R&lt; $+ &gt; $* &lt; $* &gt;       $: $&gt;3 $1 @ *LOCAL*             found unqualified
+    R&lt; &gt; $*                 $: $1                           not found
+</pre>
+      </div>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="SENDMAIL-VIRTUSERTABLE">6.5.2.
+        Forward-map 테이블 작성</a></h2>
+
+        <p>먼저, 해당 호스트가 수신하는 도메인을 클래스 w(<tt
+        class="FILENAME">sendmail.cw</tt>)에 나열하여야 한다.</p>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* /etc/sendmail.cw 파일</b></tt>
+    nobreak.com
+    kr.freebsd.org
+</pre>
+
+        <p>domainaliases 파일을 편집기로 열어 다음과 같이 Virtual
+        User Table을 작성한다.</p>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* /etc/domainaliases 파일</b></tt>
+    webmaster@nobreak.com           dipper
+    moonhunt@nobreak.com            moonhunt@ieee.org
+    cjh@nobreak.com                 error:nouser Unknown User
+    @nobreak.com                    nobreak
+    @kr.freebsd.org                 %1@xfree86.org
+</pre>
+
+        <p>메일주소 webmaster@nobreak.com 는 로컬 사용자 dipper로
+        매핑되고, moonhunt@nobreak.com 로 배달되는 편지는
+        moonhunt@ieee.org 로 포워딩 된다. cjh@nobreak.com 으로
+        배달되는 편지에 대해서는 에러메시지 'Unknown User'로
+        답하며, 그외 nobreak.com 으로 수신되는 모든 편지는 로컬
+        사용자 nobreak로 전달된다. 또한, kr.freebsd.org 로 수신되는
+        모든 편지는 xfree86.org 의 같은 사용자에게 포워딩된다.
+        다음과 같이 aliases 파일과 연동하여 다수의 사용자를
+        매핑하는것 또한 가능하다.</p>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* /etc/domainaliases 파일</b></tt>
+    announce@kr.freebsd.org         announce.ml
+    admin@kr.freebsd.org            admin.ml
+</pre>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* /etc/aliases 파일</b></tt>
+    announce.ml:            :include:/var/ml/announce.ml
+    admin.ml:               nobreak, moonhunt@ieee.org
+</pre>
+      </div>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="SENDMAIL-GENERICSTABLE">6.5.3.
+        Reverse-map 테이블 작성</a></h2>
+
+        <p>호스트명이 kfug2.kr.freebsd.org 일때, 시스템에서
+        out-bound되는 편지는 기본적으로 user@kfug2.kr.freebsd.org
+        를 From으로 갖는다. 다음의 Reverse-map 테이블은 로컬
+        사용자의 메일주소를 변경한다.</p>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* /etc/useraliases 파일</b></tt>
+    nobreak                 nobreak@nobreak.com
+    cjh                     cjh@kr.freebsd.org
+</pre>
+      </div>
+
+      <div class="SECT2">
+        <h2 class="SECT2"><a name="SENDMAIL-MAKEMAP">6.5.4. 테이블
+        변환 및 실험</a></h2>
+
+        <p>작성된 테이블은 makemap을 사용해 dbm/btree/hash 형태로
+        변환되어야 한다. 여기서는 btree를 사용하였으므로 다음과
+        같이한다.</p>
+<pre class="SCREEN">
+    # <tt class=
+"USERINPUT"><b>makemap btree /etc/domainaliases.db &lt; /etc/domainaliases</b></tt>
+    # <tt class=
+"USERINPUT"><b>makemap btree /etc/useraliases.db &lt; /etc/useraliases</b></tt>
+    # <tt class=
+"USERINPUT"><b>ls /etc/domainaliases* /etc/useraliases*</b></tt>
+    /etc/domainaliases      /etc/useraliases
+    /etc/domainaliases.db   /etc/useraliases.db
+</pre>
+
+        <p>이제 Sendmail을 행업하고 동작을 확인하자.</p>
+<pre class="SCREEN">
+    # <tt class=
+"USERINPUT"><b>kill -HUP `cat /var/run/sendmail.pid`</b></tt>
+    
+    # <tt class=
+"USERINPUT"><b>sendmail -bv webmaster@nobreak.com</b></tt>
+    webmaster@nobreak.com... deliverable: mailer local, user dipper
+    
+    # <tt class=
+"USERINPUT"><b>sendmail -bv cjh@nobreak.com</b></tt>
+    cjh@nobreak.com... Unknown User
+    
+    # <tt class=
+"USERINPUT"><b>sendmail -bv anybody@kr.freebsd.org</b></tt>
+    anybody@kr.freebsd.org... deliverable: mailer esmtp,
+    host xfree86.org., user anybody@xfree86.org
+</pre>
+      </div>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "nonrecursive-mx-lookup.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "bind-maintenance.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Nonrecursive MX
+          lookup</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "dns-sendmail.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">BIND
+          유지/보수</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>BIND Syslog 주의/오류 메시지들</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="BIND 유지/보수" href=
+    "bind-maintenance.html">
+    <link rel="PREVIOUS" title="BIND Syslog 메시지들" href=
+    "bind-syslog-messages.html">
+    <link rel="NEXT" title="BIND Statistics" href=
+    "statistics.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "bind-syslog-messages.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 7.
+          BIND 유지/보수</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "statistics.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="BIND-SYSLOG-ERROR-MESSAGES">7.3.
+      BIND Syslog 주의/오류 메시지들</a></h1>
+
+      <p>다음의 메시지들은 네임스페이스상의 비정상적인 링크와,
+      잘못된 네임서버 설정에 기인한 메시지들이다. 본 메시지 중
+      몇몇은 타 네임서버에 의한 것이고, 의도적인 경우도 있으니,
+      가능한 범위에서 원인을 제거하도록 한다.</p>
+<pre class="SCREEN">
+    Feb  3 12:53:27 ns named[291]: ns_forw: query(shpark.co.kr)
+    contains our address (ns.nobreak.com:210.105.79.2)
+</pre>
+
+      <p>도메인 shpark.co.kr 이 ns.nobreak.com(자신)으로
+      위임되었으나, Authority가 설정되어 있지 않을 경우이다. 내부
+      네트워크에 대한 Lame Delegation 메시지이니, 해당 도메인을
+      확인하고 적절한 조치를 취하도록 한다.</p>
+<pre class="SCREEN">
+    Feb  5 10:09:01 ns named[26674]: "nobreak.com IN NS"
+    points to a CNAME (ns.nobreak.com)
+    
+    Feb  5 10:09:11 ns named[26674]: "nms.nobreak.com IN MX"
+    points to a CNAME (mail.nobreak.com)
+    
+    Feb  5 09:57:15 ns named[26674]: power.nobreak.com has CNAME and other data
+</pre>
+
+      <p>CNAME의 잘못된 사용에 기인한 오류들이다. 특히 MX와 관련된
+      오류는 전체가 아닌 몇몇 MTA(예:sendmail)에서 메일 라우팅에
+      문제가 생길 수 있기 때문에, 원인을 찾기위해 오랜 시간을
+      허비할 수 있으므로 주의하자. 다음과 같은 문법적 오류가 있을
+      때, 본 메시지들이 나타난다.</p>
+<pre class="SCREEN">
+    nobreak.com.    IN      NS      ns.nobreak.com.   ; (X) ns는 CNAME이다.
+    ns              IN      CNAME   mild.nobreak.com.
+    
+    nms             IN      MX      mail.nobreak.com. ; (X) mail은 CNAME 이다.
+    mail            IN      CNAME   mhub.nobreak.com.
+    
+    power           IN      CNAME   layla.nobreak.com.
+                    IN      MX      mhub.nobreak.com. ; (X)추가레코드가 올 수 없다.
+</pre>
+
+      <p>CNAME 레코드는 어떠한 추가 레코드도 갖을 수 없으며,
+      NS/MX/SOA 레코드는 CNAME과 연결될 수 없음을 기억하자.</p>
+<pre class="SCREEN">
+    Feb  5 09:24:56 ns2 named-xfer[2502]: record too short from
+    [210.105.79.2], zone nobreak.com
+</pre>
+
+      <p>Primary NS가 xfrnets(BIND-4) 혹은 allow-transfer(BIND-8)
+      옵션으로, Zone Transfer를 막아, 해당 Zone을 갖고 오지 못할
+      경우이다. 해당 네임서버 관리자에게 연락하여, Zone Transfer가
+      가능하도록 하여야 한다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "bind-syslog-messages.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "statistics.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">BIND Syslog
+          메시지들</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "bind-maintenance.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">BIND
+          Statistics</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

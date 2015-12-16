@@ -1,0 +1,91 @@
+<chapter id="config-resolver" xreflabel="클라이언트 설정">
+  <title>클라이언트(Resolver) 설정</title>
+
+  <sect1 id="config-resolver-unix"
+  xreflabel="Unix 시스템에서의 클라이언트 설정">
+    <title>Unix 시스템에서의 클라이언트 설정</title>
+
+    <para>Unix 시스템상에서 DNS를 사용하기 위해서는
+    <filename>/etc/resolv.conf</filename> 파일과,
+    <filename>/etc/nsswitch.conf</filename> 파일을 손보아야 한다.
+    <filename>/etc/resolv.conf</filename>에는 도메인 Resolving시 쿼리를 던질
+    네임서버를 3개까지 나열할 수 있다. 일반적으로 로컬 Primary, Secondary, ISP
+    네임서버 3개를 다음과 같이 명시한다.</para>
+
+<screen>
+search nobreak.com       # 도메인 서픽스(Suffix)
+nameserver 210.105.79.2  # ns.nobreak.com
+nameserver 210.105.79.3  # ns2.nobreak.com
+nameserver 168.126.63.1  # ns.kornet.ne.kr (사용하는 ISP의 NS)
+</screen>
+
+    <para>'search nobreak.com'은 호스트명만 주었을 경우 서픽스로 사용할 도메인을
+    뜻한다. 다른 도메인의 호스트에 자주 접속하거나, 여러 도메인을 관리한다면,
+    해당 도메인을 다음과 같이 여럿 놓을 수도 있다.</para>
+
+<screen>
+search nobreak.com
+search kr.freebsd.org
+</screen>
+
+    <para>이런 경우엔 호스트명 www는 먼저 www.nobreak.com으로 확장되어 검색되고,
+    검색되지 않을 경우 www.kr.freebsd.org로 확장되어 다시 검색된다. 잘못된
+    호스트명을 주었을때도, 가능한 조합을 모두 검색하므로, 많은 도메인을 search
+    리스트에 포함하는 것은 바람직하지 않다.</para>
+
+    <para>자주 사용하지는 않지만 도메인 별로 네임서버를 다르게 설정할 수도 있다.
+    주로 네임서버의 캐쉬 영향을 받지 않고, 해당 도메인의 수정사항을 즉각
+    적용하기 위해 쓰인다.</para>
+
+<screen>
+search nobreak.com
+
+domain nobreak.com
+nameserver 210.105.79.2
+...
+
+domain kornet.ne.kr
+nameserver 168.126.63.1
+...
+</screen>
+
+    <para>호스트 네임을 DNS로 확장하여 검색하기 위해서는
+    <filename>/etc/nsswitch.conf</filename> 파일의 라인 'hosts:'에 'dns'가
+    추가되어 있어야 한다. 근래 대부분의 OS는 기본적으로 설정되어 배포되지만,
+    확실히 하기 위해 확인하자.</para>
+
+<screen>
+hosts:      files dns
+</screen>
+
+    <para>files 는 호스트명을 <filename>/etc/hosts</filename> 파일에서 검색함을
+    뜻한다. 시스템은 주어진 순서(files, dns)로 검색을 시도한다.</para>
+  </sect1>
+
+  <sect1 id="config-resolver-windows"
+  xreflabel="Microsoft Windows 시스템에서의 클라이언트 설정">
+    <title>Microsoft Windows 시스템에서의 클라이언트 설정</title>
+
+    <para>Windows에서 Unix 시스템의 <filename>/etc/resolv.conf</filename> 파일에
+    해당하는 설정은 '네트워크'에서 할 수 있다. '제어판'의 '네트워크' 메뉴중
+    TCP/IP 프로토콜의 등록정보를 열면, <xref linkend="fig-revolver-setting-nt">와 같은 DNS
+    설정탭을 볼 수 있다.</para>
+
+    <figure id="fig-revolver-setting-nt">
+      <title>Windows NT에서의 Resolver 설정 예</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/win_resolver_setting.jpg" format="jpg">
+        </imageobject>
+        <textobject>
+          <phrase>Windows NT에서의 Resolver 설정 예</phrase>
+        </textobject>
+      </mediaobject>
+    </figure>
+
+    <para>DNS에 등록된 PC의 호스트명을 '호스트 이름'에 넣는다. Unix 시스템의
+    <filename>resolv.conf</filename> 파일과 비교하여, '도메인'은 'domain'에,
+    'DNS 서비스 찾기 순서'는 'nameserver'에, '도메인 서픽스 찾기 순서'는
+    'search' 리스트에 해당한다.</para>
+  </sect1>
+</chapter>

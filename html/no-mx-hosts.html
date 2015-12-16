@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>MX 레코드를 갖지 않는 호스트</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="DNS와 Sendmail" href="dns-sendmail.html">
+    <link rel="PREVIOUS" title="DNS와 Sendmail" href=
+    "dns-sendmail.html">
+    <link rel="NEXT" title="MX와 CNAME의 연동" href=
+    "mx-and-cname.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "dns-sendmail.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 6.
+          DNS와 Sendmail</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "mx-and-cname.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="NO-MX-HOSTS">6.2. MX 레코드를 갖지
+      않는 호스트</a></h1>
+
+      <p>호스트가 편지를 수신한다면 MX 레코드를 갖는 것이 좋다.</p>
+<pre class="SCREEN">
+    mailhub         IN      A       210.105.79.107
+</pre>
+
+      <p>호스트 mailhub는 수신되는 편지를 다른 호스트로 라우팅할
+      필요가 없기 때문에, 관리자는 MX 레코드를 설정하지 않았다.
+      물론 이것이 오류는 아니지만 이러한 경우 인터넷상의 한 MTA가
+      mailhub로 편지를 송신할때 불필요한 트래픽 낭비가 발생할 수
+      있다.</p>
+
+      <p>Sendmail의 경우를 살펴보자. 먼저 Sendmail은 로컬
+      네임서버를 통해 mailhub를 lookup(type=any) 한다.
+      Authoritative 혹은 Non-authoritative Answer로 A 레코드만을
+      돌려받게 될텐데, Authoritative Answer의 경우 MX 레코드가
+      없을지라도 결과를 신뢰하여 추가 질의 없이 해당 IP로 접속을
+      시도한다. 하지만 MX 레코드가 없는 Non-authoritative Answer에
+      대해 Sendmail은 명시적으로 MX 레코드를 재 검색한다. 물론
+      mailhub는 MX 레코드를 갖지 않기 때문에 복귀값은 없고 불필요한
+      질의만을 수행하였을 뿐이다. 편지를 배달한다는 점에는 두 경우
+      모두 전혀 문제 없지만, 후자의 경우와 같은 낭비를 막기 위해서
+      mailhub는 다음과 같이 설정되는 것이 바람직하다.</p>
+<pre class="SCREEN">
+    mailhub         IN      A       210.105.79.107
+                    IN      MX 10   mailhub.nobreak.com.
+</pre>
+
+      <p>mailhub 자신이 최종 편지 배달지이기 때문에, 자신을 MX로
+      설정했다. 이렇듯, 편지를 수신하는 모든 호스트는 비록 자기
+      자신일지라도 한개 이상의 MX 레코드를 갖는 것이 좋다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "dns-sendmail.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "mx-and-cname.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">DNS와
+          Sendmail</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "dns-sendmail.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">MX와 CNAME의
+          연동</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

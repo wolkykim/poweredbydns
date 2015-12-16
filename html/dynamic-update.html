@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Dynamic Update</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="고급 기능" href="advanced-features.html">
+    <link rel="PREVIOUS" title="고급 기능" href=
+    "advanced-features.html">
+    <link rel="NEXT" title="미러링 서버간의 부하 공유" href=
+    "load-sharing.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "advanced-features.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 5.
+          고급 기능</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "load-sharing.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="DYNAMIC-UPDATE">5.2. Dynamic
+      Update</a></h1>
+
+      <p>참고: <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc2136.txt" target=
+      "_top">RFC2136</a></p>
+
+      <p>BIND-8 부터 지원되는 Dynamic Update는 해당 도메인의
+      Authority를 갖는 네임서버를 통해 Zone 파일을 수정치 않고도
+      레코드를 동적으로 원격 갱신할 수 있도록 한다. 도메인 관리를
+      자동화 하거나, 사용자별로 접속 도메인을 실시간 변경하여
+      제공하거나, DHCP에서의 주소-IP 매칭등과 같이 실시간 적으로
+      레코드가 변경, 갱신 될 필요가 있는 서비스에 특히 유용할 수
+      있겠다.</p>
+
+      <p>Dynamic Update는 보안을 이유로 기본적으로 기능이 꺼져있기
+      때문에 허용할 도메인에 대해 allow-update 옵션을 추가해야
+      한다.</p>
+<pre class="SCREEN">
+    zone "freebsd.org" {
+        type master;
+        file "zone-freebsd.org";
+        <tt class=
+"USERINPUT"><b>allow-update { 210.124.149.130; };</b></tt>
+    }
+</pre>
+
+      <p>Dynamic Update는 BIND 배포판에 포함되어 있는 <tt class=
+      "FILENAME">nsupdate</tt> 도구를 사용하여
+      명령행(non-interactive) 혹은 대화형(interactive)으로 조작이
+      가능하다. 대화형 모드에서 주어진 명령문은 묶음(조건문과
+      명령문)으로 실행이 가능하기 때문에 입력한 명령문(들)은 공백
+      라인에서 엔터를 한번 더 입력하여야 한다. 명령행 모드는
+      명령문을 주어진 파일이나 stdin 에서 입력받는다. 다음은 <tt
+      class="FILENAME">nsupdate</tt>에서 사용가능한 명령문이다.</p>
+
+      <div class="VARIABLELIST">
+        <dl>
+          <dt>prereq yxdomain DOMAIN-NAME</dt>
+
+          <dd>
+            <p>DOMAIN-NAME이 존재(하나이상의 레코드가 설정되어
+            있음)함을 연속된 명령의 선행 조건으로 삼는다.</p>
+          </dd>
+
+          <dt>prereq nxdomain DOMAIN-NAME</dt>
+
+          <dd>
+            <p>DOMAIN-NAME에 어떠한 레코드도 설정되어 있지 않음을
+            연속된 명령의 선행 조건으로 삼는다.</p>
+          </dd>
+
+          <dt>prereq yxrrset DOMAIN-NAME [CLASS] TYPE [DATA]</dt>
+
+          <dd>
+            <p>DOMAIN-NAME에 해당 레코드가 존재함을 연속된 명령의
+            선행 조건으로 삼는다. DATA가 명시되어 있을 경우에는
+            정확하게 매칭이 되는 경우에만 조건이 성립된다.</p>
+          </dd>
+
+          <dt>prereq nxrrset DOMAIN-NAME [CLASS] TYPE</dt>
+
+          <dd>
+            <p>DOMAIN-NAME에 해당 레코드가 존재하지 않음을 연속된
+            명령의 선행 조건으로 삼는다.</p>
+          </dd>
+
+          <dt>update delete DOMAIN-NAME [CLASS] [TYPE
+          [DATA...]]</dt>
+
+          <dd>
+            <p>TYPE이 명시되지 않았을 경우엔 해당 DOMAIN-NAME에
+            소속된 레코드를 모두 삭제한다. TYPE이 명시될 경우엔
+            매칭되는 레코드만이 제거된다.</p>
+          </dd>
+
+          <dt>update add DOMAIN-NAME TTL [CLASS] TYPE DATA...</dt>
+
+          <dd>
+            <p>지정된 레코드를 해당 도메인에 추가한다.</p>
+          </dd>
+        </dl>
+      </div>
+<pre class="SCREEN">
+    $ <tt class="USERINPUT"><b>nsupdate</b></tt>
+    &gt; <tt class=
+"USERINPUT"><b>update add freefall.freebsd.org. 3600 IN A 210.124.149.150</b></tt>
+    &gt; <tt class="USERINPUT"><b>[Enter]</b></tt>
+    ...(messages)...
+    &gt; <tt class="USERINPUT"><b>^D</b></tt>
+    
+    $ <tt class="USERINPUT"><b>nsupdate</b></tt>
+    &gt; <tt class=
+"USERINPUT"><b>prereq nxrrset freebsd.org. IN MX</b></tt>
+    &gt; <tt class=
+"USERINPUT"><b>update add freebsd.org. 3600 IN MX 10 mail.freebsd.org.</b></tt>
+    &gt; <tt class="USERINPUT"><b>[Enter]</b></tt>
+    ...(messages)...
+    &gt; <tt class="USERINPUT"><b>^D</b></tt>
+</pre>
+
+      <p>기존에 A, CNAME 등의 레코드가 설정된 도메인명에 대해서
+      delete를 수행치 않고 add 명령을 입력했을때 기존 레코드의
+      데이터가 입력된 레코드의 데이터로 교체될거라는 생각은 하지
+      말아야 한다. 중복된 A 레코드의 입력은 도메인에 여러개의 IP를
+      매핑할 것이고, CNAME이 설정된 도메인명은 다른 레코드가 존재할
+      수 없음에도 CNAME을 add하는 명령이 해당 도메인의 A, MX와 같은
+      레코드를 자동으로 제거해주지는 않기 때문이다.</p>
+
+      <p>Dynamic Update를 통해 수정된 내역은 즉시 적용되며 <tt
+      class="FILENAME">named</tt>가 종료될 때 해당 Zone
+      데이터베이스에 직접 기록되어 다음번 구동시에도 그 내역이
+      변함없이 적용될 수 있도록 한다.</p>
+
+      <p>Dynamic Update에 대한 요청이 해당 도메인의 Authority를
+      갖는 Secondary로 보내어 졌다면 Secondary 네임서버는 Primary
+      네임서버로 요청을 전달하도록 되어있다. 물론 이러할 경우엔
+      Primary의 allow-update 억세스 리스트에는 Secondary가 포함되어
+      있어야 한다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "advanced-features.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "load-sharing.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">고급 기능</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "advanced-features.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">미러링
+          서버간의 부하 공유</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>RTT(Round Trip Time)와 Nameserver 선택</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Miscellaneous" href="miscellaneous.html">
+    <link rel="PREVIOUS" title=
+    "Iterative(Nonrecursive) &amp; Recursive 네임서버" href=
+    "iterative-and-recursive.html">
+    <link rel="NEXT" title="와일드카드" href="using-wildcard.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "iterative-and-recursive.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 9.
+          Miscellaneous</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "using-wildcard.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="RTT">9.12. RTT(Round Trip Time)와
+      Nameserver 선택</a></h1>
+
+      <p>네임서버간에 질의, 응답에 소요되는 시간을 Round Trip
+      Time이라 한다. (Recursive 모드하에서의 총 검색 시간이 아니다)
+      BIND는 내부적으로 타 네임서버에 대한 RTT 값을 기록하고
+      있다가, 요청 도메인에대한 다수의 Authority NS 중 RTT 값이
+      가장 낮은 네임서버로 먼저 질의한다. Authority NS들에 대한 RTT
+      정보를 갖고있지 않을경우엔, 해당 네임서버 전체에
+      질의(동시에)를 보내어 빠른 응답을 얻음과 함께 부가적으로
+      RTT를 측정한다. RTT가 측정된 다음부터는 해당 도메인에 대한
+      요청이 RTT가 가장 적은 서버로 먼저 보내어 진다. 또한, 몇몇
+      서버만이 계속 사용되는 문제를 막기위해 쿼리를 전송할 때 마다
+      해당 네임서버에 대한 RTT값을 조금씩 증가시킨다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "iterative-and-recursive.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "using-wildcard.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">
+          Iterative(Nonrecursive) &amp; Recursive 네임서버</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "miscellaneous.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">
+          와일드카드</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

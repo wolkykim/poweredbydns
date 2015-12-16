@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>BIND-4(Traditional)와 BIND-8(Next Generation)
+    가지</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Miscellaneous" href="miscellaneous.html">
+    <link rel="PREVIOUS" title="DNS와 BIND의 차이" href=
+    "diff-dns-and-bind.html">
+    <link rel="NEXT" title="퍼블릭 도메인 (Public Domain)" href=
+    "public-domain.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "diff-dns-and-bind.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 9.
+          Miscellaneous</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "public-domain.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="BIND4-AND-BIND8">9.3.
+      BIND-4(Traditional)와 BIND-8(Next Generation) 가지</a></h1>
+
+      <p>BIND는 1999년 1월 현재 BIND-4와 BIND-8의 두 가지가
+      존재한다. 1998년 5월 11일 최종 버전 4.9.7이 릴리즈되며
+      전통적인 BIND-4 가지는 마감되었고, BIND-8 가지는 현재 8.2를
+      릴리즈하고 있다. BIND-8은 <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc2136.txt" target=
+      "_top">RFC2136</a>, <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc1996.txt" target=
+      "_top">RFC1996</a>을 수렴하여 메커니즘과 보안이 크게 개선되어
+      발표되었다. 점진적으로 BIND-8로 옮겨갈 테지만, 현재 대부분의
+      도메인 메니저와 OS 벤더가 오랜기간 검증된 BIND-4를 선택하고
+      있으므로, 두 가지는 앞으로도 상당기간 공존할 것으로 예상된다.
+      하지만, 주 흐름은 BIND-8로 넘어가고 있다.</p>
+
+      <p>BIND-4와 BIND-8의 외부적인 차이는, 부트 파일의 변화이다.
+      BIND-4에서는 부트 파일이 named.boot 이고, BIND-8에서는
+      named.conf 이다. 또한 부트 파일의 작성 방법도 차이가 있다.
+      기타 Zone 파일과 캐쉬 파일 등은 동일하므로, BIND-4에서
+      BIND-8로의 마이그레이션은 소프트웨어를 설치하고, 부트 파일을
+      컨버팅하는 것으로 족하다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "diff-dns-and-bind.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "public-domain.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">DNS와 BIND의
+          차이</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "miscellaneous.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">퍼블릭 도메인
+          (Public Domain)</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

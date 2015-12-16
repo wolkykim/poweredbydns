@@ -1,0 +1,138 @@
+<chapter id="understanding-dns" xreflabel="Domain Name System의 이해">
+  <title>Domain Name System의 이해</title>
+
+  <para>Domain Name System이란 이름과 IP 주소를 매핑하여주는 거대한 분산 네이밍
+  시스템이다. 인터넷에서 사용되는 IP(Internet Protocol), 그리고 IP의 상위에서
+  동작하는 넷스케이프 같은 응용들은 210.105.79.103 과 같이 표현되는 IP 주소만을
+  인식하게 되는데, 이러한 IP 주소는 기계입장에선 해석하기 수월하지만 기억하기가
+  어렵고, IP 주소만으로는 서비스 유형을 예측하기 힘들다는 단점이 있다. 인터넷의
+  도입 시절인 ARPANET 시절부터 IP Address를 이름으로 명명하여 사용하고자 하는
+  노력이 시도되었고, 많은 시행착오는 지금의 DNS 메커니즘으로 발전하였다.</para>
+
+  <para>ARPANET 시절에는 호스트의 수가 많지 않았기에 NIC(Network Information
+  Center)으로부터 일정 주기마다 호스트 명단 파일(HOSTS.TXT)을 받아 /etc/hosts에
+  저장하여 사용하였다. 그러나 점차 인터넷의 규모와 호스트 수가 증가함에 따라
+  새로운 이름 명명 체제의 필요성이 대두되었고, 1983년 Paul Mockapetris가
+  <ulink url="&rfc822;">RFC882</ulink>,
+  <ulink url="&rfc883;">RFC883</ulink>(현재는
+  <ulink url="&rfc1034;">RFC1034</ulink>로 대체됨)에
+  새로운 명명 체제에 대한 구현을 공식 발표하며, 크게 네임스페이스의 계층 구조,
+  분산 데이터베이스, Email 라우팅 개선을 주안점으로 DNS가 탄생하였다.</para>
+
+  <sect1 id="namespace" xreflabel="DNS Namespace">
+    <title>DNS Namespace</title>
+    <para>ARPANET의 중앙 관리 체제에서는 하나의 파일로 모든 호스트들을
+    관리하였지만, DNS에서는 이것을 각 도메인 별로 트리화 하여
+    <xref linkend="fig-namespace">과 같은 형태로 관리한다.</para>
+
+    <figure id="fig-namespace">
+      <title>Namespace 예제</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/dns_namespace.jpg" format="jpg">
+        </imageobject>
+        <textobject><phrase>Namespace 예제</phrase></textobject>
+      </mediaobject>
+    </figure>
+
+    <para>디렉토리 구조와 유사함을 알 수 있는데, Root domain(도트로 표시되는)은
+    Top level 도메인에 관한 정보를, Top level 도메인은 그 하위 도메인에 관한
+    정보를 유지/관리하는 구조를 취한다. 이러한 정보의 계층구조로 인하여 정보는
+    각 도메인의 네임서버(NS:Name Server)로 분산, 관리된다.</para>
+
+    <para>예로 YAHOO.COM 도메인은 COM 네임서버에 등록되어 있고, WWW.YAHOO.COM은
+    YAHOO.COM 네임서버에 등록, 관리된다. 따라서 AV.YAHOO.COM을 등록하기 위해서는
+    YAHOO.COM 도메인을 관리하는 네임서버의 관련 레코드만을 수정함으로써
+    가능하다. 이러한 위임구조는 증가하는 인터넷 호스트에 대한 관리를 효율적으로
+    가능하게 해준다.</para>
+  </sect1>
+
+  <sect1 id="resolving" xreflabel="Domain Name Resolving">
+    <title>Domain Name Resolving</title>
+
+    <figure id="fig-resolving">
+      <title>도메인 네임 Resolving</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/dns_resolving.jpg" format="jpg">
+        </imageobject>
+        <textobject>
+          <phrase>도메인 네임 Resolving</phrase>
+        </textobject>
+      </mediaobject>
+    </figure>
+
+    <para>통신을 위한 TCP/IP 패킷엔 도메인명을 위한 공간이 없다. 따라서
+    도메인명에 대한 IP 변환작업(Resolving)을 선행하게 되는데,
+    <xref linkend="fig-resolving">는 이러한 Resolving 과정을 보여준다.</para>
+
+    <procedure>
+      <step><para>
+        Client상의 응용이 WWW.YAHOO.COM 에 접속하기 위해 자신의 Local Name
+        Server(TCP/IP 설정시     명시한)에 질의한다.
+      </para></step>
+      <step><para>
+        Local NS는 먼저 자신의 캐쉬에 자료가 있는지 확인한 후 발견되지 않을시
+        Root NS(Root NS의     목록은 갖고있다)에 질의를 던진다. 그러나 Root NS도
+        WWW.YAHOO.COM 의 자료를 갖고 있지 않으므로, COM 도메인을 관리하는 NS를
+        참고하라는 답변을 보내준다.
+      </para></step>
+      <step><para>
+        Local NS는 다시 COM NS에 질의를 던지고, COM NS는 다시 YAHOO.COM의 NS를
+        일러준다. (루트(도트)와 COM 도메인은 Root NS에서 같이 관리되기 때문에
+        실제로 본 과정은 일어나지 않고 (2)번에서 바로 YAHOO.COM NS를 참고하라는
+        답변이 나온다.)
+      </para></step>
+      <step><para>
+        Local NS는 YAHOO.COM NS에 질의한다. YAHOO.COM NS는 서브도메인에 대한
+        자료를 관리하는 실제 NS 이므로, WWW.YAHOO.COM 에 대한
+        IP 204.71.200.74를 답변(authoritative answer) 한다.
+        (실제 WWW.YAHOO.COM 에 대한 IP를 resolving 하면 매번 다른 IP 주소가
+        넘어오는 것을 볼 수 있는데, 이는 사이트가 다수의 미러링 서버로 운영되고,
+        부하 공유를 위해 해당 도메인에 다수의 IP를 매핑하였기 때문이다.
+        (참고: <xref linkend="load-sharing">)
+      </para></step>
+      <step><para>
+        마지막으로, Local NS는 Client에게 결과를 전송한다.
+      </para></step>
+    </procedure>
+  </sect1>
+
+  <sect1 id="char-set" xreflabel="도메인명에 사용가능한 문자셋">
+    <title>도메인명에 사용가능한 문자셋</title>
+
+    <para>참고:
+    <ulink url="&rfc1035;">RFC1035</ulink> p7,
+    <ulink url="&rfc1032;">RFC1032</ulink> p2
+    </para>
+
+    <para>'A-Z', 'a-z', '0-9', '-' 가 사용될 수 있다. 도메인명은 반드시 숫자나
+    문자로 시작하여야 하며, 전부 숫자여서는 안 된다.
+    (초기 [<ulink url="&rfc1035;">RFC1035</ulink>]에서는 도메인명이 반드시
+    문자로 시작하도록 제한하였지만,
+    [<ulink url="&rfc1123;">RFC1123</ulink> p12]에서 완화되어 3com.com 같은
+    도메인 사용이 허락되었다.) 또한 하이픈이 앞/뒤에 사용될 수 없고, 도트로
+    분리되는 각 문자열(Each segment)은 최고 63 단어(octet)까지 사용할 수 있도록
+    구현되어 있으며(NIC에서는 12단어 이하로 사용하기를 권장), 대/소문자는
+    구분되지 않는다.</para>
+
+    <para>덧붙여, 도메인명은
+    등록기관(kr 도메인의 경우 <ulink url="http://www.nic.or.kr/">KRNIC</ulink>,
+    com/net/org 등의 도메인은 <ulink url="http://www.networksolutions.com">Network Solutions</ulink>을
+    대표로 <ulink url="http://www.icann.org">ICANN</ulink>의 심사를 획득한 등록 대행 업체들)에 따라,
+    조금씩 상이한 규칙이 적용됨을 유의하자.
+    KRNIC은 숫자로 시작하는 도메인명을 허용하지 않는 반면 세그먼트를 63자까지
+    풀어주지만, Network Solutions에서는 숫자로 시작하는 도메인을 허용하고 세그먼트를
+    22자로 제한한다.</para>
+
+    <para>참고로 도메인명은 통상적으로 Email에도 사용되므로
+    <ulink url="&rfc822;">RFC822</ulink>
+    규칙도 준수해야 할 필요가 있음을 알아야 한다. 하지만, 이는 충분히 자유로워
+    앞의 규칙을 포용하므로, 크게 신경쓸 필요는 없겠다.
+    </para>
+
+    <para>(제작되는 소프트웨어들은 표준의 규격보다 확장되고 유연하게 구현되어
+    실제 숫자로만 된 도메인(예:411.com)도 존재한다. 하지만 표준에 위배되는 것은
+    모든 응용에서 통용되리라 기대할 수 없다는 말이기도 하다)</para>
+  </sect1>
+</chapter>

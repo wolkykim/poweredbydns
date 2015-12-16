@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Iterative(Nonrecursive) &amp; Recursive 네임서버</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Miscellaneous" href="miscellaneous.html">
+    <link rel="PREVIOUS" title="Positive &amp; Negative Caching"
+    href="positive-and-negative-caching.html">
+    <link rel="NEXT" title="RTT(Round Trip Time)와 Nameserver 선택"
+    href="rtt.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "positive-and-negative-caching.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 9.
+          Miscellaneous</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "rtt.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="ITERATIVE-AND-RECURSIVE">9.11.
+      Iterative(Nonrecursive) &amp; Recursive 네임서버</a></h1>
+
+      <p>네임서버가 Recursive 모드로 동작할 때에는, 클라이언트(이를
+      Stub Resolver 라 한다)의 요청에 대해 Namespace를 검색한후
+      결과를 전달한다. 하지만 Iterative 모드에서는 알 수 없는
+      질의(자신이 관리하지 않는 도메인에 대한 요청)에 대해, 응답
+      가능한 NS의 목록을 전달한다. 대부분의 네임서버는 Recursive
+      모드로 동작하며, Iterative 모드는 루트서버와 같이 네임서버를
+      위한 네임서버(네임서버간의 통신에는 Iterative 모드가
+      사용됨)에서 과다한 트래픽을 막기위해 사용한다. 또한,
+      클라이언트는 Iterative 모드로 설정된 네임서버를 사용할 수
+      없으므로, 네임서버 목록(예:resolv.conf, 윈도우의 DNS
+      찾기목록)에 추가하여서는 안 된다. BIND-4에서는 부트파일에
+      'options no-recursion'을 추가함으로써, Iterative 모드로
+      전환할 수 있고, BIND-8의 경우엔 options 엔트리에 'recursion
+      no;'를 설정한다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "positive-and-negative-caching.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "rtt.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Positive &amp;
+          Negative Caching</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "miscellaneous.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">RTT(Round Trip
+          Time)와 Nameserver 선택</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

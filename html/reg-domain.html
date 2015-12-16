@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>퍼블릭 도메인(Public Domain) 신청</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Name Server 운영" href=
+    "running-nameserver.html">
+    <link rel="PREVIOUS" title=
+    "BIND(Berkeley Internet Name Daemon) 설치" href=
+    "bind-installation.html">
+    <link rel="NEXT" title="인버스 도메인(Inverse Domain) 신청"
+    href="reg-inverse.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "bind-installation.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 2.
+          Name Server 운영</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "reg-inverse.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="REG-DOMAIN">2.3. 퍼블릭
+      도메인(Public Domain) 신청</a></h1>
+
+      <p>Primary, Secondary 네임서버가 준비되었고 신청할 도메인이
+      결정되었다면, 상위 도메인 관리 기관(kr 도메인의 경우 <a href=
+      "http://www.nic.or.kr/" target="_top">KRNIC</a>, com/net/org
+      등의 도메인은 <a href="http://www.networksolutions.com"
+      target="_top">Network Solutions</a>을 대표로 <a href=
+      "http://www.icann.org" target="_top">ICANN</a>의 심사를
+      획득한 등록 대행 업체들)에 도메인을 신청하여
+      발급(네임스페이스상에 링크) 받게 된다. 도메인 신청양식은
+      기관마다 조금씩 상이하지만 일반적으로 사용기관, 책임자,
+      관리자, 결제자 , 네임서버 정보가 요구된다. 이중 신청 도메인을
+      네임스페이스에 링크하기 위한 네임서버 정보는 다음과 같이
+      작성한다.</p>
+<pre class="SCREEN">
+    2.   Complete Domain Name.......: <tt class=
+"USERINPUT"><b>NOBREAK.COM</b></tt>
+    7a.  Primary Server Hostname....: <tt class=
+"USERINPUT"><b>NS.NOBREAK.COM</b></tt>
+    7b.  Primary Server Netaddress..: <tt class=
+"USERINPUT"><b>210.105.79.2</b></tt>
+    8a.  Secondary Server Hostname..: <tt class=
+"USERINPUT"><b>NS2.NOBREAK.COM</b></tt>
+    8b.  Secondary Server Netaddress: <tt class=
+"USERINPUT"><b>210.105.79.3</b></tt>
+</pre>
+
+      <p>"NOBREAK.COM"이 등록되었다는 메시지를 받았다면, 다음과
+      같이 해당 도메인의 등록 여부를 확인한다.</p>
+<pre class="SCREEN">
+    $ <tt class=
+"USERINPUT"><b>nslookup -type=ns nobreak.com</b></tt>
+    Server:  ns.nobreak.com
+    Address:  0.0.0.0
+    
+    nobreak.com     nameserver = ns.nobreak.com
+    nobreak.com     nameserver = ns2.nobreak.com
+    ns.nobreak.com  internet address = 210.105.79.2
+    ns2.nobreak.com internet address = 210.105.79.3
+</pre>
+
+      <p>해당 도메인에 대한 네임서버가 신청한 것과 같이 표시된다면,
+      등록이 바르게 진행된 것이다. 아직 등록이 안되었다면, 다음과
+      같은 메시지를 볼 수 있다.</p>
+<pre class="SCREEN">
+    *** local.name.server can't find nobreak.com.: Non-existent host/domain
+</pre>
+
+      <p>"도메인 NOBREAK.COM을 신청하는데 어떻게 그 하부에 있는
+      NS.NOBREAK.COM, NS2.NOBREAK.COM을 사용할수 있습니까?"
+      "NS.NOBREAK.COM은 NOBREAK.COM 도메인 신청이 완료된 후
+      네임서버에서 설정 해주어야 사용할 수 있지 않습니까?"라는
+      의문이 들 수 있는데, 어떤 도메인을 하위 도메인으로 위임하기
+      위한 네임서버 정보는 상위 도메인에서 관리되기 때문에
+      가능하다. (참고: "<a href="glue-record.html">글루
+      레코드</a>")</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "bind-installation.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "reg-inverse.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">BIND(Berkeley
+          Internet Name Daemon) 설치</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "running-nameserver.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">인버스
+          도메인(Inverse Domain) 신청</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>MX와 CNAME의 연동</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="DNS와 Sendmail" href="dns-sendmail.html">
+    <link rel="PREVIOUS" title="MX 레코드를 갖지 않는 호스트" href=
+    "no-mx-hosts.html">
+    <link rel="NEXT" title="Nonrecursive MX lookup" href=
+    "nonrecursive-mx-lookup.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "no-mx-hosts.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 6.
+          DNS와 Sendmail</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "nonrecursive-mx-lookup.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="MX-AND-CNAME">6.3. MX와 CNAME의
+      연동</a></h1>
+
+      <p>참고: <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc974.txt" target=
+      "_top">RFC974</a></p>
+
+      <p>MX 레코드를 CNAME과 연결하는 것은 매우 안 좋은 생각이다.
+      사실 관련 RFC 문서 어디에도 아직 MX 레코드와 CNAME의 연동에
+      대해 주의 수준을 넘어 명확히 제한을 둔 글이 없기 때문에
+      이러한 사용이 반드시 안 된다고 말할 수는 없지만, 다음과 같이
+      불필요한 추가 쿼리로 인해 발생되는 트래픽을 사유로 오랜 기간
+      잘못된 사용으로 인식되어 왔고, 대부분의 관련문서에서는 같은
+      연유로 강력히 사용치 말기를 권한다.</p>
+<pre class="SCREEN">
+    layla           IN      MX 10   marie.nobreak.com.
+    marie           IN      CNAME   suzi.nobreak.com.
+    suzi            IN      CNAME   mailhub.nobreak.com.
+    mailhub         IN      A       210.105.79.75
+                    IN      MX 10   mailhub.nobreak.com.
+</pre>
+
+      <p>layla로 편지를 배달하기 위한 lookup 과정은 다음과
+      같다.</p>
+
+      <div class="PROCEDURE">
+        <ol type="1">
+          <li>
+            <p>lookup layla.nobreak.com -&gt; return
+            marie.nobreak.com</p>
+          </li>
+
+          <li>
+            <p>lookup marie.nobreak.com -&gt; return
+            suzi.nobreak.com</p>
+          </li>
+
+          <li>
+            <p>lookup suzi.nobreak.com -&gt; return
+            mailhub.nobreak.com</p>
+          </li>
+
+          <li>
+            <p>lookup mailhub.nobreak.com -&gt; return
+            210.105.79.75</p>
+          </li>
+        </ol>
+      </div>
+
+      <p>느슨한 표준으로 인해 각각의 응용마다 조금씩 구현이 다른데,
+      대표적으로 BIND의 경우는 이를 잘못된 사용("layla.nobreak.com"
+      IN MX points to a CNAME marie.nobreak.com)이라 Syslog를 통해
+      알려주시만, 몇몇 MTA와 Sendmail는 이를 수용(권장하지는
+      않지만)하고 있다. 하지만, 몇몇 MTA가 해당 시스템으로 편지를
+      배달하지 못하는 잠재적 문제를 안고있기 때문에, MX와 CNAME의
+      연동은 여전히 좋지 않고, 다음과 같이 고쳐져야 한다.</p>
+<pre class="SCREEN">
+    layla           IN      MX 10   mailhub.nobreak.com.
+    marie           IN      CNAME   mailhub.nobreak.com.
+    suzi            IN      CNAME   mailhub.nobreak.com.
+    mailhub         IN      A       210.105.79.75
+                    IN      MX 10   mailhub.nobreak.com.
+</pre>
+
+      <p>또한, 편지 송신전 Sendmail은 수신인의 주소에 포함된
+      CNAME을 실제 호스트명으로 수정한후 배달함에 유의하자. 즉
+      user@marie.nobreak.com 로 보내어지는 편지는,
+      user@mailhub.nobreak.com 으로 번역된 후 송신되며, 이는
+      수신인의 편지 헤더에 표시되는 To: 정보가
+      user@marie.nobreak.com 이 아닌 user@mailhub.nobreak.com 임을
+      뜻한다. 중요한 것은 이러한 변환작업이 송신전에 이루어진다는
+      점이며, 이는 혼란을 야기할 수 있고, 추후 설명할 Sendmail의
+      Virtual Domain 설정에서 기대하지 않은 매핑 문제를 발생시킬
+      수도 있다. 따라서 CNAME으로 지정된 호스트는 메일주소로
+      사용하지 말거나, CNAME 대신 A 레코드와 MX 레코드를 사용하는
+      것이 좋다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "no-mx-hosts.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "nonrecursive-mx-lookup.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">MX 레코드를
+          갖지 않는 호스트</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "dns-sendmail.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">Nonrecursive
+          MX lookup</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

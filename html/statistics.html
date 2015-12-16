@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>BIND Statistics</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="BIND 유지/보수" href=
+    "bind-maintenance.html">
+    <link rel="PREVIOUS" title="BIND Syslog 주의/오류 메시지들"
+    href="bind-syslog-error-messages.html">
+    <link rel="NEXT" title="BIND Debugging Output" href=
+    "bind-debugging.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "bind-syslog-error-messages.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 7.
+          BIND 유지/보수</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "bind-debugging.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="STATISTICS">7.4. BIND
+      Statistics</a></h1>
+
+      <p>네임서버 활용정도와 도메인내에 요구되는 로컬 네임서버
+      개수를 파악하기 위하여, 주기적인 통계 자료 검토가 필요하다.
+      여기서 네임서버 통계 정보 분석에 대해 알아보고자 한다.
+      통계정보는 [그림 6]과 같이 timeout(DNS는 기본적으로 UDP를
+      사용하기 때문에)에 의한 중복된 쿼리를 포함한다.</p>
+
+      <div class="FIGURE">
+        <a name="FIG-QUERY"></a>
+
+        <p><b>Figure 7-1. 네임서버간의 질의 예제</b></p>
+
+        <div class="MEDIAOBJECT">
+          <p><img src="images/statistics.jpg" alt=
+          "네임서버간의 질의 예제"></p>
+        </div>
+      </div>
+
+      <p>BIND로부터 통계 정보를 얻기 위해서는 다음과 같이
+      ILL(BIND-8)/IOT(BIND-4) 시그널을 사용한다. BIND는 시그널을
+      받으면 통계 파일을 <tt class="FILENAME">
+      /var/named/named.stats</tt> 혹은 <tt class="FILENAME">
+      /var/tmp/named.stats</tt>로 출력한다.</p>
+<pre class="SCREEN">
+    # <tt class=
+"USERINPUT"><b>kill -ILL `cat /var/run/named.pid`</b></tt>
+    # <tt class=
+"USERINPUT"><b>ls -al /var/named/named.stats</b></tt>
+    -rw-r--r--   1 root     root        19832 Mar  8 04:51 /var/named/named.stats
+    # <tt class="USERINPUT"><b>cat /var/named/named.stats</b></tt>
+    +++ Statistics Dump +++ (920978301) Tue Mar  9 20:18:21 1999
+    208719  time since boot (secs)
+    3396    time since reset (secs)
+    3       Unknown query types
+    205739  A queries
+    39      NS queries
+    916     SOA queries
+    802719  PTR queries
+    19192   MX queries
+    2       TXT queries
+    15      AAAA queries
+    129     AXFR queries
+    29359   ANY queries
+    
+    ++ Name Server Statistics ++
+    (Legend)
+            RR      RNXD    RFwdR   RDupR   RFail
+            RFErr   RErr    RAXFR   RLame   ROpts
+            SSysQ   SAns    SFwdQ   SDupQ   SErr
+            RQ      RIQ     RFwdQ   RDupQ   RTCP
+            SFwdR   SFail   SFErr   SNaAns  SNXD
+    (Global)
+            447781  164719 227112   869     25991
+            0       245    125      170586  0
+            33963   720395 337570   294284  8122
+            1058113 0      337570   190     0
+            227112  20791  0        228616  298214
+    
+    [210.104.247.129]
+            157     0      0        0       10
+            0       0      0        147     0
+            0       36     146      22      0
+            36      0      0        0       0
+            11      0      0        0       13
+    
+    .
+    .
+    .
+</pre>
+
+      <p>위는 BIND 8.2에서 통계정보를 출력한 예이다.</p>
+<pre class="SCREEN">
+    208719  time since boot (secs)
+    3396    time since reset (secs)
+</pre>
+
+      <p>BIND가 구동된후 운용된 시간과 마지막으로 리로드된(HUP
+      시그널을 받은) 후 경과된 시간을 초단위로 표시한다.</p>
+<pre class="SCREEN">
+    3       Unknown query types
+</pre>
+
+      <p>알려지지 않은 쿼리에 대한 질의 횟수이다. 이는 잘못된
+      구현에 기인하거나, 누군가에 의한 새로운 타입시도
+      때문이다.</p>
+<pre class="SCREEN">
+    205739  A queries
+</pre>
+
+      <p>A 쿼리는 대부분의 응용에서 요구하는 질의이며, 가장 빈번히
+      요구된다.</p>
+<pre class="SCREEN">
+    39      NS queries
+</pre>
+
+      <p>내부적으로 BIND는 루트 서버에 질의 할때, NS 쿼리를
+      사용한다. 해당 서버가 루트 서버가 아닐 경우에는 Dig나
+      Nslookup같은 질의 도구에 의한 명시적 요청을 뜻한다.</p>
+<pre class="SCREEN">
+    916     SOA queries
+</pre>
+
+      <p>SOA 쿼리는 Secondary NS가 해당 Zone의 시리얼 변화를
+      감지하기 위해 사용한다.</p>
+<pre class="SCREEN">
+    802719  PTR queries
+</pre>
+
+      <p>Reverse 도메인을 요구하는 응용들에 의하며 A 쿼리와 함께
+      가장 빈번히 요청된다.</p>
+<pre class="SCREEN">
+    19192   MX queries
+</pre>
+
+      <p>MX 쿼리는 Sendmail과 같은 MTA가 메일 라우팅 정보를
+      습득하기 위해 요청한다.</p>
+<pre class="SCREEN">
+    2       TXT queries
+    15      AAAA queries
+</pre>
+
+      <p>TXT와 AAAA 쿼리는 Dig나 Nslookup같은 DNS 질의 도구에 의해
+      요청된다.</p>
+<pre class="SCREEN">
+    129     AXFR queries
+</pre>
+
+      <p>AXFR 쿼리는 Secondary가 Zone Transfer 할 때 요청되므로, 그
+      수치는 Zone Transfer 횟수를 의미한다.</p>
+<pre class="SCREEN">
+    29359   ANY queries
+</pre>
+
+      <p>Any 쿼리는 근래의 Sendmail이 목적지 호스트의 A, MX, CNAME
+      정보를 얻기 위해 사용한다.</p>
+
+      <p>나머지 통계정보는 개별 호스트(Remote 네임서버와 Stub
+      Resolver)의 통계 정보를 나타낸다. 보통 총 합을 표시하는
+      [Global] 필드 아래로 수백 혹은 수천의 호스트가 나열되는데,
+      개별 서버와의 통계정보는 메모리를 소비할 뿐 일반적으로 중요치
+      않아, BIND-8에서는 기본으로 제거되어 [Global] 필드만이
+      표시된다. 하지만, 개별 호스트별 통계는 송/수신 패킷에 대한
+      자세한 내역을 알려주기 때문에, 일반적인 통계에서 파악할 수
+      없는 문제(네트워크 지연과 같은)를 진단하는데 도움이 되기도
+      한다. 다음과 같이 부트 파일 옵션을 조정함으로써 개별 호스트
+      통계를 가능하게 할 수 있다.</p>
+<pre class="SCREEN">
+    <tt class="USERINPUT"><b>* named.conf (BIND-8)</b></tt>
+    options {
+            host-statistics yes;
+    };
+</pre>
+
+      <p>Legend로 표시되는 구분자들은 각 필드의 의미를 나타내는데,
+      S(Sent)로 시작하는것은 로컬 호스트에서 송신된 쿼리를
+      의미하고, R(Received)은 수신을 뜻한다. 순서와 종류는 BIND의
+      버젼에 따라 조금씩 상이할 수 있다.</p>
+<pre class="SCREEN">
+    RR(Sent us an answer) 447781
+    RQ(Sent us a query) 1058113
+</pre>
+
+      <p>리모트 호스트가 로컬 네임서버로 응답(Answer)한 횟수가
+      RR이며, 질의(Question)한 횟수가 RQ이다. RR이 RQ에 대한 응답은
+      아니므로, RR과 RQ의 수치엔 상관관계가 없다.</p>
+<pre class="SCREEN">
+    RNXD(Sent us a negative response) 164719
+    SNXD(Sent them a negative response) 298214
+</pre>
+
+      <p>RNXD는 요청한 쿼리에 대해 '도메인 없음' 응답을 받았을 경우
+      증가한다. SNXD는 반대로 '도메인 없음' 쿼리를 전송했을
+      경우이다.</p>
+<pre class="SCREEN">
+    RFwdR(Sent us a response we had to fwd) 227112
+    SFwdR(Forwarded a response to them) 227112
+    RFwdQ(Sent us a query we had to forward) 337570
+    SFwdQ(Forwarded a query to them) 337570
+</pre>
+
+      <p>Resolver의 요청에 대해 로컬 네임서버는 네임스페이스를
+      검색하여 최종적으로 리모트 네임서버로부터 응답받은 결과를
+      Resolver에게 통지하는데, RFwdR은 리모트 네임서버로부터
+      응답받은 쿼리(RR)중 포워딩할 쿼리의 개수이고, SFwdR은 실제
+      포워딩한 쿼리 개수이다. 반대로 RFwdQ는 Resolver의 질의(RQ)에
+      대한 포워딩 요청이며, SFwdQ 실제 리모트 네임서버로 질의를
+      포워딩한 경우이다.</p>
+<pre class="SCREEN">
+    RDupR(Sent us an extra answer) 869
+    RDupQ(Sent us a retry) 190
+    SDupQ(Sent them a retry) 294284
+</pre>
+
+      <p>네임서버가 다운되어 Timeout이 야기되거나, 네트워크 장애
+      등의 요소로 호스트간 패킷 송/수신에 지연이 발생할 경우,
+      호스트간에 중복된(Retry) 쿼리 요청이 발생할 수 있다. RDupR은
+      리모트 호스트에서 로컬 네임서버로 전송한 중복된 응답([그림
+      6]의 시나리오 참고) 횟수이며, RDupQ는 로컬 네임서버가 수신한
+      중복 질의(해당 질의를 미처 처리하지 못한 상태에서 수신되는
+      동일한 질의) 횟수이고, SDupQ는 로컬 네임서버가 리모트
+      호스트로 요청한 중복 질의 개수이다.</p>
+<pre class="SCREEN">
+    RFail(Sent us a SERVFAIL) 5176
+    SFail(Sent them a SERVFAIL) 90
+</pre>
+
+      <p>RFail은 호스트(Remote)의 잘못된 Zone 데이터베이스 설정,
+      메모리 할당 오류, Secondary일 경우 Expire된 도메인 등의
+      문제로 기인한 SERVFAIL 응답 횟수를 나타낸다. SFail은 로컬
+      네임서버의 문제로 발송된 SERVFAIL 메시지이다.</p>
+<pre class="SCREEN">
+    RFErr(Sent us a FORMERR) 0
+    SFErr(Sent them a FORMERR) 0
+</pre>
+
+      <p>RFErr은 수신한 FORMERR 응답 횟수를 나타낸다. FORMERR
+      응답은 리모트 네임서버가 문법적 오류가 있는 질의를 받았을 때
+      보내어진다. SFErr은 반대로 로컬 네임서버가 송신한 FORMERR
+      메시지의 개수이다. 네트워크상의 패킷전송에 문제가 발생하지
+      않는 한 본 두 값은 0 이다.</p>
+<pre class="SCREEN">
+    RErr(Sent us some other error) 245
+    SErr(Sent failed) 8122
+</pre>
+
+      <p>수신된 SERVFAIL 과 FORMERR 이외의 모든 수신/송신 오류
+      메시지는 RErr/SErr에 포함된다.</p>
+<pre class="SCREEN">
+    RAXFR(Sent us an AXFR) 125
+</pre>
+
+      <p>AXFR 쿼리는 Secondary가 Zone Transfer 하기 위해 보내어
+      진다. 개별 호스트 항목에서 본 필드가 0 일 경우에는 해당
+      호스트가 로컬 네임서버의 어떠한 도메인에 대해서도 Secondary로
+      동작하지 않음을 뜻한다.</p>
+<pre class="SCREEN">
+    RLame(Sent us a lame delegation) 170586
+</pre>
+
+      <p>위임된 도메인중 몇몇에대해 Authority가 설정되어있지
+      않을경우 본 값은 0이 아니다. 즉 특정 도메인의 네임서버로
+      지정되어 있으나 Primary 혹은 Secondary 설정이 없을
+      경우이다.</p>
+<pre class="SCREEN">
+    ROpts(Sent us some IP options) 0
+</pre>
+
+      <p>IP 옵션이 설정된 패킷을 수신하였을 경우, ROpts가
+      증가한다.</p>
+<pre class="SCREEN">
+    SSysQ(Sent them a sysquery) 33963
+</pre>
+
+      <p>로컬 네임서버의 시스템 쿼리 전송횟수이다. 시스템 쿼리는
+      리모트 네임서버(루트 네임서버를 포함하여) 정보를 업데이트
+      하기 위해 사용된다.</p>
+<pre class="SCREEN">
+    RIQ(Sent us an inverse query) 0
+</pre>
+
+      <p>RIQ는 수신한 Reserve Domain 요청 횟수이지만, 근래의
+      BIND에서는 PTR queries로 흡수되어 더 이상 사용되지 않는다.
+      따라서 RIQ는 항상 0이다.</p>
+<pre class="SCREEN">
+    RTCP(Sent us a query using TCP) 0
+</pre>
+
+      <p>RTCP는 TCP 연결을 통해 수신된 질의 횟수를 의미한다.
+      대부분의 쿼리는 UDP를 통해 송/수신되므로 본 값은 0을 갖거나,
+      비율적으로 매우 적은 수치를 유지한다.</p>
+<pre class="SCREEN">
+    SAns(Sent them an answer) 720395
+    SNaAns(Sent them a non-autoritative answer) 228616
+</pre>
+
+      <p>SAns는 요청된 질의(RQ)에 대한 응답 횟수를 말하며, 결과가
+      캐쉬에서 발견되었을 경우에는 SNaAns가 카운트된다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "bind-syslog-error-messages.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "bind-debugging.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">BIND Syslog
+          주의/오류 메시지들</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "bind-maintenance.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">BIND Debugging
+          Output</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+
