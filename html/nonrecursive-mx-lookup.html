@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Nonrecursive MX lookup</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="DNS와 Sendmail" href="dns-sendmail.html">
+    <link rel="PREVIOUS" title="MX와 CNAME의 연동" href=
+    "mx-and-cname.html">
+    <link rel="NEXT" title="Sendmail의 Virtual Domain 설정" href=
+    "sendmail-virtual-domain.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "mx-and-cname.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 6.
+          DNS와 Sendmail</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "sendmail-virtual-domain.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="NONRECURSIVE-MX-LOOKUP">6.4.
+      Nonrecursive MX lookup</a></h1>
+
+      <p>다음과 같은 경우, mailhub로 배달되는 편지를 고려해보자.
+      일반적으로 편지가 mx2로 배달되리라 기대할 수 있지만,
+      Sendmail은 MX 레코드에대해 Nonrecursive 하기 때문에, 실제
+      편지는 mx1(반드시 A 레코드를 갖어야 한다)으로 배달된다.</p>
+<pre class="SCREEN">
+    mailhub         IN      MX 10   mx1.nobreak.com.
+    mx1             IN      MX 10   mx2.nobreak.com.
+                    IN      A       210.105.79.231
+</pre>
+
+      <p>만약 Sendmail이 MX 레코드를 CNAME같이 Recursive하게
+      쫓아간다면, 다음과 같은 잠재적인 루프를 허용하게 되므로,
+      Sendmail은 MX 레코드를 쫓아가지 않는다.</p>
+<pre class="SCREEN">
+    mailhub         IN      MX 10   mx1.nobreak.com.
+    mx1             IN      MX 10   mx2.nobreak.com.
+    mx2             IN      MX 10   mailhub.nobreak.com.   ; Loop
+</pre>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "mx-and-cname.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "sendmail-virtual-domain.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">MX와 CNAME의
+          연동</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "dns-sendmail.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">Sendmail의
+          Virtual Domain 설정</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

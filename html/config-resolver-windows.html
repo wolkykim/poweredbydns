@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Microsoft Windows 시스템에서의 클라이언트 설정</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="클라이언트(Resolver) 설정" href=
+    "config-resolver.html">
+    <link rel="PREVIOUS" title="클라이언트(Resolver) 설정" href=
+    "config-resolver.html">
+    <link rel="NEXT" title=
+    "도메인 위임 (Domain Parenting &amp; Delegation)" href=
+    "domain-delegation.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "config-resolver.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 3.
+          클라이언트(Resolver) 설정</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "domain-delegation.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="CONFIG-RESOLVER-WINDOWS">3.2.
+      Microsoft Windows 시스템에서의 클라이언트 설정</a></h1>
+
+      <p>Windows에서 Unix 시스템의 <tt class="FILENAME">
+      /etc/resolv.conf</tt> 파일에 해당하는 설정은 '네트워크'에서
+      할 수 있다. '제어판'의 '네트워크' 메뉴중 TCP/IP 프로토콜의
+      등록정보를 열면, <a href=
+      "config-resolver-windows.html#FIG-REVOLVER-SETTING-NT">Figure
+      3-1</a>와 같은 DNS 설정탭을 볼 수 있다.</p>
+
+      <div class="FIGURE">
+        <a name="FIG-REVOLVER-SETTING-NT"></a>
+
+        <p><b>Figure 3-1. Windows NT에서의 Resolver 설정 예</b></p>
+
+        <div class="MEDIAOBJECT">
+          <p><img src="images/win_resolver_setting.jpg" alt=
+          "Windows NT에서의 Resolver 설정 예"></p>
+        </div>
+      </div>
+
+      <p>DNS에 등록된 PC의 호스트명을 '호스트 이름'에 넣는다. Unix
+      시스템의 <tt class="FILENAME">resolv.conf</tt> 파일과
+      비교하여, '도메인'은 'domain'에, 'DNS 서비스 찾기 순서'는
+      'nameserver'에, '도메인 서픽스 찾기 순서'는 'search' 리스트에
+      해당한다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "config-resolver.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "domain-delegation.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">
+          클라이언트(Resolver) 설정</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "config-resolver.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">도메인 위임
+          (Domain Parenting &amp; Delegation)</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

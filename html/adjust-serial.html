@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Serial Number 조정</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Miscellaneous" href="miscellaneous.html">
+    <link rel="PREVIOUS" title="와일드카드" href=
+    "using-wildcard.html">
+    <link rel="NEXT" title="IP 변동에 따른 TTL 조정" href=
+    "adjust-ttl.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "using-wildcard.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 9.
+          Miscellaneous</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "adjust-ttl.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="ADJUST-SERIAL">9.14. Serial Number
+      조정</a></h1>
+
+      <p>거대 도메인을 관리하는 메니저들의 실수 중 하나는 잦은
+      업데이트작업으로 인한 잘못된 Serial 넘버링이다. 일반적인
+      관례인 YYYYMMDDNN 표기법으로는 4294년까지 표기를 할 수
+      있는데, 19990205010과 같이 실수로 삽입된 '0'은 해당 필드를
+      오버플로우 시킨다. 따라서 Secondary의 Zone은 장기간
+      업데이트되지 않을 수 있다. 다음과 같이 문제를 해결할 수
+      있다.</p>
+
+      <ul>
+        <li>
+          <p>Secondary를 직접 관리한다면, 먼저 Primary Zone의
+          Serial을 정상적으로 조정한다. Secondary에 저장되어 있는
+          Zone 파일(Zone Transfer된)을 삭제한후 BIND를 재
+          구동한다.</p>
+        </li>
+
+        <li>
+          <p>Secondary가 타기관에 의해 관리되어 앞의 방법이
+          불가능할 경우, Zone의 Serial을 '0'으로 설정한다.
+          Secondary는 '0'을 Serial로 갖는 Zone에 대해서, 무조건적인
+          업데이트를 강행하므로, Refresh 주기만큼 기다린 후, 다시
+          정상적인 Serial로 조정하면 된다.</p>
+        </li>
+      </ul>
+<pre class="SCREEN">
+    nslookup  -type=SOA  kr.freebsd.org  ns2.nobreak.com
+</pre>
+
+      <p>Secondry가 갖고 있는 해당 Zone의 Serial 번호는 위와 같이
+      확인할 수 있다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "using-wildcard.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "adjust-ttl.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">와일드카드</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "miscellaneous.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">IP 변동에 따른
+          TTL 조정</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

@@ -1,0 +1,497 @@
+<chapter id="dns-sendmail" xreflabel="DNS와 Sendmail">
+  <title>DNS와 Sendmail</title>
+
+  <sect1 id="mx-algorithm" xreflabel="MX 알고리즘">
+    <title>MX 알고리즘</title>
+
+    <para>MX 레코드는 해당 호스트로 수신되는 편지를 다른 호스트로 라우팅 하도록
+    한다. 원격 호스트에서 다음과 같이 설정된 도메인, nobreak.com 으로 편지를
+    송신할 경우에 Sendmail의 동작을 알아보자.</para>
+
+<screen>
+nobreak.com.            IN      MX 10   layla.nobreak.com.
+                        IN      MX 20   marie.nobreak.com.
+                        IN      MX 20   suzi.nobreak.com.
+</screen>
+
+    <procedure>
+      <step>
+        <para>로컬호스트가 해당 도메인에 대해 인증을 갖는지 확인한다.</para>
+      </step>
+      <step>
+        <para>layla로 배달을 시도한다.</para>
+      </step>
+      <step>
+        <para>marie 혹은 suzi로 배달을 시도한다.</para>
+      </step>
+      <step>
+        <para>(3)에서 시도되지 않은 호스트로 배달을 시도한다.</para>
+      </step>
+      <step>
+        <para>자체 큐잉 후, 일정 기간동안 주기적으로 2-4의 과정을 반복한다.
+        </para>
+      </step>
+    </procedure>
+
+    <para>흔히 갖는 잘못된 MX의 이해 중 하나는, layla가 다운되어 marie로 편지가
+    배달되었을 때, 편지가 marie의 메일박스에 저장 된다는 생각으로, 다수의 MX
+    레코드 설정을 꺼리는 경우이다. 이렇게 되면, 사용자 계정을 양쪽 호스트에
+    설정하여 두어야 하며, 사용자는 매번 양쪽의 계정을 모두 확인하여야 한다는
+    노파심 때문일텐데, 일반적으로 낮은 priority를 갖는 호스트는 큐잉서버로
+    동작하도록 설정하기 때문에 결국 편지는 하나의 호스트(layla)로 집결 된다.
+    위의 경우 marie와 suzi의 Sendmail이 다음 조건을 만족하도록 설정되어 있으면
+    메일 큐잉서버로 동작한다.</para>
+
+    <procedure>
+      <step>
+        <para>해당 도메인(nobreak.com)에 대한 인증을 갖지 않아야 한다.</para>
+      </step>
+      <step>
+        <para>서버는 해당 호스트로의 메일 릴레이(Relay)를 허용하여야 한다.
+        </para>
+      </step>
+    </procedure>
+
+    <para>인증을 갖지 않아야 한다는 것은 Sendmail의
+    w 클래스(<filename>sendmail.cw</filename> 혹은
+    <filename>sendmail.cf</filename>의 Cw)에 nobreak.com 도메인이 없어야 함을
+    의미하고, 메일 릴레이란  수신되는 편지의 최종 배달지가 자신이 아닐 경우,
+    즉 인증을 갖지 않을 경우 편지를 해당 호스트로 포워딩함을 뜻한다.
+    </para>
+    
+    <para>
+    근래의 몇몇 OS 배포판들은 기본적으로 Sendmail이 릴레이를 거부하도록 설정되어
+    있는데, 이러할 경우 해당 호스트는 큐잉서버로 동작하지 못함에 유의하자.
+    보통 기관의 SMTP 서버는 타인에 의한 남용을 막기위해 내부 IP(혹은 도메인)에
+    대해서만 릴레이를 허용하도록 설정하지만, 메일 큐잉 서버의 경우는
+    본 Feature를 끄거나 해당 호스트를 목적지로 하는 편지에 대해서는 릴레이를
+    허용하도록(이 말의 의미하는 바를 잘 모르겠다면, 모든 IP에 대해 릴레이를
+    허용토록 설정하라) 조정하여야 한다.
+    (참고: <ulink url="http://www.sendmail.org/tips/relaying.html">Allowing
+    controlled SMTP relaying in Sendmail 8.9</ulink>)
+    </para>
+
+    <para>layla의 수신 불능으로 인해 marie로 전달되는 편지는 메일큐에 저장되어
+    있으면서, 일정 기간(<filename>sendmail.cf</filename>에서 지정된
+    Timeout.queuereturn=5d 만큼)동안 주기적(Sendmail 구동시 지정된, 일반적으로
+    30분 -q30m)으로 배달이 시도된다.
+    따라서 반드시 layla만이 nobreak.com 에 대한 인증을 가져야 한다.</para>
+
+<screen>
+<userinput>* layla의 /etc/sendmail.cw (Solaris: /etc/mail/sendmail.cw)</userinput>
+nobreak.com
+</screen>
+
+    <para>marie와 suzi가 우선순위가 같다는 점에서 다음과 같은 무한루프
+    시나리오를 생각해 볼 수 있다. layla가 다운되었을 경우 편지는
+    marie(혹은 suzi)로 배달될 것이고, 해당 도메인의 큐잉서버인 marie는 다시
+    MX 리스트의 우선순위에 입각하여 포위딩을 시도할 것이다. 결국 편지는 suzi로
+    배달될 것이고 suzi 또한 이 과정을 반복한다.</para>
+
+    <para>정말 그럴까? 그럴수도 있다. 하지만 Sendmail은 편지를 포워딩 하기전에
+    해당 도메인의 MX 리스트를 파악하고, 자신의 인증된
+    도메인(<filename>sendmail.cw</filename>에 기록된)이 포함되어 있는지
+    확인한다. 만약 포함되어 있다면, 매칭되는 도메인중 가장 높은(다수가 매칭 될
+    수도 있기 때문에) 우선순위를 갖는 도메인을 포함하여 같거나  적은(MX 값이 큰)
+    레코드를 MX 리스트에서 제외한다.</para>
+
+<screen>
+nobreak.com.            IN      MX 10   layla.nobreak.com.
+                        <userinput>IN   MX 20   marie.nobreak.com.</userinput> (제외)
+                        <userinput>IN   MX 20   suzi.nobreak.com.</userinput>  (제외)
+</screen>
+
+    <para>결국 marie의 Sendmail이 유지하는 MX 리스트에는 layla만이 남게되고,
+    기대한 바대로 편지는 layla가 정상운영될때 까지 큐잉된다.</para>
+
+<screen>
+nobreak.com.            IN      MX 10   layla.nobreak.com.
+</screen>
+
+    <para>그러나 만약 Sendmail이 자신을 MX 리스트에서 찾지
+    못하면(<filename>sendmail.cw</filename>에 marie.nobreak.com 이 등록되어 있지
+    않으면), suzi로의 불필요한 포워딩이 발생할 것이고, 불행히 suzi 또한 같은
+    상황이라면, 결국 무한루프에 빠질수 있다. Sendmail은 이러한 최악의 상황을
+    막기위해, 최대 포워딩 횟수
+    제한(<filename>sendmail.cf</filename>의 MaxHopCount=17, 기본값 25)을 갖고
+    있으므로, 결국 marie나 suzi중 MaxHopCount에 먼저 걸리는
+    시스템의 관리자(postmaster)와 송신자에게 다음과 같은 내용의 오류 편지를
+    보내어줄 것이다.</para>
+
+<screen><![cdata[
+From: Mail Delivery Subsystem <MAILER-DAEMON@marie.nobreak.com>
+To: postmaster@marie.nobreak.com
+Subject: Returned mail: Too many hops 26 (25 max):...
+
+----- The following addresses had permanent fatal errors -----
+<nobreak@nobreak.com>
+
+ ----- Transcript of session follows -----
+554 Too many hops 26 (25 max):...
+===========================================================
+Received: from suzi.nobreak.com by marie.nobreak.com ...
+Received: from marie.nobreak.com by suzi.nobreak.com ...
+...
+Received: from suzi.nobreak.com by marie.nobreak.com ...
+Received: from marie.nobreak.com by suzi.nobreak.com ...
+...
+]]></screen>
+
+    <para>다음은 단일 큐잉 시스템에서 위와같은 루프가 발생하였을 경우의 메일
+    메시지이다.</para>
+
+<screen>
+nobreak.com.            IN      MX 10   layla.nobreak.com.
+                        IN      MX 20   marie.nobreak.com.
+</screen>
+
+<screen><![cdata[
+From: Mail Delivery Subsystem <MAILER-DAEMON@marie.nobreak.com>
+To: postmaster@marie.nobreak.com
+Subject: Returned mail: Local configuration error
+
+----- The following addresses had permanent fatal errors -----
+<nobreak@nobreak.com>
+
+ ----- Transcript of session follows -----
+553 marie.nobreak.com. config error: mail loops back to me (MX problem?)
+554 <nobreak@nobreak.com>... Local configuration error
+===========================================================
+...
+]]></screen>
+
+    <para>DNS에 등록되어 포인팅되는 호스트명을
+    <filename>sendmail.cw</filename>에 나열하지 않았을
+    경우 발생할 문제에 대해 확신할 수 없다면, alias된 모든 호스트명을
+    <filename>sendmail.cw</filename> 파일에 포함하기 바란다.</para>
+  </sect1>
+
+  <sect1 id="no-mx-hosts" xreflabel="MX 레코드를 갖지 않는 호스트">
+    <title>MX 레코드를 갖지 않는 호스트</title>
+
+    <para>호스트가 편지를 수신한다면 MX 레코드를 갖는 것이 좋다.</para>
+
+<screen>
+mailhub         IN      A       210.105.79.107
+</screen>
+
+    <para>호스트 mailhub는 수신되는 편지를 다른 호스트로 라우팅할 필요가 없기
+    때문에, 관리자는 MX 레코드를 설정하지 않았다. 물론 이것이 오류는 아니지만
+    이러한 경우 인터넷상의 한 MTA가 mailhub로 편지를 송신할때 불필요한 트래픽
+    낭비가 발생할 수 있다.</para>
+
+    <para>Sendmail의 경우를 살펴보자. 먼저 Sendmail은 로컬 네임서버를 통해
+    mailhub를 lookup(type=any) 한다. Authoritative 혹은 Non-authoritative
+    Answer로 A 레코드만을 돌려받게 될텐데, Authoritative Answer의 경우 MX
+    레코드가 없을지라도 결과를 신뢰하여 추가 질의 없이 해당 IP로 접속을
+    시도한다. 하지만 MX 레코드가 없는 Non-authoritative Answer에 대해 Sendmail은
+    명시적으로 MX 레코드를 재 검색한다. 물론 mailhub는 MX 레코드를 갖지 않기
+    때문에 복귀값은 없고 불필요한 질의만을 수행하였을 뿐이다. 편지를 배달한다는
+    점에는 두 경우 모두 전혀 문제 없지만, 후자의 경우와 같은 낭비를 막기 위해서
+    mailhub는 다음과 같이 설정되는 것이 바람직하다.</para>
+
+<screen>
+mailhub         IN      A       210.105.79.107
+                IN      MX 10   mailhub.nobreak.com.
+</screen>
+
+    <para>mailhub 자신이 최종 편지 배달지이기 때문에, 자신을 MX로 설정했다.
+    이렇듯, 편지를 수신하는 모든 호스트는 비록 자기 자신일지라도 한개 이상의
+    MX 레코드를 갖는 것이 좋다.</para>
+  </sect1>
+
+  <sect1 id="mx-and-cname" xreflabel="MX와 CNAME의 연동">
+    <title>MX와 CNAME의 연동</title>
+
+    <para>참고: <ulink url="&rfc974;">RFC974</ulink></para>
+    <para>MX 레코드를 CNAME과 연결하는 것은 매우 안 좋은 생각이다. 사실 관련
+    RFC 문서 어디에도 아직 MX 레코드와 CNAME의 연동에 대해 주의 수준을 넘어
+    명확히 제한을 둔 글이 없기 때문에 이러한 사용이 반드시 안 된다고 말할 수는
+    없지만, 다음과 같이 불필요한 추가 쿼리로 인해 발생되는 트래픽을 사유로 오랜
+    기간 잘못된 사용으로 인식되어 왔고, 대부분의 관련문서에서는 같은 연유로
+    강력히 사용치 말기를 권한다.</para>
+
+<screen>
+layla           IN      MX 10   marie.nobreak.com.
+marie           IN      CNAME   suzi.nobreak.com.
+suzi            IN      CNAME   mailhub.nobreak.com.
+mailhub         IN      A       210.105.79.75
+                IN      MX 10   mailhub.nobreak.com.
+</screen>
+
+    <para>layla로 편지를 배달하기 위한 lookup 과정은 다음과 같다.</para>
+
+    <procedure>
+      <step>
+        <para>lookup layla.nobreak.com -> return marie.nobreak.com</para>
+      </step>
+      <step>
+        <para>lookup marie.nobreak.com   -> return suzi.nobreak.com</para>
+      </step>
+      <step>
+        <para>lookup suzi.nobreak.com    -> return mailhub.nobreak.com</para>
+      </step>
+      <step>
+        <para>lookup mailhub.nobreak.com -> return 210.105.79.75</para>
+      </step>
+    </procedure>
+
+    <para>느슨한 표준으로 인해 각각의 응용마다 조금씩 구현이 다른데, 대표적으로
+    BIND의 경우는 이를 잘못된 사용("layla.nobreak.com" IN MX points to a CNAME
+    marie.nobreak.com)이라 Syslog를 통해 알려주시만, 몇몇 MTA와 Sendmail는 이를
+    수용(권장하지는 않지만)하고 있다. 하지만, 몇몇 MTA가 해당 시스템으로 편지를
+    배달하지 못하는 잠재적 문제를 안고있기 때문에, MX와 CNAME의 연동은 여전히
+    좋지 않고, 다음과 같이 고쳐져야 한다.</para>
+
+<screen>
+layla           IN      MX 10   mailhub.nobreak.com.
+marie           IN      CNAME   mailhub.nobreak.com.
+suzi            IN      CNAME   mailhub.nobreak.com.
+mailhub         IN      A       210.105.79.75
+                IN      MX 10   mailhub.nobreak.com.
+</screen>
+
+    <para>또한, 편지 송신전 Sendmail은 수신인의 주소에 포함된 CNAME을 실제
+    호스트명으로 수정한후 배달함에 유의하자. 즉 user@marie.nobreak.com 로
+    보내어지는 편지는, user@mailhub.nobreak.com 으로 번역된 후 송신되며, 이는
+    수신인의 편지 헤더에 표시되는 To: 정보가 user@marie.nobreak.com 이 아닌
+    user@mailhub.nobreak.com 임을 뜻한다. 중요한 것은 이러한 변환작업이
+    송신전에 이루어진다는 점이며, 이는 혼란을 야기할 수 있고, 추후 설명할
+    Sendmail의 Virtual Domain 설정에서 기대하지 않은 매핑 문제를 발생시킬 수도
+    있다. 따라서 CNAME으로 지정된 호스트는 메일주소로 사용하지 말거나, CNAME
+    대신 A 레코드와 MX 레코드를 사용하는 것이 좋다.</para>
+  </sect1>
+
+  <sect1 id="nonrecursive-mx-lookup" xreflabel="Nonrecursive MX lookup">
+    <title>Nonrecursive MX lookup</title>
+
+    <para>다음과 같은 경우, mailhub로 배달되는 편지를 고려해보자. 일반적으로
+    편지가 mx2로 배달되리라 기대할 수 있지만, Sendmail은 MX 레코드에대해
+    Nonrecursive 하기 때문에, 실제 편지는 mx1(반드시 A 레코드를 갖어야 한다)으로
+    배달된다.</para>
+
+<screen>
+mailhub         IN      MX 10   mx1.nobreak.com.
+mx1             IN      MX 10   mx2.nobreak.com.
+                IN      A       210.105.79.231
+</screen>
+
+    <para>만약 Sendmail이 MX 레코드를 CNAME같이 Recursive하게 쫓아간다면, 다음과
+    같은 잠재적인 루프를 허용하게 되므로, Sendmail은 MX 레코드를 쫓아가지
+    않는다.</para>
+
+<screen>
+mailhub         IN      MX 10   mx1.nobreak.com.
+mx1             IN      MX 10   mx2.nobreak.com.
+mx2             IN      MX 10   mailhub.nobreak.com.   ; Loop
+</screen>
+  </sect1>
+
+  <sect1 id="sendmail-virtual-domain" xreflabel="Sendmail의 Virtual Domain 설정">
+    <title>Sendmail의 Virtual Domain 설정</title>
+
+    <para>하나의 호스트에 연결된 도메인 nobreak.com 과 kr.freebsd.org 에 대해,
+    일반적으로 nobreak@nobreak.com 과 nobreak@kr.freebsd.org 의 수신자는 같다.
+    여기에서는 각각의 도메인별로 aliases 테이블을 갖는 것과 같이, 도메인에 따라
+    수신되는 편지를 다르게 처리하는 방법에 대해 알아본다. 본 글이 Sendmail을
+    주제로 하지는 않기에, Sendmail을 어느 정도 알고 있다는 가정으로 골자내용만을
+    다루도록 하겠다. Sendmail에 익숙치 않다면 내용을 이해하기 위해 RuleSet, m4,
+    aliases, dbm/btree/hash 등에 대한 사전학습이 필요할 수도 있다.</para>
+
+    <para>설명하고자 하는 방법은 Sendmail 8.8 이상에서 가능하므로,먼저 다음과
+    같이 설치된 버젼을 확인한다.</para>
+
+<screen>
+$ <userinput>telnet localhost smtp</userinput>
+Trying 127.0.0.1...
+220 kfug2.kr.freebsd.org ESMTP Sendmail 8.9.3/8.9.3
+</screen>
+
+    <para>버젼이 8.8보다 낮다면,
+    <ulink url="ftp://ftp.sendmail.org/pub/sendmail/">ftp://ftp.sendmail.org/pub/sendmail/</ulink>
+    에서 최신버젼을 구하기 바란다. Sendmail 8.2 이상에서는 domaintable
+    Feature를 사용해 구현될 수 있지만, 여기서 제시하는 Sendmail 8.8 이상의
+    virtusertable Feature로 대체되는 추세이므로 여기에서는 다루지 않겠다.
+    </para>
+
+  <sect2 id="sendmail-m4" xreflabel="m4를 사용한 sendmail.cf 생성">
+    <title>m4를 사용한 sendmail.cf 생성</title>
+
+    <para>먼저 <filename>sendmail-VERSION/cf/cf/</filename>에서 시스템에 적절한
+    mc 파일을 복사한 후, Virtual Domain 설정에 필요한 virtusertable,
+    genericstable Feature를 추가한다. 작성된 mc 파일은 일반적으로 다음과 같이
+    보인다.</para>
+
+<screen>
+<userinput>* generic-bsd4.4.mc 파일을 사용해 작성한 freebsd.mc 파일</userinput>
+divert(0)dnl
+VERSIONID(`@(#)generic-bsd4.4.mc        8.7 (Berkeley) 5/19/1998')
+OSTYPE(bsd4.4)dnl
+DOMAIN(generic)dnl
+MAILER(local)dnl
+MAILER(smtp)dnl
+<userinput>FEATURE(virtusertable, btree /etc/domainaliases.db)dnl</userinput>
+<userinput>FEATURE(genericstable, btree /etc/useraliases.db)dnl</userinput>
+</screen>
+
+    <para>virtusertable Feature는 수신(in-bound)되는 편지를 로컬 사용자로
+    매핑하는 RuleSet을 생성하고, genericstable Feature는 반대로
+    송신(out-bound)되는 편지에 대해 로컬 유저에 대한 메일주소(메일 헤더상의
+    From: 필드)를 매핑하는 RuleSet을 생성한다. DNS의 Forward Zone과 Reverse
+    Zone을 생각하면 되겠다.</para>
+
+    <para>btree 는 해당 테이블(domainaliases.db)이 B-Tree(Berkeley DB)
+    데이터베이스 형태로 저장됨을 의미한다. 가능한 다른 유형으로는
+    hash(Berkeley DB)와 dbm(NDBM)이 있는데, 테이블이 방대할 경우 효율은
+    btree(Berkeley DB) > hash(Berkeley DB) > dbm(NDBM) 순이다. 속도가 빠른
+    btree와 hash를 사용하기 위해서는 Berkeley DB(FreeBSD를 비롯해 몇몇 Unix에는
+    기본으로 포함된다)가 설치되어 있어야 하며, <filename>sendmail</filename>과
+    <filename>makemap</filename> 컴파일시 -DNEWDB 플래그(Berkeley DB가 설치되어
+    있다면 자동으로 -DNEWDB 플래그가 사용된다)를 사용해야 한다.</para>
+
+    <para>Berkeley DB가 설치되어 있지 않을 경우엔
+    -DNDBM 플래그(NDBM 라이브러리는 대부분의 Unix에 기본으로 포함된다)로 컴파일
+    되는데 이때에는 DBM을 사용하여야 한다. 리눅스와 같이 Berkeley DB의 GNU판인
+    GDBM이 사용되는 경우엔 별도의 노력없이 세 종류의 DB를 모두 이용할 수 있다.
+    </para>
+
+    <para>작성된 <filename>freebsd.mc</filename> 파일은 다음과 같이 m4(Macro
+    Language Processor)를 통해 <filename>sendmail.cf</filename>로 변환한다.
+    </para>
+
+<screen>
+# <userinput>cd sendmail-VERSION/cf/cf</userinput>
+# <userinput>m4 ../m4/cf.m4 freebsd.mc > freebsd.cf</userinput>
+# <userinput>cp freebsd.cf /etc/sendmail.cf</userinput>
+</screen>
+
+    <para>만약 기존의 <filename>sendmail.cf</filename>가 유지되어야 하는
+    상황이라면, 실제 본 두 Feature가 생성하는 다음의 RuleSet을 참고하여
+    <filename>sendmail.cf</filename>를 직접 수정하여도 좋다. (RuleSet이 삽입되는
+    위치를 파악하기 위해 m4로 <filename>sendmail.cf</filename>를 생성하여
+    비교하기 바란다)</para>
+
+<screen>
+<userinput>* FEATURE(virtusertable, btree /etc/domainaliases.db)dnl</userinput>
+# Virtual user table (maps incoming users)
+Kvirtuser btree /etc/domainaliases.db
+
+# handle virtual users (RuleSet 0의 Parse1 아래에 위치)
+R$+ < @ $=w . >         $: < $(virtuser $1 @ $2 $@ $1 $: @ $) > $1 < @ $2 . >
+R<@> $+ + $* < @ $* . >
+                        $: < $(virtuser $1 + * @ $3 $@ $1 $: @ $) > $1 + $2 < @ $3 . >
+R<@> $+ + $* < @ $* . >
+                        $: < $(virtuser $1 @ $3 $@ $1 $: @ $) > $1 + $2 < @ $3 . >
+R<@> $+ < @ $+ . >      $: < $(virtuser @ $2 $@ $1 $: @ $) > $1 < @ $2 . >
+R<@> $+                 $: $1
+R< error : $- $+ > $*   $#error $@ $(dequote $1 $) $: $2
+R< $+ > $+ < @ $+ >     $: $>97 $1
+</screen>
+
+<screen>
+<userinput>* FEATURE(genericstable, btree /etc/useraliases.db)dnl</userinput>
+# Generics table (mapping outgoing addresses)
+Kgenerics btree /etc/useraliases.db
+
+# handle generics database (RuleSet 93 아래에 위치)
+R$+ < @ $=G . > $: < $1@$2 > $1 < @ $2 . > @    mark
+R$+ < @ *LOCAL* >       $: < $1@$j > $1 < @ *LOCAL* > @ mark
+R< $+ > $+ < $* > @     $: < $(generics $1 $: $) > $2 < $3 >
+R< > $+ < @ $+ >        $: < $(generics $1 $: $) > $1 < @ $2 >
+R< $* @ $* > $* < $* >  $@ $>3 $1 @ $2                  found qualified
+R< $+ > $* < $* >       $: $>3 $1 @ *LOCAL*             found unqualified
+R< > $*                 $: $1                           not found
+</screen>
+  </sect2>
+
+  <sect2 id="sendmail-virtusertable" xreflabel="Forward-map 테이블 작성">
+    <title>Forward-map 테이블 작성</title>
+
+    <para>먼저, 해당 호스트가 수신하는 도메인을 클래스 w(<filename>sendmail.cw</filename>)에
+    나열하여야 한다.</para>
+
+<screen>
+<userinput>* /etc/sendmail.cw 파일</userinput>
+nobreak.com
+kr.freebsd.org
+</screen>
+
+    <para>domainaliases 파일을 편집기로 열어 다음과 같이 Virtual User Table을
+    작성한다.</para>
+
+<screen>
+<userinput>* /etc/domainaliases 파일</userinput>
+webmaster@nobreak.com           dipper
+moonhunt@nobreak.com            moonhunt@ieee.org
+cjh@nobreak.com                 error:nouser Unknown User
+@nobreak.com                    nobreak
+@kr.freebsd.org                 %1@xfree86.org
+</screen>
+
+    <para>메일주소 webmaster@nobreak.com 는 로컬 사용자 dipper로 매핑되고,
+    moonhunt@nobreak.com 로 배달되는 편지는 moonhunt@ieee.org 로 포워딩 된다.
+    cjh@nobreak.com 으로 배달되는 편지에 대해서는 에러메시지 'Unknown User'로
+    답하며, 그외 nobreak.com 으로 수신되는 모든 편지는 로컬 사용자 nobreak로
+    전달된다. 또한, kr.freebsd.org 로 수신되는 모든 편지는 xfree86.org 의
+    같은 사용자에게 포워딩된다. 다음과 같이 aliases 파일과 연동하여 다수의
+    사용자를 매핑하는것 또한 가능하다.</para>
+
+<screen>
+<userinput>* /etc/domainaliases 파일</userinput>
+announce@kr.freebsd.org         announce.ml
+admin@kr.freebsd.org            admin.ml
+</screen>
+
+<screen>
+<userinput>* /etc/aliases 파일</userinput>
+announce.ml:            :include:/var/ml/announce.ml
+admin.ml:               nobreak, moonhunt@ieee.org
+</screen>
+  </sect2>
+
+  <sect2 id="sendmail-genericstable" xreflabel="Reverse-map 테이블 작성">
+    <title>Reverse-map 테이블 작성</title>
+
+    <para>호스트명이 kfug2.kr.freebsd.org 일때, 시스템에서 out-bound되는 편지는
+    기본적으로 user@kfug2.kr.freebsd.org 를 From으로 갖는다.  다음의
+    Reverse-map 테이블은 로컬 사용자의 메일주소를 변경한다.</para>
+
+<screen>
+<userinput>* /etc/useraliases 파일</userinput>
+nobreak                 nobreak@nobreak.com
+cjh                     cjh@kr.freebsd.org
+</screen>
+  </sect2>
+
+  <sect2 id="sendmail-makemap" xreflabel="테이블 변환 및 실험">
+    <title>테이블 변환 및 실험</title>
+
+    <para>작성된 테이블은 makemap을 사용해 dbm/btree/hash 형태로 변환되어야
+    한다. 여기서는 btree를 사용하였으므로 다음과 같이한다.</para>
+
+<screen>
+# <userinput>makemap btree /etc/domainaliases.db < /etc/domainaliases</userinput>
+# <userinput>makemap btree /etc/useraliases.db < /etc/useraliases</userinput>
+# <userinput>ls /etc/domainaliases* /etc/useraliases*</userinput>
+/etc/domainaliases      /etc/useraliases
+/etc/domainaliases.db   /etc/useraliases.db
+</screen>
+
+    <para>이제 Sendmail을 행업하고 동작을 확인하자.</para>
+
+<screen>
+# <userinput>kill -HUP `cat /var/run/sendmail.pid`</userinput>
+
+# <userinput>sendmail -bv webmaster@nobreak.com</userinput>
+webmaster@nobreak.com... deliverable: mailer local, user dipper
+
+# <userinput>sendmail -bv cjh@nobreak.com</userinput>
+cjh@nobreak.com... Unknown User
+
+# <userinput>sendmail -bv anybody@kr.freebsd.org</userinput>
+anybody@kr.freebsd.org... deliverable: mailer esmtp,
+host xfree86.org., user anybody@xfree86.org
+</screen>
+  </sect2>
+  </sect1>
+</chapter>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>글루 레코드 (Glue Record)</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Miscellaneous" href="miscellaneous.html">
+    <link rel="PREVIOUS" title="Zone 데이터베이스 작성에 대해"
+    href="customrule-zone.html">
+    <link rel="NEXT" title="Lame Delegation" href=
+    "lame-delegation.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "customrule-zone.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 9.
+          Miscellaneous</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "lame-delegation.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="GLUE-RECORD">9.7. 글루 레코드
+      (Glue Record)</a></h1>
+
+      <p>글루 레코드는 NS 레코드의 인자로 주어지는 A 레코드를
+      말하며, 네임서버에 부트스트랩 정보를 제공한다. 다음의 경우
+      ns.nms.nobreak.com 이 글루 레코드이다.</p>
+<pre class="SCREEN">
+    nms.nobreak.com.        IN      NS      ns.nms.nobreak.com.
+    ns.nms.nobreak.com.     IN      A       150.183.110.2       ; 글루 레코드
+</pre>
+
+      <p>하지만, 다음과 같이 외부에서 관리되는 네임서버
+      ns.kr.freebsd.org 로 도메인을 위임하는 경우엔, freebsd.org 의
+      NS에서 글로 레코드 ns.kr.freebsd.org 가 이미 정의되어
+      있으므로 글루 레코드 ns.nms.nobreak.com 에 ns.kr.freebsd.org
+      의 IP를 설정하여 부트스트랩 정보로 사용하여서는 안된다.</p>
+<pre class="SCREEN">
+    nms.nobreak.com.        IN      NS      ns.nms.nobreak.com. ; (X) 중복된 글루 레코드
+    ns.nms.nobreak.com.     IN      A       210.105.79.2
+</pre>
+<pre class="SCREEN">
+    nms.nobreak.com.        IN      NS      ns.kr.freebsd.org.  ; (O) 바른 사용
+</pre>
+
+      <p>이를 중복된 글루 레코드라 하며, 중복된 글루 레코드는
+      네임서버가 새로운 IP 주소로 옮겨가거나 없어지는 것을 어렵게
+      한다. 네임서버에 대한 글루 레코드는 네임스페이스상에 유일하게
+      유지되는것이 좋다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "customrule-zone.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "lame-delegation.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Zone
+          데이터베이스 작성에 대해</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "miscellaneous.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">Lame
+          Delegation</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

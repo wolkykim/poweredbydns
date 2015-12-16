@@ -1,0 +1,650 @@
+<chapter id="bind-maintenance" xreflabel="BIND 유지/보수">
+  <title>BIND 유지/보수</title>
+
+  <sect1 id="bind-signals" xreflabel="BIND 시그널">
+    <title>BIND 시그널</title>
+
+    <para>BIND는 다음과 같이 몇 개의 예약된 시그널을 사용한다. 시그널 중 몇몇에
+    대해서는 파일로 결과를 출력하는데, 파일은 보통
+    <filename>/var/named/</filename> 혹은 <filename>/var/tmp/</filename>
+    디렉토리에 남는다.</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>HUP</term>
+        <listitem>
+          <para>BIND를 재시작 한다. 보통 부트 파일이나 존 데이터베이스를 수정한
+          후, 본 시그널을 사용한다. 하지만 이는 BIND를 종료한후, 재시작하는
+          것과는 다르게, 부트 파일과 수정된 Zone
+          데이터베이스(Serial이 증가한)만을 업데이트하고, 캐쉬를 유지한다.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>INT</term>
+        <listitem>
+          <para>내부적으로 BIND는 루트 캐쉬와 존 데이터베이스들을 $ORIGIN으로
+          분리한 하나의 목록으로 관리하는데, 이 내부 데이터베이스를
+          <filename>named_dump.db</filename> 파일로 저장한다.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>ILL(BIND-8)/IOT(BIND-4)</term>
+        <listitem>
+          <para>BIND의 통계정보를 <filename>named.stats</filename> 파일로
+          생성한다. 네임서버 유지, 관리에 필요한 여러 통계 자료가 들어있다.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>USR1</term>
+        <listitem>
+          <para>디버깅 정보를 <filename>named.run</filename> 파일로 출력한다.
+          BIND는 본 시그널을 받을 때마다 디버깅 레벨을 한 단계씩 증가시키는데,
+          각 레벨마다 표시하는 정보의 유형이 조금씩 상이하며, 일반적으로 레벨이
+          높을수록 보다 자세한 정보가 기록된다.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>USR2</term>
+        <listitem>
+          <para>디버깅 출력을 종료한다.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>WINCH</term>
+        <listitem>
+          <para>BIND는 기본적으로 몇몇 주요 메시지만을 Syslog에 남긴다.
+          본 시그널은 토글 형식으로 작동하며, 요청되는 모든 쿼리를 Syslog에
+          남기도록 한다.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </sect1>
+
+  <sect1 id="bind-syslog-messages" xreflabel="BIND Syslog 메시지들">
+    <title>BIND Syslog 메시지들</title>
+
+    <para>BIND는 Syslog를 통해 일상적 알림에서부터 치명적 오류까지 다양한
+    메시지를 남긴다. 네임서버의 일반적인 오류 및 오동작의 원인은 Syslog에서부터
+    찾아나가는 것이 순서이겠다. Syslog는 /etc/syslog.conf의 설정에 따라
+    다르지만, 보통 /var/log/messages 혹은 /var/adm/messages 파일에 메시지를
+    남긴다.</para>
+
+    <para>다음은, BIND가 구동될 때, HUP 시그널을 받았을 때, 종료될 때 기록되는
+    일상적인 메시지들이다.</para>
+
+<screen>
+Jan  1  5:33:39 ns named[288]: starting.  named 8.2
+Jan  2 16:57:11 ns named[291]: reloading nameserver
+Feb  5  3:34:31 ns named[289]: named shutting down
+</screen>
+
+    <para>Syslog에 남는 메시지의 형식은 '시간 호스트명 named[PID]: 메시지'와
+    같은 형식를 취하는데, BIND-4와 BIND-8 그리고 각 버전별로 사용되는 단어와
+    메시지 양식이 조금씩 상이함에 유의한다.</para>
+
+<screen>
+Feb  1 11:33:40 ns named[288]: master zone "nobreak.com"
+(IN) loaded (serial 1999012901)
+</screen>
+
+    <para>Zone 데이터베이스를 메모리에 적재하였음을 의미한다. BIND-4에서는
+    'primary zone'이라 표현하였지만, BIND-8로 넘어오면서 'master zone'으로
+    명칭이 수정되었다.</para>
+
+    <para>매시간 BIND는 간략한 통계정보를 기록한다. (BIND-4의 일부 버전과 몇몇
+    OS 벤더가 제공하는 BIND는 이 Feature를 기본으로 꺼놓고 있다)</para>
+
+<screen>
+Feb  2 18:57:12 ns named[291]: USAGE 917949432 917837292
+CPU=1558.86u/491.54s CHILDCPU=921.29u/1228.57s
+
+Feb  2 18:57:12 ns named[291]: NSTATS 917949432 917837292
+Unknown=3 A=95677 NS=3 SOA=275 PTR=563972 MX=11355 TXT=16 AXFR=10 ANY=17840
+
+Feb  2 18:57:12 ns named[291]: XSTATS 917949432 917837292
+RR=270905 RNXD=92478 RFwdR=133260 RDupR=505 RFail=8882
+RFErr=0 RErr=75 RAXFR=10 RLame=111437 ROpts=0
+SSysQ=24028 SAns=467186 SFwdQ=221971 SDupQ=255265 SErr=5319
+RQ=689151 RIQ=17 RFwdQ=0 RDupQ=224 RTCP=53 SFwdR=133260
+SFail=290 SFErr=0 SNaAns=189120 SNXD=186481
+</screen>
+
+    <para>각 메시지의 처음에 나오는 2개 숫자는 현재시간과 BIND가 시작된 시간을
+    의미한다. '917949432 - 917837292'를 계산하면, 서버가 운용된 시간(초)을 알
+    수 있다. USAGE는 CPU 사용정도를 나타내는데, 주 CPU가 1558초동안 사용자(u)
+    모드에서, 491초동안 시스템(s) 모드에서 동작하였음을 알 수 있다. CHILDCPU도
+    같은 의미인데, 멀티 프로세스 시스템이 아니라면, CHILDCPU는 0u/0s 로 표시될
+    것이다. NSTATS와 XSTATS는 <xref linkend="statistics">에서 자세히 다룬다.
+    </para>
+
+<screen>
+Feb  5 09:39:05 ns named[26674]: Sent NOTIFY for "nobreak.com IN SOA"
+(nobreak.com); 1 NS, 1 A
+</screen>
+
+    <para>BIND-8에 포함된 Dynamic Update 기능은 Primary가 Secondary에게 Zone
+    데이터베이스가 수정되었으니 업데이트하라는 정보를 보낸다. 본 메시지는
+    nobreak.com 에 대한 Zone 데이터베이스가 업데이트되어 알림 메시지를 보냈다는
+    뜻이다.</para>
+
+<screen>
+Feb  5 09:36:00 ns named[26674]: ns_forw: query(57.132.119.210.in-addr.arpa)
+No possible A RRs
+</screen>
+
+    <para>Resolver가 요청한 도메인(인버스 도메인)을 찾을 수 없을 경우 이다.
+    </para>
+
+<screen>
+Feb  5 09:35:46 ns named[26674]: Lame server on 'ryu.siyon.com'
+(in 'siyon.com'?): [210.105.79.103].53 'ns.mylover.com'
+</screen>
+
+    <para>도메인 siyon.com 이 ns.mylover.com 으로 위임되었으나, 해당
+    네임서버가 Authority 설정이 되어 있지 않은 경우이다. 이것은 외부
+    네트워크에서의 Lame Delegation이므로 신경 쓰지 않아도 좋다.</para>
+  </sect1>
+
+  <sect1 id="bind-syslog-error-messages"
+  xreflabel="BIND Syslog 주의/오류 메시지들">
+    <title>BIND Syslog 주의/오류 메시지들</title>
+
+    <para>다음의 메시지들은 네임스페이스상의 비정상적인 링크와, 잘못된 네임서버
+    설정에 기인한 메시지들이다. 본 메시지 중 몇몇은 타 네임서버에 의한 것이고,
+    의도적인 경우도 있으니, 가능한 범위에서 원인을 제거하도록 한다.</para>
+
+<screen>
+Feb  3 12:53:27 ns named[291]: ns_forw: query(shpark.co.kr)
+contains our address (ns.nobreak.com:210.105.79.2)
+</screen>
+
+    <para>도메인 shpark.co.kr 이 ns.nobreak.com(자신)으로 위임되었으나,
+    Authority가 설정되어 있지 않을 경우이다. 내부 네트워크에 대한 Lame
+    Delegation 메시지이니, 해당 도메인을 확인하고 적절한 조치를 취하도록 한다.
+    </para>
+
+<screen>
+Feb  5 10:09:01 ns named[26674]: "nobreak.com IN NS"
+points to a CNAME (ns.nobreak.com)
+
+Feb  5 10:09:11 ns named[26674]: "nms.nobreak.com IN MX"
+points to a CNAME (mail.nobreak.com)
+
+Feb  5 09:57:15 ns named[26674]: power.nobreak.com has CNAME and other data
+</screen>
+
+    <para>CNAME의 잘못된 사용에 기인한 오류들이다. 특히 MX와 관련된 오류는
+    전체가 아닌 몇몇 MTA(예:sendmail)에서 메일 라우팅에 문제가 생길 수 있기
+    때문에, 원인을 찾기위해 오랜 시간을 허비할 수 있으므로 주의하자. 다음과
+    같은 문법적 오류가 있을 때, 본 메시지들이 나타난다.</para>
+
+<screen>
+nobreak.com.    IN      NS      ns.nobreak.com.   ; (X) ns는 CNAME이다.
+ns              IN      CNAME   mild.nobreak.com.
+
+nms             IN      MX      mail.nobreak.com. ; (X) mail은 CNAME 이다.
+mail            IN      CNAME   mhub.nobreak.com.
+
+power           IN      CNAME   layla.nobreak.com.
+                IN      MX      mhub.nobreak.com. ; (X)추가레코드가 올 수 없다.
+</screen>
+
+    <para>CNAME 레코드는 어떠한 추가 레코드도 갖을 수 없으며, NS/MX/SOA 레코드는
+    CNAME과 연결될 수 없음을 기억하자.</para>
+
+<screen>
+Feb  5 09:24:56 ns2 named-xfer[2502]: record too short from
+[210.105.79.2], zone nobreak.com
+</screen>
+
+    <para>Primary NS가 xfrnets(BIND-4) 혹은 allow-transfer(BIND-8) 옵션으로,
+    Zone Transfer를 막아, 해당 Zone을 갖고 오지 못할 경우이다. 해당 네임서버
+    관리자에게 연락하여, Zone Transfer가 가능하도록 하여야 한다.</para>
+  </sect1>
+
+  <sect1 id="statistics" xreflabel="BIND Statistics">
+    <title>BIND Statistics</title>
+
+    <para>네임서버 활용정도와 도메인내에 요구되는 로컬 네임서버 개수를 파악하기
+    위하여, 주기적인 통계 자료 검토가 필요하다. 여기서 네임서버 통계 정보 분석에
+    대해 알아보고자 한다. 통계정보는 [그림 6]과 같이 timeout(DNS는 기본적으로
+    UDP를 사용하기 때문에)에 의한 중복된 쿼리를 포함한다.</para>
+
+    <figure id="fig-query">
+      <title>네임서버간의 질의 예제</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/statistics.jpg" format="jpg">
+        </imageobject>
+        <textobject>
+          <phrase>네임서버간의 질의 예제</phrase>
+        </textobject>
+      </mediaobject>
+    </figure>
+
+    <para>BIND로부터 통계 정보를 얻기 위해서는 다음과 같이
+    ILL(BIND-8)/IOT(BIND-4) 시그널을 사용한다. BIND는 시그널을 받으면 통계
+    파일을 <filename>/var/named/named.stats</filename> 혹은
+    <filename>/var/tmp/named.stats</filename>로 출력한다.</para>
+
+<screen>
+# <userinput>kill -ILL `cat /var/run/named.pid`</userinput>
+# <userinput>ls -al /var/named/named.stats</userinput>
+-rw-r--r--   1 root     root        19832 Mar  8 04:51 /var/named/named.stats
+# <userinput>cat /var/named/named.stats</userinput>
++++ Statistics Dump +++ (920978301) Tue Mar  9 20:18:21 1999
+208719  time since boot (secs)
+3396    time since reset (secs)
+3       Unknown query types
+205739  A queries
+39      NS queries
+916     SOA queries
+802719  PTR queries
+19192   MX queries
+2       TXT queries
+15      AAAA queries
+129     AXFR queries
+29359   ANY queries
+
+++ Name Server Statistics ++
+(Legend)
+        RR      RNXD    RFwdR   RDupR   RFail
+        RFErr   RErr    RAXFR   RLame   ROpts
+        SSysQ   SAns    SFwdQ   SDupQ   SErr
+        RQ      RIQ     RFwdQ   RDupQ   RTCP
+        SFwdR   SFail   SFErr   SNaAns  SNXD
+(Global)
+        447781  164719 227112   869     25991
+        0       245    125      170586  0
+        33963   720395 337570   294284  8122
+        1058113 0      337570   190     0
+        227112  20791  0        228616  298214
+
+[210.104.247.129]
+        157     0      0        0       10
+        0       0      0        147     0
+        0       36     146      22      0
+        36      0      0        0       0
+        11      0      0        0       13
+
+.
+.
+.
+</screen>
+
+    <para>위는 BIND 8.2에서 통계정보를 출력한 예이다.</para>
+
+<screen>
+208719  time since boot (secs)
+3396    time since reset (secs)
+</screen>
+
+    <para>BIND가 구동된후 운용된 시간과 마지막으로 리로드된(HUP 시그널을 받은)
+    후 경과된 시간을 초단위로 표시한다.</para>
+
+<screen>
+3       Unknown query types
+</screen>
+
+    <para>알려지지 않은 쿼리에 대한 질의 횟수이다. 이는 잘못된 구현에
+    기인하거나, 누군가에 의한 새로운 타입시도 때문이다.</para>
+
+<screen>
+205739  A queries
+</screen>
+
+    <para>A 쿼리는 대부분의 응용에서 요구하는 질의이며, 가장 빈번히 요구된다.
+    </para>
+
+<screen>
+39      NS queries
+</screen>
+
+    <para>내부적으로 BIND는 루트 서버에 질의 할때, NS 쿼리를 사용한다. 해당
+    서버가 루트 서버가 아닐 경우에는 Dig나 Nslookup같은 질의 도구에 의한 명시적
+    요청을 뜻한다.</para>
+
+<screen>
+916     SOA queries
+</screen>
+
+    <para>SOA 쿼리는 Secondary NS가 해당 Zone의 시리얼 변화를 감지하기 위해
+    사용한다.</para>
+
+<screen>
+802719  PTR queries
+</screen>
+
+    <para>Reverse 도메인을 요구하는 응용들에 의하며 A 쿼리와 함께 가장 빈번히
+    요청된다.</para>
+
+<screen>
+19192   MX queries
+</screen>
+
+    <para>MX 쿼리는 Sendmail과 같은 MTA가 메일 라우팅 정보를 습득하기 위해
+    요청한다.</para>
+
+<screen>
+2       TXT queries
+15      AAAA queries
+</screen>
+
+    <para>TXT와 AAAA 쿼리는 Dig나 Nslookup같은 DNS 질의 도구에 의해 요청된다.
+    </para>
+
+<screen>
+129     AXFR queries
+</screen>
+
+    <para>AXFR 쿼리는 Secondary가 Zone Transfer 할 때 요청되므로, 그 수치는
+    Zone Transfer 횟수를 의미한다.</para>
+
+<screen>
+29359   ANY queries
+</screen>
+
+    <para>Any 쿼리는 근래의 Sendmail이 목적지 호스트의 A, MX, CNAME 정보를 얻기
+    위해 사용한다.</para>
+
+    <para>나머지 통계정보는 개별 호스트(Remote 네임서버와 Stub Resolver)의 통계
+    정보를 나타낸다. 보통 총 합을 표시하는 [Global] 필드 아래로 수백 혹은 수천의
+    호스트가 나열되는데, 개별 서버와의 통계정보는 메모리를 소비할 뿐 일반적으로
+    중요치 않아, BIND-8에서는 기본으로 제거되어 [Global] 필드만이 표시된다.
+    하지만, 개별 호스트별 통계는 송/수신 패킷에 대한 자세한 내역을 알려주기
+    때문에, 일반적인 통계에서 파악할 수 없는 문제(네트워크 지연과 같은)를
+    진단하는데 도움이 되기도 한다. 다음과 같이 부트 파일 옵션을 조정함으로써
+    개별 호스트 통계를 가능하게 할 수 있다.</para>
+
+<screen>
+<userinput>* named.conf (BIND-8)</userinput>
+options {
+        host-statistics yes;
+};
+</screen>
+
+    <para>Legend로 표시되는 구분자들은 각 필드의 의미를 나타내는데, S(Sent)로
+    시작하는것은 로컬 호스트에서 송신된 쿼리를 의미하고, R(Received)은 수신을
+    뜻한다. 순서와 종류는 BIND의 버젼에 따라 조금씩 상이할 수 있다.</para>
+
+<screen>
+RR(Sent us an answer) 447781
+RQ(Sent us a query) 1058113
+</screen>
+
+    <para>리모트 호스트가 로컬 네임서버로 응답(Answer)한 횟수가 RR이며,
+    질의(Question)한 횟수가 RQ이다. RR이 RQ에 대한 응답은 아니므로, RR과 RQ의
+    수치엔 상관관계가 없다.</para>
+
+<screen>
+RNXD(Sent us a negative response) 164719
+SNXD(Sent them a negative response) 298214
+</screen>
+
+    <para>RNXD는 요청한 쿼리에 대해 '도메인 없음' 응답을 받았을 경우 증가한다.
+    SNXD는 반대로 '도메인 없음' 쿼리를 전송했을 경우이다.</para>
+
+<screen>
+RFwdR(Sent us a response we had to fwd) 227112
+SFwdR(Forwarded a response to them) 227112
+RFwdQ(Sent us a query we had to forward) 337570
+SFwdQ(Forwarded a query to them) 337570
+</screen>
+
+    <para>Resolver의 요청에 대해 로컬 네임서버는 네임스페이스를 검색하여
+    최종적으로 리모트 네임서버로부터 응답받은 결과를 Resolver에게 통지하는데,
+    RFwdR은 리모트 네임서버로부터 응답받은 쿼리(RR)중 포워딩할 쿼리의 개수이고,
+    SFwdR은 실제 포워딩한 쿼리 개수이다. 반대로 RFwdQ는 Resolver의 질의(RQ)에
+    대한 포워딩 요청이며, SFwdQ 실제 리모트 네임서버로 질의를 포워딩한 경우이다.
+    </para>
+
+<screen>
+RDupR(Sent us an extra answer) 869
+RDupQ(Sent us a retry) 190
+SDupQ(Sent them a retry) 294284
+</screen>
+
+    <para>네임서버가 다운되어 Timeout이 야기되거나, 네트워크 장애 등의 요소로
+    호스트간 패킷 송/수신에 지연이 발생할 경우, 호스트간에 중복된(Retry) 쿼리
+    요청이 발생할 수 있다. RDupR은 리모트 호스트에서 로컬 네임서버로 전송한
+    중복된 응답([그림 6]의 시나리오 참고) 횟수이며, RDupQ는 로컬 네임서버가
+    수신한 중복 질의(해당 질의를 미처 처리하지 못한 상태에서 수신되는 동일한
+    질의) 횟수이고, SDupQ는 로컬 네임서버가 리모트 호스트로 요청한 중복 질의
+    개수이다.</para>
+
+<screen>
+RFail(Sent us a SERVFAIL) 5176
+SFail(Sent them a SERVFAIL) 90
+</screen>
+
+    <para>RFail은 호스트(Remote)의 잘못된 Zone 데이터베이스 설정, 메모리 할당
+    오류, Secondary일 경우 Expire된 도메인 등의 문제로 기인한 SERVFAIL 응답
+    횟수를 나타낸다. SFail은 로컬 네임서버의 문제로 발송된 SERVFAIL 메시지이다.
+    </para>
+
+<screen>
+RFErr(Sent us a FORMERR) 0
+SFErr(Sent them a FORMERR) 0
+</screen>
+
+    <para>RFErr은 수신한 FORMERR 응답 횟수를 나타낸다. FORMERR 응답은 리모트
+    네임서버가 문법적 오류가 있는 질의를 받았을 때 보내어진다. SFErr은 반대로
+    로컬 네임서버가 송신한 FORMERR 메시지의 개수이다. 네트워크상의 패킷전송에
+    문제가 발생하지 않는 한 본 두 값은 0 이다.</para>
+
+<screen>
+RErr(Sent us some other error) 245
+SErr(Sent failed) 8122
+</screen>
+
+    <para>수신된 SERVFAIL 과 FORMERR 이외의 모든 수신/송신 오류 메시지는
+    RErr/SErr에 포함된다.</para>
+
+<screen>
+RAXFR(Sent us an AXFR) 125
+</screen>
+
+    <para>AXFR 쿼리는 Secondary가 Zone Transfer 하기 위해 보내어 진다. 개별
+    호스트 항목에서 본 필드가 0 일 경우에는 해당 호스트가 로컬 네임서버의
+    어떠한 도메인에 대해서도 Secondary로 동작하지 않음을 뜻한다.</para>
+
+<screen>
+RLame(Sent us a lame delegation) 170586
+</screen>
+
+    <para>위임된 도메인중 몇몇에대해 Authority가 설정되어있지 않을경우 본 값은
+    0이 아니다. 즉 특정 도메인의 네임서버로 지정되어 있으나 Primary 혹은
+    Secondary 설정이 없을 경우이다.</para>
+
+<screen>
+ROpts(Sent us some IP options) 0
+</screen>
+
+    <para>IP 옵션이 설정된 패킷을 수신하였을 경우, ROpts가 증가한다.</para>
+
+<screen>
+SSysQ(Sent them a sysquery) 33963
+</screen>
+
+    <para>로컬 네임서버의 시스템 쿼리 전송횟수이다. 시스템 쿼리는 리모트
+    네임서버(루트 네임서버를 포함하여) 정보를 업데이트 하기 위해 사용된다.
+    </para>
+
+<screen>
+RIQ(Sent us an inverse query) 0
+</screen>
+
+    <para>RIQ는 수신한 Reserve Domain 요청 횟수이지만, 근래의 BIND에서는 PTR
+    queries로 흡수되어 더 이상 사용되지 않는다. 따라서 RIQ는 항상 0이다.</para>
+
+<screen>
+RTCP(Sent us a query using TCP) 0
+</screen>
+
+    <para>RTCP는 TCP 연결을 통해 수신된 질의 횟수를 의미한다. 대부분의 쿼리는
+    UDP를 통해 송/수신되므로 본 값은 0을 갖거나, 비율적으로 매우 적은 수치를
+    유지한다.</para>
+
+<screen>
+SAns(Sent them an answer) 720395
+SNaAns(Sent them a non-autoritative answer) 228616
+</screen>
+
+    <para>SAns는 요청된 질의(RQ)에 대한 응답 횟수를 말하며, 결과가 캐쉬에서
+    발견되었을 경우에는 SNaAns가 카운트된다.</para>
+  </sect1>
+
+  <sect1 id="bind-debugging" xreflabel="BIND Debugging Output">
+    <title>BIND Debugging Output</title>
+
+    <para>BIND의 디버깅 출력은 개발자들이 소프트웨어를 메인터넌스할 목적으로
+    활용되므로, 또 다른 구현을 생각하거나 BIND의 동작을 파악하기 위한 이유가
+    아니라면, 굳이 이를 모두 이해하려 할 필요는 없다. 하지만 BIND를 좀더 깊숙이
+    이해하고 그 응용을 극대화 하고자 한다면, 디버깅 정보 분석에 많은 재미를
+    느낄 수 있을 것이다. 여기 모두는 아니지만 디버깅 출력정보를 해석하는
+    기본적인 아이디어를 소개한다.</para>
+
+<screen>
+# <userinput>kill -USR1 `cat /var/run/named.pid`</userinput> (or 'ndc trace')
+# <userinput>ping www.openbsd.org.</userinput>
+# <userinput>kill -USR2 `cat /var/run/named.pid`</userinput> (or 'ndc notrace')
+# <userinput>ls -al /var/named/named.run</userinput>
+-rw-r--r--  1 root  bin  1153 Mar 10 00:30 named.run
+</screen>
+
+    <para>BIND는 USR1 시그널은 받을때마다 디버깅 레벌을 한단계씩 높여가는데,
+    높은 디버깅 레벨은 좀더 자세한 정보를 표시하여 준다. 디버깅 출력은
+    <filename>/var/named/named.run</filename> 혹은
+    <filename>/var/tmp/named.run</filename> 파일로 생성되며, 매우 빠르게
+    증가하므로 필요한 정보가 잡혔다고 판단되는 시점에서 USR2 시그널을 이용해
+    출력을 정지시키기 바란다. BIND 디버깅 출력은 다발적으로 발생하는 쿼리에
+    대한 정보가 모두 기록되므로, 때론 원하는 정보를 추리는데 약간의 인내심이
+    필요할 수도 있다. BIND의 초기화 과정을 살펴보고자 한다면
+    <command>named -d 1 &</command>과 같이 부팅시 커맨드라인 옵션을 주어야
+    한다. </para>
+
+<screen>
+datagram from [210.105.79.6].3442, fd 21, len 33;
+</screen>
+
+   <para>이것은 호스트 210.105.79.6 에서 포트 3442번으로 길이 33 byte의 UDP
+   패킷이 파일 디스크립터 6번을 통해 수신되었음을 뜻한다. 여기서 말하는 파일
+   디스크립터란 서버 IP 주소(패킷을 listen 하는)에 bound된 소켓 핸들러를 말한다.
+   </para>
+
+<screen>
+req: nlookup(www.openbsd.org) id 28375 type=1 class=1
+</screen>
+
+    <para>요청된 datagram은 www.openbsd.org 에 대한 질의(req)임을 알 수 있다.
+    구체적으로 클래스 IN(class=1)에 대한 A(type=1) 레코드 요청이며 내부
+    구분번호는 28375로 매겨졌다.</para>
+
+<screen>
+req: missed 'www.openbsd.org' as '' (cname=0)
+</screen>
+
+    <para>요청 도메인에 대해 알고있는 자료가 없음(네임서버가 해당 도메인에 대해
+    Authority를 갖고 있지 않으며, 캐쉬에서도 찾을 수 없을 때)을 뜻한다.
+    cname=0 는 www.openbsd.org 가 CNAME으로 설정되지 않았음을 말하는데,
+    물론 지금 단계에서는 BIND가 해당 도메인의 CNAME 설정여부를 알아낼 수 없지만,
+    본 값이 0이 아닐 경우에는 CNAME이 가르키는 도메인을 대신 찾는다.</para>
+
+<screen>
+forw: forw -> [198.41.0.10].53 ds=23 nsid=19461 id=28375 5ms retry 4sec
+</screen>
+
+    <para>자체 lookup에 실패하였기 때문에 다음 단계로 질의를
+    'J.ROOT-SERVERS.NET(198.41.0.10:53)'으로 포워딩 한다.</para>
+
+<screen>
+datagram from [198.41.0.10].53, fd 21, len 449;
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 19461
+;; flags: qr; Ques: 1, Ans: 0, Auth: 12, Addit: 12
+;; QUESTIONS:
+;;      www.openbsd.org, type = A, class = IN
+
+;; AUTHORITY RECORDS:
+ORG.    518400  IN      NS      A.ROOT-SERVERS.NET.
+ORG.    518400  IN      NS      I.ROOT-SERVERS.NET.
+ORG.    518400  IN      NS      K.GTLD-SERVERS.NET.
+
+;; ADDITIONAL RECORDS:
+A.ROOT-SERVERS.NET.     3600000 IN      A       198.41.0.4
+I.ROOT-SERVERS.NET.     3600000 IN      A       192.36.148.17
+K.GTLD-SERVERS.NET.     518400  IN      A       195.8.99.11
+</screen>
+
+    <para>J.ROOT-SERVERS.NET 이 요청에 대한 응답을 보내어 왔다. 이처럼 응답이
+    delegation에 대한 레퍼런싱일 경우 관련 내용이 모두 출력된다. 결과는 캐쉬에
+    저장된다.</para>
+
+<screen>
+resp: nlookup(www.openbsd.org) qtype=1
+</screen>
+
+    <para>캐쉬에서 www.openbsd.org. 를 다시 찾는다.</para>
+
+<screen>
+resp: found 'www.openbsd.org' as 'org' (cname=0)
+resp: forw -> [195.8.99.11].53 ds=23 nsid=19462 id=28375 1ms
+</screen>
+
+    <para>완벽한 결과는 아니지만, ORG 레벨에서 위임정보를 발견하였기 때문에,
+    'K.GTLD-SERVERS.NET(195.8.99.11)'으로 질의를 포워딩 한다.</para>
+
+<screen>
+datagram from [195.8.99.11].53, fd 21, len 219;
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 19462
+;; flags: qr rd; Ques: 1, Ans: 0, Auth: 5, Addit: 3
+;; QUESTIONS:
+;;      www.openbsd.org, type = A, class = IN
+
+
+;; AUTHORITY RECORDS:
+OPENBSD.org.    172800  IN      NS      ZEUS.THEOS.COM.
+OPENBSD.org.    172800  IN      NS      CVS.OPENBSD.org.
+OPENBSD.org.    172800  IN      NS      NS.SIGMASOFT.COM.
+
+;; ADDITIONAL RECORDS:
+ZEUS.THEOS.COM.         172800  IN      A       199.185.137.1
+CVS.OPENBSD.org.        172800  IN      A       199.185.137.3
+NS.SIGMASOFT.COM.       172800  IN      A       209.249.129.35
+</screen>
+
+    <para>K.GTLD-SERVERS.NET 으로부터 위임정보에 대한 레퍼런싱 응답이 돌아왔다.
+    </para>
+
+<screen>
+resp: nlookup(www.openbsd.org) qtype=1
+resp: found 'www.openbsd.org' as 'openbsd.org' (cname=0)
+</screen>
+
+    <para>캐쉬에서 www.openbsd.org. 를 찾는 과정 중, openbsd.org. 레벨의
+    위임을 발견했다.</para>
+
+<screen>
+resp: forw -> [199.185.137.3].53 ds=23 nsid=19467 id=28375 22ms
+datagram from [199.185.137.3].53, fd 21, len 272;
+</screen>
+
+    <para>CVS.OPENBSD.ORG(199.185.137.3) 로 질의를 포워딩한 후, 기대한
+    응답(A)을 수신하였다. (디버깅 레벨 1에서는 위임 정보만이 표시되기 때문에,
+    결과의 내용을 보고자 할 경우에는 더 높은 디버깅 레벨을 적용하여야만 한다)
+    </para>
+
+<screen>
+send_msg -> [210.105.79.6].3442 (UDP 21) id=28375
+</screen>
+
+    <para>마지막으로 검색된 결과를 클라이언트에 응답함으로써, 28375 쿼리에 대한
+    처리가 성공적으로 마무리되었다.</para>
+  </sect1>
+</chapter>

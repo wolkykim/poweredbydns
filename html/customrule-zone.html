@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Zone 데이터베이스 작성에 대해</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Miscellaneous" href="miscellaneous.html">
+    <link rel="PREVIOUS" title="CNAME의 사용에 관해" href=
+    "using-cname.html">
+    <link rel="NEXT" title="글루 레코드 (Glue Record)" href=
+    "glue-record.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "using-cname.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 9.
+          Miscellaneous</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "glue-record.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="CUSTOMRULE-ZONE">9.6. Zone
+      데이터베이스 작성에 대해</a></h1>
+
+      <p>일반적으로 다음의 규칙을 준수해 Zone 데이터베이스를
+      작성하면 실수를 줄이는데 도움이 된다.</p>
+
+      <ul>
+        <li>
+          <p>TAB을 사용해 열을 맞춘다. 이것은 빠진 레코드를 찾는데
+          도움이 된다.</p>
+        </li>
+
+        <li>
+          <p>TTL 값들은 모두 초단위를 사용하거나 2D, 1W와 같이 모두
+          단위기호를 사용해 일률적으로 기입한다.</p>
+        </li>
+
+        <li>
+          <p>호스트 정의는 다음과 같이 모두 호스트명만을
+          사용하거나, 모두 FQDN 표기한다.</p>
+<pre class="SCREEN">
+    ftp                     IN      MX      mail
+    www                     IN      CNAME   power
+    
+    ftp.nobreak.com.        IN      MX      mail.nobreak.com.
+    www.nobreak.com.        IN      CNAME   power.nobreak.com.
+</pre>
+
+          <p>혹은 좌측은 호스트명을 우측엔 FQDN 표기한다. 타 기관의
+          호스트를 CNAME으로 연결할 경우가 있기 때문에 이것이 좀더
+          일반적이고 많이 사용된다.</p>
+<pre class="SCREEN">
+    ftp                     IN      MX      mail.nobreak.com.
+    www                     IN      CNAME   power.nobreak.com.
+</pre>
+        </li>
+
+        <li>
+          <p>가능하면, 알파벳 순서대로 나열하여, 중복 정의되는
+          부분이 없도록 한다.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "using-cname.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "glue-record.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">CNAME의 사용에
+          관해</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "miscellaneous.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">글루 레코드
+          (Glue Record)</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>클라이언트(Resolver) 설정</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="PREVIOUS" title="Name Server 동작 확인" href=
+    "verify-nameserver.html">
+    <link rel="NEXT" title=
+    "Microsoft Windows 시스템에서의 클라이언트 설정" href=
+    "config-resolver-windows.html">
+  </head>
+
+  <body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "verify-nameserver.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">
+          </td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "config-resolver-windows.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="CHAPTER">
+      <h1><a name="CONFIG-RESOLVER">Chapter 3. 클라이언트(Resolver)
+      설정</a></h1>
+
+      <div class="TOC">
+        <dl>
+          <dt><b>Table of Contents</b></dt>
+
+          <dt>3.1. <a href=
+          "config-resolver.html#CONFIG-RESOLVER-UNIX">Unix
+          시스템에서의 클라이언트 설정</a></dt>
+
+          <dt>3.2. <a href="config-resolver-windows.html">Microsoft
+          Windows 시스템에서의 클라이언트 설정</a></dt>
+        </dl>
+      </div>
+
+      <div class="SECT1">
+        <h1 class="SECT1"><a name="CONFIG-RESOLVER-UNIX">3.1. Unix
+        시스템에서의 클라이언트 설정</a></h1>
+
+        <p>Unix 시스템상에서 DNS를 사용하기 위해서는 <tt class=
+        "FILENAME">/etc/resolv.conf</tt> 파일과, <tt class=
+        "FILENAME">/etc/nsswitch.conf</tt> 파일을 손보아야 한다.
+        <tt class="FILENAME">/etc/resolv.conf</tt>에는 도메인
+        Resolving시 쿼리를 던질 네임서버를 3개까지 나열할 수 있다.
+        일반적으로 로컬 Primary, Secondary, ISP 네임서버 3개를
+        다음과 같이 명시한다.</p>
+<pre class="SCREEN">
+    search nobreak.com       # 도메인 서픽스(Suffix)
+    nameserver 210.105.79.2  # ns.nobreak.com
+    nameserver 210.105.79.3  # ns2.nobreak.com
+    nameserver 168.126.63.1  # ns.kornet.ne.kr (사용하는 ISP의 NS)
+</pre>
+
+        <p>'search nobreak.com'은 호스트명만 주었을 경우 서픽스로
+        사용할 도메인을 뜻한다. 다른 도메인의 호스트에 자주
+        접속하거나, 여러 도메인을 관리한다면, 해당 도메인을 다음과
+        같이 여럿 놓을 수도 있다.</p>
+<pre class="SCREEN">
+    search nobreak.com
+    search kr.freebsd.org
+</pre>
+
+        <p>이런 경우엔 호스트명 www는 먼저 www.nobreak.com으로
+        확장되어 검색되고, 검색되지 않을 경우 www.kr.freebsd.org로
+        확장되어 다시 검색된다. 잘못된 호스트명을 주었을때도,
+        가능한 조합을 모두 검색하므로, 많은 도메인을 search
+        리스트에 포함하는 것은 바람직하지 않다.</p>
+
+        <p>자주 사용하지는 않지만 도메인 별로 네임서버를 다르게
+        설정할 수도 있다. 주로 네임서버의 캐쉬 영향을 받지 않고,
+        해당 도메인의 수정사항을 즉각 적용하기 위해 쓰인다.</p>
+<pre class="SCREEN">
+    search nobreak.com
+    
+    domain nobreak.com
+    nameserver 210.105.79.2
+    ...
+    
+    domain kornet.ne.kr
+    nameserver 168.126.63.1
+    ...
+</pre>
+
+        <p>호스트 네임을 DNS로 확장하여 검색하기 위해서는 <tt
+        class="FILENAME">/etc/nsswitch.conf</tt> 파일의 라인
+        'hosts:'에 'dns'가 추가되어 있어야 한다. 근래 대부분의 OS는
+        기본적으로 설정되어 배포되지만, 확실히 하기 위해
+        확인하자.</p>
+<pre class="SCREEN">
+    hosts:      files dns
+</pre>
+
+        <p>files 는 호스트명을 <tt class="FILENAME">/etc/hosts</tt>
+        파일에서 검색함을 뜻한다. 시스템은 주어진 순서(files,
+        dns)로 검색을 시도한다.</p>
+      </div>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "verify-nameserver.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "config-resolver-windows.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Name Server
+          동작 확인</td>
+
+          <td width="34%" align="center" valign="top"></td>
+
+          <td width="33%" align="right" valign="top">Microsoft
+          Windows 시스템에서의 클라이언트 설정</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

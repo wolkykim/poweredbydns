@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>도메인 위임 (Domain Parenting &amp; Delegation)</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="PREVIOUS" title=
+    "Microsoft Windows 시스템에서의 클라이언트 설정" href=
+    "config-resolver-windows.html">
+    <link rel="NEXT" title="서브 도메인 위임" href=
+    "delegate-subdomain.html">
+  </head>
+
+  <body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "config-resolver-windows.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">
+          </td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "delegate-subdomain.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="CHAPTER">
+      <h1><a name="DOMAIN-DELEGATION">Chapter 4. 도메인 위임
+      (Domain Parenting &amp; Delegation)</a></h1>
+
+      <div class="TOC">
+        <dl>
+          <dt><b>Table of Contents</b></dt>
+
+          <dt>4.1. <a href=
+          "domain-delegation.html#CREATING-SUBDOMAIN-UNDER-PARENTZONE">
+          부모 Zone에서의 서브 도메인 생성</a></dt>
+
+          <dt>4.2. <a href="delegate-subdomain.html">서브 도메인
+          위임</a></dt>
+
+          <dt>4.3. <a href="elegate-in-addr-arpa.html">옥텟 기반
+          in-addr.arpa 위임</a></dt>
+
+          <dt>4.4. <a href="delegate-classless-in-addr-arpa.html">
+          Classless in-addr.arpa 위임</a></dt>
+        </dl>
+      </div>
+
+      <p>여러 계열사를 갖는 대기업의 경우, 계열사를
+      www.core.nobreak.com 과 같이 서브 도메인으로 분류하여 운영할
+      필요가 있다. 또한 해당 계열사의 네트워크가 방대할 경우,
+      효율적인 관리를 위해 해당 도메인을 해당 계열사로 위임할 수도
+      있다.</p>
+
+      <div class="FIGURE">
+        <a name="FIG-NAMESPACE-TREE"></a>
+
+        <p><b>Figure 4-1. Domain Delegation에 의한 Namespace
+        계층도</b></p>
+
+        <div class="MEDIAOBJECT">
+          <p><img src="images/delegation_namespace.jpg" alt=
+          "Domain Delegation에 의한 Namespace 계층도"></p>
+        </div>
+      </div>
+
+      <p><a href="domain-delegation.html#FIG-NAMESPACE-TREE">Figure
+      4-1</a>를 보자.FreeBSD.ORG 도메인은 각 국가별로 서브 도메인을
+      위임하여 운영하고 있고, KR.FreeBSD.ORG 도메인은 각 프로젝트
+      팀을 CORE 도메인아래 위치시킴으로 써,
+      doc-kr.core.kr.FreeBSD.org 와 같은 계층구조를 유지한다. 이
+      모든 가지를 하나의 네임서버에서 관리 할 수도 있지만
+      네트워크의 규모가 불어남에 따라 행해지는 도메인 위임 관리는
+      전체 네트워크를 부드럽게 한다.</p>
+
+      <div class="SECT1">
+        <h1 class="SECT1"><a name=
+        "CREATING-SUBDOMAIN-UNDER-PARENTZONE">4.1. 부모 Zone에서의
+        서브 도메인 생성</a></h1>
+
+        <p>서브 도메인이 반드시 위임되어야 하는 것은 아니다. 다음과
+        같이 부모 Zone 데이터베이스에 함께 정의될 수도 있다.
+        여기서는 회사내 망관리 그룹을 nms.nobreak.com 으로
+        분류하고, 그 아래 DNS 도메인을 생성한 경우이다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-nobreak.com (NS.NOBREAK.COM)</b></tt>
+    nms                     IN      MX 10   mail.nms
+                            IN      MX 20   mail2.nms
+    dns.nms                 IN      A       150.183.110.53
+                            IN      MX 10   mail.nms
+                            IN      MX 20   mail2.nms
+    mail.nms                IN      A       150.183.110.10
+    mail2.nms               IN      A       150.183.110.11
+</pre>
+
+        <p>nobreak.com 의 SOA 레코드가 그대로 적용되기 때문에,
+        생성된 서브 도메인 nms.nobreak.com 에 대한 SOA 레코드는
+        필요가 없다.</p>
+      </div>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "config-resolver-windows.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "delegate-subdomain.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Microsoft
+          Windows 시스템에서의 클라이언트 설정</td>
+
+          <td width="34%" align="center" valign="top"></td>
+
+          <td width="33%" align="right" valign="top">서브 도메인
+          위임</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

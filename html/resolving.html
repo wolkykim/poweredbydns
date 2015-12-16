@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Domain Name Resolving</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Domain Name System의 이해" href=
+    "understanding-dns.html">
+    <link rel="PREVIOUS" title="Domain Name System의 이해" href=
+    "understanding-dns.html">
+    <link rel="NEXT" title="도메인명에 사용가능한 문자셋" href=
+    "char-set.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "understanding-dns.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 1.
+          Domain Name System의 이해</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "char-set.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="RESOLVING">1.2. Domain Name
+      Resolving</a></h1>
+
+      <div class="FIGURE">
+        <a name="FIG-RESOLVING"></a>
+
+        <p><b>Figure 1-2. 도메인 네임 Resolving</b></p>
+
+        <div class="MEDIAOBJECT">
+          <p><img src="images/dns_resolving.jpg" alt=
+          "도메인 네임 Resolving"></p>
+        </div>
+      </div>
+
+      <p>통신을 위한 TCP/IP 패킷엔 도메인명을 위한 공간이 없다.
+      따라서 도메인명에 대한 IP 변환작업(Resolving)을 선행하게
+      되는데, <a href="resolving.html#FIG-RESOLVING">Figure
+      1-2</a>는 이러한 Resolving 과정을 보여준다.</p>
+
+      <div class="PROCEDURE">
+        <ol type="1">
+          <li>
+            <p>Client상의 응용이 WWW.YAHOO.COM 에 접속하기 위해
+            자신의 Local Name Server(TCP/IP 설정시 명시한)에
+            질의한다.</p>
+          </li>
+
+          <li>
+            <p>Local NS는 먼저 자신의 캐쉬에 자료가 있는지 확인한
+            후 발견되지 않을시 Root NS(Root NS의 목록은 갖고있다)에
+            질의를 던진다. 그러나 Root NS도 WWW.YAHOO.COM 의 자료를
+            갖고 있지 않으므로, COM 도메인을 관리하는 NS를
+            참고하라는 답변을 보내준다.</p>
+          </li>
+
+          <li>
+            <p>Local NS는 다시 COM NS에 질의를 던지고, COM NS는
+            다시 YAHOO.COM의 NS를 일러준다. (루트(도트)와 COM
+            도메인은 Root NS에서 같이 관리되기 때문에 실제로 본
+            과정은 일어나지 않고 (2)번에서 바로 YAHOO.COM NS를
+            참고하라는 답변이 나온다.)</p>
+          </li>
+
+          <li>
+            <p>Local NS는 YAHOO.COM NS에 질의한다. YAHOO.COM NS는
+            서브도메인에 대한 자료를 관리하는 실제 NS 이므로,
+            WWW.YAHOO.COM 에 대한 IP 204.71.200.74를
+            답변(authoritative answer) 한다. (실제 WWW.YAHOO.COM 에
+            대한 IP를 resolving 하면 매번 다른 IP 주소가 넘어오는
+            것을 볼 수 있는데, 이는 사이트가 다수의 미러링 서버로
+            운영되고, 부하 공유를 위해 해당 도메인에 다수의 IP를
+            매핑하였기 때문이다. (참고: <a href=
+            "load-sharing.html">미러링 서버간의 부하 공유</a>)</p>
+          </li>
+
+          <li>
+            <p>마지막으로, Local NS는 Client에게 결과를
+            전송한다.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "understanding-dns.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "char-set.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Domain Name
+          System의 이해</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "understanding-dns.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">도메인명에
+          사용가능한 문자셋</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

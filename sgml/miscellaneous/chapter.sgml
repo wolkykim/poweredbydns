@@ -1,0 +1,332 @@
+<chapter id="miscellaneous" xreflabel="Miscellaneous">
+  <title>Miscellaneous</title>
+
+  <sect1 id="fqdn" xreflabel="FQDN">
+    <title>FQDN(Fully Qualified Domain Name)</title>
+
+    <para>FQDN은 명확한 도메인 표기법을 칭한다. 예로 소프트웨어 설치 중
+    도메인명을 요구하면, YAHOO.COM. 을 입력할지, WWW.YAHOO.COM. 을 입력할지
+    모호하다. 그래서 이러한 모호성을 피하기 위해 FQDN이란 단어를 사용하며, 이는
+    Namespace 계층상에서 최종 호스트명을 포함하는 도메인명을 뜻한다.</para>
+
+    <para>www(호스트명), yahoo.com.(도메인명), www.yahoo.com.(FQDN)</para>
+
+    <para>원칙적으로 도메인의 표기는 네임스페이스상의 경로를 명확히 하기 위해
+    끝에 도트('.' 루트 도메인)를 포함하여야 하지만, 보통 도트를 생략하고
+    사용한다.</para>
+  </sect1>
+
+  <sect1 id="diff-dns-and-bind" xreflabel="DNS와 BIND의 차이">
+    <title>DNS와 BIND의 차이</title>
+
+    <para>DNS는 Domain Name System의 약자로써, 분산 네이밍 시스템을 뜻한다. 조금
+    쉽게 풀어보면, 도메인명을 IP 주소로 변환해주는 방법론이다. 즉, 인터넷에
+    존재하는 수많은 네임서버는 각각 도메인 계층상의 일부분을 관리하고, 정보를
+    요구하는 클라이언트 Resolver는 규칙에 따라 분산된 자료중 원하는 정보를 찾을
+    수 있는 시스템, 이 것을 DNS 라고 한다.</para>
+
+    <para>BIND는 Berkeley Internet Name Domain의 약자로, DNS를 구현한
+    소프트웨어의 하나이면서, '워크맨'이란 단어처럼 DNS를 구현한 소프트웨어를
+    칭하는 대명사로 쓰이기도 한다. BIND는 거의 모든 플랫폼에 포팅되었고, 가장
+    널리 사용된다.</para>
+  </sect1>
+
+  <sect1 id="bind4-and-bind8"
+  xreflabel="BIND-4(Traditional)와 BIND-8(Next Generation) 가지">
+    <title>BIND-4(Traditional)와 BIND-8(Next Generation) 가지</title>
+
+    <para>BIND는 1999년 1월 현재 BIND-4와 BIND-8의 두 가지가 존재한다.
+    1998년 5월 11일 최종 버전 4.9.7이 릴리즈되며 전통적인 BIND-4 가지는
+    마감되었고, BIND-8 가지는 현재 8.2를 릴리즈하고 있다. BIND-8은
+    <ulink url="&rfc2136;">RFC2136</ulink>,
+    <ulink url="&rfc1996;">RFC1996</ulink>을 수렴하여 메커니즘과 보안이 크게
+    개선되어 발표되었다. 점진적으로 BIND-8로 옮겨갈 테지만, 현재 대부분의 도메인
+    메니저와 OS 벤더가 오랜기간 검증된 BIND-4를 선택하고 있으므로, 두 가지는
+    앞으로도 상당기간 공존할 것으로 예상된다. 하지만, 주 흐름은 BIND-8로
+    넘어가고 있다.</para>
+
+    <para>BIND-4와 BIND-8의 외부적인 차이는, 부트 파일의 변화이다. BIND-4에서는
+    부트 파일이 named.boot 이고, BIND-8에서는 named.conf 이다. 또한 부트 파일의
+    작성 방법도 차이가 있다. 기타 Zone 파일과 캐쉬 파일 등은 동일하므로,
+    BIND-4에서 BIND-8로의 마이그레이션은 소프트웨어를 설치하고, 부트 파일을
+    컨버팅하는 것으로 족하다.</para>
+  </sect1>
+
+  <sect1 id="public-domain" xreflabel="퍼블릭 도메인">
+    <title>퍼블릭 도메인 (Public Domain)</title>
+
+    <para>보통 도메인이라 하면 퍼블릭 도메인을 말한다. 이는 인터넷 어디에서나
+    접속이 가능하도록 네임스페이스 가지 상에 놓여있는 도메인을 뜻한다. 즉,
+    네임스페이스상에 링크 되지 않은 도메인은 네임서버를 구축하여도 해당
+    네임서버를 거쳐 직접 resolving하는 경우를 제외하곤 찾을 수 없는 폐쇄
+    도메인이 된다. 사내에서 보안등의 이유로 간혹 사용된다.</para>
+  </sect1>
+
+  <sect1 id="using-cname" xreflabel="CNAME의 사용에 관해">
+    <title>CNAME의 사용에 관해</title>
+
+    <para>CNAME의 사용 여부에 대해 많은 DNS 전문가들은 다른 의견을 보인다.
+    A 레코드만을 사용하자는 의견도 있다. 특히, CNAME이 CNAME을 포인팅하는
+    경우에 대해서는 관련 자료마다 '된다/안된다' 식의 저자 의견이 들어가 있고,
+    초기 RFC에서는 이를 금하고 있다. 하지만, BIND implementation은 이를
+    지속적으로 보안 확대하고 있는데 이는 타 도메인의 서비스를 Aliasing하는
+    경우를 포함하여, CNAME 레코드는 매우 유용한 것이 사실이고 특정 호스트의
+    IP가 변경되었을 때 관련된 레코드를 찾아다니며 수정을 하기 보다는, CNAME을
+    사용하여 주 레코드의 수정 내역을 파급시키는 것이 여러모로 편리하고
+    효율적이기 때문이다. CNAME 레코드의 용법(MX, SOA, NS등의 레코드와 연결하지
+    않는것)만 준수한다면 CNAME은 매우 유용하게 활용 될 수 있으리라 생각한다.
+    </para>
+  </sect1>
+
+  <sect1 id="customrule-zone" xreflabel="Zone 데이터베이스 작성에 대해">
+    <title>Zone 데이터베이스 작성에 대해</title>
+
+    <para>일반적으로 다음의 규칙을 준수해 Zone 데이터베이스를 작성하면 실수를
+    줄이는데 도움이 된다.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>TAB을 사용해 열을 맞춘다. 이것은 빠진 레코드를 찾는데 도움이 된다.
+        </para>
+      </listitem>
+      <listitem>
+        <para>TTL 값들은 모두 초단위를 사용하거나 2D, 1W와 같이 모두 단위기호를
+        사용해 일률적으로 기입한다.</para>
+      </listitem>
+      <listitem>
+        <para>호스트 정의는 다음과 같이 모두 호스트명만을 사용하거나, 모두 FQDN
+        표기한다.</para>
+
+<screen>
+ftp                     IN      MX      mail
+www                     IN      CNAME   power
+
+ftp.nobreak.com.        IN      MX      mail.nobreak.com.
+www.nobreak.com.        IN      CNAME   power.nobreak.com.
+</screen>
+
+    <para>혹은 좌측은 호스트명을 우측엔 FQDN 표기한다. 타 기관의 호스트를
+    CNAME으로 연결할 경우가 있기 때문에 이것이 좀더 일반적이고 많이 사용된다.
+    </para>
+
+<screen>
+ftp                     IN      MX      mail.nobreak.com.
+www                     IN      CNAME   power.nobreak.com.
+</screen>
+
+      </listitem>
+      <listitem>
+        <para>가능하면, 알파벳 순서대로 나열하여, 중복 정의되는 부분이 없도록
+        한다.</para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+
+  <sect1 id="glue-record" xreflabel="글루 레코드">
+    <title>글루 레코드 (Glue Record)</title>
+
+    <para>글루 레코드는 NS 레코드의 인자로 주어지는 A 레코드를 말하며,
+    네임서버에 부트스트랩 정보를 제공한다. 다음의 경우 ns.nms.nobreak.com 이
+    글루 레코드이다.</para>
+
+<screen>
+nms.nobreak.com.        IN      NS      ns.nms.nobreak.com.
+ns.nms.nobreak.com.     IN      A       150.183.110.2       ; 글루 레코드
+</screen>
+
+    <para>하지만, 다음과 같이 외부에서 관리되는 네임서버 ns.kr.freebsd.org 로
+    도메인을 위임하는 경우엔, freebsd.org 의 NS에서 글로 레코드
+    ns.kr.freebsd.org 가 이미 정의되어 있으므로 글루 레코드
+    ns.nms.nobreak.com 에 ns.kr.freebsd.org 의 IP를 설정하여 부트스트랩 정보로
+    사용하여서는 안된다.</para>
+
+<screen>
+nms.nobreak.com.        IN      NS      ns.nms.nobreak.com. ; (X) 중복된 글루 레코드
+ns.nms.nobreak.com.     IN      A       210.105.79.2
+</screen>
+
+<screen>
+nms.nobreak.com.        IN      NS      ns.kr.freebsd.org.  ; (O) 바른 사용
+</screen>
+
+    <para>이를 중복된 글루 레코드라 하며, 중복된 글루 레코드는 네임서버가 새로운
+    IP 주소로 옮겨가거나 없어지는 것을 어렵게 한다. 네임서버에 대한 글루
+    레코드는 네임스페이스상에 유일하게 유지되는것이 좋다.</para>
+  </sect1>
+
+  <sect1 id="lame-delegation" xreflabel="Lame Delegation">
+    <title>Lame Delegation</title>
+
+    <para>Lame delegation이란 Namespace 상에서 깨어진 링크를 말한다.</para>
+
+<screen>
+nms.nobreak.com         IN      NS      ns.nms.nobreak.com.
+                        IN      NS      ns2.nms.nobreak.com.
+</screen>
+
+    <para>예를들어 nms.nobreak.com 이 위와 같이 두 개의 네임서버를 갖으나,
+    두 서버 중 하나 혹은 모두가 해당 도메인에 대한 Authority를 갖지 않는 경우,
+    즉 Primary, Secondary 설정이 안되어 있을 경우가 Lame delegation에 해당된다.
+    </para>
+  </sect1>
+
+  <sect1 id="authoritative-and-nonauthoritative"
+  xreflabel="Authoritative answer &amp; Non-authoritative answer">
+    <title>Authoritative answer &amp; Non-authoritative answer</title>
+
+    <para>Name Server는 질의에 대한 결과를 캐쉬에 저장하고 있기 때문에 같은
+    질의가 요구되었을 때 Namespace를 뒤지지 않고 캐쉬의 자료로 빠르게 응답한다.
+    캐쉬의 자료는 Resolving시 얻은 TTL(Time To Live) 시간 동안에만 유효하고,
+    TTL 경과후에는 파기된다. 클라이언트의 도메인 Resolving 요청시 네임서버가
+    캐쉬의 자료로 응답 할 경우는 Non-authoritative answer이고, 캐쉬에 자료가
+    없거나, 자료의 TTL이 만기되어 해당 도메인의 Primary 네임서버에서 직접 자료를
+    얻어 답변을 주었을 경우가 Authoritative answer이다.</para>
+  </sect1>
+
+  <sect1 id="positive-and-negative-caching"
+  xreflabel="Positive &amp; Negative Caching">
+    <title>Positive &amp; Negative Caching</title>
+
+    <para>실제 생활에서 Resolving 요청은 다음과 같이 많은 부분 중복된다.</para>
+
+<screen>
+$ finger @<userinput>kfug.kr.freebsd.org</userinput>
+$ talk nobreak@<userinput>kfug.kr.freebsd.org</userinput>
+</screen>
+
+    <para>따라서, 네임서버는 한번 검색한 도메인 정보를 캐쉬에 유지하여, 후에
+    요청될 같은 질의를 효율적으로 대처하도록 구현되어 있다. 그렇다면, 존재하지
+    않는 도메인에 대한 요청은 어떻게 할까? 일반적으로 잘못된 도메인에 대한
+    요청도 많이 중복된다. 또한 이 경우 네임서버는 가능한 가지를 모두 탐색하므로,
+    불필요한 인터넷 트래픽 증가라는 문제도 제기된다. 따라서, 네임서버는 이렇듯
+    잘못된 쿼리에 대한 결과도 캐싱하여 불필요한 트래픽을 차단한다. 이를
+    Negative 캐싱이라 하며, 반대로 검색이 되는 도메인에 대한 캐싱을 Positive
+    캐싱이라 한다.</para>
+
+    <para>참고로, 네임서버는 캐쉬를 별도로 저장, 관리하지 않기 때문에
+    <command>named</command>가 종료하면 캐쉬도 함께 사라진다. 따라서, 가능하면
+    Zone 데이터베이스의 수정후에는 행업(kill -HUP) 시그널을 이용하도록 한다.
+    </para>
+  </sect1>
+
+  <sect1 id="iterative-and-recursive"
+  xreflabel="Iterative(Nonrecursive) &amp; Recursive 네임서버">
+    <title>Iterative(Nonrecursive) &amp; Recursive 네임서버</title>
+
+    <para>네임서버가 Recursive 모드로 동작할 때에는, 클라이언트(이를
+    Stub Resolver 라 한다)의 요청에 대해 Namespace를 검색한후 결과를 전달한다.
+    하지만 Iterative 모드에서는 알 수 없는 질의(자신이 관리하지 않는 도메인에
+    대한 요청)에 대해, 응답 가능한 NS의 목록을 전달한다. 대부분의 네임서버는
+    Recursive 모드로 동작하며, Iterative 모드는 루트서버와 같이 네임서버를 위한
+    네임서버(네임서버간의 통신에는 Iterative 모드가 사용됨)에서 과다한 트래픽을
+    막기위해 사용한다. 또한, 클라이언트는 Iterative 모드로 설정된 네임서버를
+    사용할 수 없으므로, 네임서버 목록(예:resolv.conf, 윈도우의 DNS 찾기목록)에
+    추가하여서는 안 된다. BIND-4에서는 부트파일에 'options no-recursion'을
+    추가함으로써, Iterative 모드로 전환할 수 있고, BIND-8의 경우엔 options
+    엔트리에 'recursion no;'를 설정한다.</para>
+  </sect1>
+
+  <sect1 id="rtt" xreflabel=">RTT와 Nameserver 선택">
+    <title>RTT(Round Trip Time)와 Nameserver 선택</title>
+
+    <para>네임서버간에 질의, 응답에 소요되는 시간을 Round Trip Time이라 한다.
+    (Recursive 모드하에서의 총 검색 시간이 아니다) BIND는 내부적으로 타
+    네임서버에 대한 RTT 값을 기록하고 있다가, 요청 도메인에대한 다수의
+    Authority NS 중 RTT 값이 가장 낮은 네임서버로 먼저 질의한다.
+    Authority NS들에 대한 RTT 정보를 갖고있지 않을경우엔, 해당 네임서버 전체에
+    질의(동시에)를 보내어 빠른 응답을 얻음과 함께 부가적으로 RTT를 측정한다.
+    RTT가 측정된 다음부터는 해당 도메인에 대한 요청이 RTT가 가장 적은 서버로
+    먼저 보내어 진다. 또한, 몇몇 서버만이 계속 사용되는 문제를 막기위해 쿼리를
+    전송할 때 마다 해당 네임서버에 대한 RTT값을 조금씩 증가시킨다.</para>
+  </sect1>
+
+  <sect1 id="using-wildcard" xreflabel="와일드카드">
+    <title>와일드카드</title>
+
+    <para>참고: <ulink url="&rfc1034;">RFC1034</ulink> p25</para>
+
+    <para>Zone 데이터베이스에는 다음과 같이 와일드카드(*) 사용이 허락된다.
+    </para>
+
+<screen>
+*               IN      A       210.105.79.20
+</screen>
+
+    <para>와일드카드는 Zone에 나타나지 않은 호스트들에 매핑되므로, Zone의 모든
+    호스트들에 적용되리라 기대하여선 안 된다. 이와 관련된 흔한 실수는 다음과
+    같은 MX 레코드와의 연결이다.</para>
+
+<screen>
+*               IN      MX      mail
+</screen>
+
+    <para>관리자는 모든 호스트로 배달되는 편지를 한곳으로 모으기 위해,
+    와일드카드와 MX를 연결하였지만, 이것은 기대한 대로 동작하지 않을 것이다.
+    기대한 동작을 구현하기 위해서는 모든 호스트에 MX 레코드를 추가하여야 한다.
+    따라서 본 예는 정의되지 않은 호스트를 목적지로한 편지를 한곳으로 모을
+    뿐이다. (때론 유용할 수도 있다)</para>
+
+    <para>또한, 와일드카드는 호스트명(도메인 가지의 최 하단)으로만 사용될 수
+    있다. 다음을 보자.</para>
+
+<screen>
+www.*           IN      A       210.105.79.20
+</screen>
+
+    <para>www.ANYTHING.nobreak.com 의 동작을 기대하였지만, 이 기막힌 아이디어는
+    불행히도 제대로 동작하지 않는다.</para>
+  </sect1>
+
+  <sect1 id="adjust-serial" xreflabel="Serial Number 조정">
+    <title>Serial Number 조정</title>
+
+    <para>거대 도메인을 관리하는 메니저들의 실수 중 하나는 잦은 업데이트작업으로
+    인한 잘못된 Serial 넘버링이다. 일반적인 관례인 YYYYMMDDNN 표기법으로는
+    4294년까지 표기를 할 수 있는데, 19990205010과 같이 실수로 삽입된 '0'은 해당
+    필드를 오버플로우 시킨다. 따라서 Secondary의 Zone은 장기간 업데이트되지 않을
+    수 있다. 다음과 같이 문제를 해결할 수 있다.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Secondary를 직접 관리한다면, 먼저 Primary Zone의 Serial을
+        정상적으로 조정한다. Secondary에 저장되어 있는 Zone
+        파일(Zone Transfer된)을 삭제한후 BIND를 재 구동한다.</para>
+      </listitem>
+      <listitem>
+        <para>Secondary가 타기관에 의해 관리되어 앞의 방법이 불가능할 경우,
+        Zone의 Serial을 '0'으로 설정한다. Secondary는 '0'을 Serial로 갖는
+        Zone에 대해서, 무조건적인 업데이트를 강행하므로, Refresh 주기만큼
+        기다린 후, 다시 정상적인 Serial로 조정하면 된다.</para>
+      </listitem>
+    </itemizedlist>
+
+<screen>
+nslookup  -type=SOA  kr.freebsd.org  ns2.nobreak.com
+</screen>
+
+    <para>Secondry가 갖고 있는 해당 Zone의 Serial 번호는 위와 같이 확인할 수
+    있다.</para>
+  </sect1>
+
+  <sect1 id="adjust-ttl" xreflabel="IP 변동에 따른 TTL 조정">
+    <title>IP 변동에 따른 TTL 조정</title>
+
+    <para>서비스 되고있는 네트워크에 중요한 변경이 예상된다면, 다음과 같이 해당
+    호스트의 TTL을 임시로 10분(600sec) 정도로 낮추어 두는 것이 좋다.</para>
+
+<screen>
+www     600     IN      A       210.105.79.6
+</screen>
+
+    <para>타 네임서버가 아예 캐싱하지 않도록 하기 위해 TTL을 0으로 조정하는 것도
+    나쁘진 않으나, 클라이언트가 해당 도메인을 억세스 할 때마다 반복되는
+    Resolving을 동반하기 때문에, 바람직한 방법은 아니다.
+    Maximum Propagation Delay Time(조정전 SOA의 Refresh + 조정전의 TTL,
+    참고: <xref linkend="dns-notify">) 만큼
+    기다린 후, 작업(IP 변경)하면 되는데, 경험적으로 네트워크 변경이 시작되면
+    예상치 못한 추가 이동이 발생하므로, 네트워크가 안정된 후라도, 1-2일 정도
+    뒤에 TTL을 원상 복귀하는 것이 좋다. 해당 Zone에 속한 모든 호스트가 대상일
+    경우엔,  SOA 레코드의 Minimum값을 조정하여 일률적으로 적용할 수 있겠다.
+    </para>
+  </sect1>
+</chapter>

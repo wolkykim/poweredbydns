@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Name Server 동작 확인</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Name Server 운영" href=
+    "running-nameserver.html">
+    <link rel="PREVIOUS" title="Name Server 구동" href=
+    "launch-nameserver.html">
+    <link rel="NEXT" title="클라이언트(Resolver) 설정" href=
+    "config-resolver.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "launch-nameserver.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 2.
+          Name Server 운영</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "config-resolver.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="VERIFY-NAMESERVER">2.7. Name
+      Server 동작 확인</a></h1>
+
+      <p>여기에선 [그림 3]의 가상 네트워크 구성도에 따른 설정을
+      다루었지만, 기본적으로 필요한 부분은 모두 적용되어 있으므로
+      실제 네트워크에 적용할 때에도 같은 느낌으로 설정하면 된다.
+      다음과 같이 타 네임서버를 통해 질의를 던져봄으로써, Namespace
+      가지상에 잘 연결되어 있음을 확인하자.</p>
+<pre class="SCREEN">
+    $ <tt class=
+"USERINPUT"><b>nslookup power.nobreak.com ns.nobreak.com</b></tt>   # Primary 동작 확인
+    Server:  ns.nobreak.com
+    Address:  0.0.0.0
+    
+    Name:    power.nobreak.com
+    Address:  210.105.79.103
+    
+    $ <tt class=
+"USERINPUT"><b>nslookup power.nobreak.com ns2.nobreak.com</b></tt>  # Secondary 동작 확인
+    Server:  ns2.nobreak.com
+    Address:  210.105.79.3
+    
+    Name:    power.nobreak.com
+    Address:  210.105.79.103
+    
+    $ <tt class=
+"USERINPUT"><b>nslookup power.nobreak.com ns.kornet.ne.kr</b></tt>  # Namespace 링크 확인
+    Server:  ns.kornet.nm.kr
+    Address:  168.126.63.1
+    
+    Name:    power.nobreak.com
+    Address:  210.105.79.103
+</pre>
+
+      <p>위의 3가지 질의가 성공적으로 수행되었다면, 일단 네임서버가
+      정상적으로 운용된다고 생각해도 좋다. 확실히 하기 위해선,
+      로그파일 분석을 통해 Zone 데이터베이스 구성상의 오류와 BIND의
+      동작 상태를 살펴보아야 한다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "launch-nameserver.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "config-resolver.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Name Server
+          구동</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "running-nameserver.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">
+          클라이언트(Resolver) 설정</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

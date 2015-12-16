@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Domain Name System의 이해</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="PREVIOUS" title="Powered by DNS" href="index.html">
+    <link rel="NEXT" title="Domain Name Resolving" href=
+    "resolving.html">
+  </head>
+
+  <body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "index.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">
+          </td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "resolving.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="CHAPTER">
+      <h1><a name="UNDERSTANDING-DNS">Chapter 1. Domain Name
+      System의 이해</a></h1>
+
+      <div class="TOC">
+        <dl>
+          <dt><b>Table of Contents</b></dt>
+
+          <dt>1.1. <a href="understanding-dns.html#NAMESPACE">DNS
+          Namespace</a></dt>
+
+          <dt>1.2. <a href="resolving.html">Domain Name
+          Resolving</a></dt>
+
+          <dt>1.3. <a href="char-set.html">도메인명에 사용가능한
+          문자셋</a></dt>
+        </dl>
+      </div>
+
+      <p>Domain Name System이란 이름과 IP 주소를 매핑하여주는
+      거대한 분산 네이밍 시스템이다. 인터넷에서 사용되는
+      IP(Internet Protocol), 그리고 IP의 상위에서 동작하는
+      넷스케이프 같은 응용들은 210.105.79.103 과 같이 표현되는 IP
+      주소만을 인식하게 되는데, 이러한 IP 주소는 기계입장에선
+      해석하기 수월하지만 기억하기가 어렵고, IP 주소만으로는 서비스
+      유형을 예측하기 힘들다는 단점이 있다. 인터넷의 도입 시절인
+      ARPANET 시절부터 IP Address를 이름으로 명명하여 사용하고자
+      하는 노력이 시도되었고, 많은 시행착오는 지금의 DNS
+      메커니즘으로 발전하였다.</p>
+
+      <p>ARPANET 시절에는 호스트의 수가 많지 않았기에 NIC(Network
+      Information Center)으로부터 일정 주기마다 호스트 명단
+      파일(HOSTS.TXT)을 받아 /etc/hosts에 저장하여 사용하였다.
+      그러나 점차 인터넷의 규모와 호스트 수가 증가함에 따라 새로운
+      이름 명명 체제의 필요성이 대두되었고, 1983년 Paul
+      Mockapetris가 <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc822.txt" target=
+      "_top">RFC882</a>, <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc883.txt" target=
+      "_top">RFC883</a>(현재는 <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc1034.txt" target=
+      "_top">RFC1034</a>로 대체됨)에 새로운 명명 체제에 대한 구현을
+      공식 발표하며, 크게 네임스페이스의 계층 구조, 분산
+      데이터베이스, Email 라우팅 개선을 주안점으로 DNS가
+      탄생하였다.</p>
+
+      <div class="SECT1">
+        <h1 class="SECT1"><a name="NAMESPACE">1.1. DNS
+        Namespace</a></h1>
+
+        <p>ARPANET의 중앙 관리 체제에서는 하나의 파일로 모든
+        호스트들을 관리하였지만, DNS에서는 이것을 각 도메인 별로
+        트리화 하여 <a href="understanding-dns.html#FIG-NAMESPACE">
+        Figure 1-1</a>과 같은 형태로 관리한다.</p>
+
+        <div class="FIGURE">
+          <a name="FIG-NAMESPACE"></a>
+
+          <p><b>Figure 1-1. Namespace 예제</b></p>
+
+          <div class="MEDIAOBJECT">
+            <p><img src="images/dns_namespace.jpg" alt=
+            "Namespace 예제"></p>
+          </div>
+        </div>
+
+        <p>디렉토리 구조와 유사함을 알 수 있는데, Root
+        domain(도트로 표시되는)은 Top level 도메인에 관한 정보를,
+        Top level 도메인은 그 하위 도메인에 관한 정보를
+        유지/관리하는 구조를 취한다. 이러한 정보의 계층구조로
+        인하여 정보는 각 도메인의 네임서버(NS:Name Server)로 분산,
+        관리된다.</p>
+
+        <p>예로 YAHOO.COM 도메인은 COM 네임서버에 등록되어 있고,
+        WWW.YAHOO.COM은 YAHOO.COM 네임서버에 등록, 관리된다. 따라서
+        AV.YAHOO.COM을 등록하기 위해서는 YAHOO.COM 도메인을
+        관리하는 네임서버의 관련 레코드만을 수정함으로써 가능하다.
+        이러한 위임구조는 증가하는 인터넷 호스트에 대한 관리를
+        효율적으로 가능하게 해준다.</p>
+      </div>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "index.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "resolving.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Powered by
+          DNS</td>
+
+          <td width="34%" align="center" valign="top"></td>
+
+          <td width="33%" align="right" valign="top">Domain Name
+          Resolving</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

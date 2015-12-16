@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>DIG</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="DNS 오류 수정 도구" href=
+    "dns-tools.html">
+    <link rel="PREVIOUS" title="DNS 오류 수정 도구" href=
+    "dns-tools.html">
+    <link rel="NEXT" title="DNSWALK" href="dnswalk.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "dns-tools.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 8.
+          DNS 오류 수정 도구</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "dnswalk.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="DIG">8.2. DIG</a></h1>
+
+      <p>Dig(Domain Information Groper)의 사용법을 조금만
+      짚어보도록 하자. <tt class="COMMAND">nslookup</tt>과의 기능적
+      차이는 크게 없지만, 사용이 간결하고, 출력이 상세하여, Shell
+      Script등에서 주로 사용된다. 다음은 ns.kornet.ne.kr을 통해
+      www.nobreak.com의 A 레코드를 검색한 결과이다.</p>
+<pre class="SCREEN">
+    $ <tt class=
+"USERINPUT"><b>dig [@네임서버] 도메인 [쿼리타입] [+쿼리옵션]</b></tt>
+    $ <tt class=
+"USERINPUT"><b>dig  @ns.kornet.ne.kr  www.nobreak.com  A</b></tt>
+    ;; ANSWER SECTION:
+    www.nobreak.com.        16h12m36s IN CNAME  ns.nobreak.com.
+    ns.nobreak.com.         1d19h12m27s IN A  210.105.79.2
+    ;; AUTHORITY SECTION:
+    nobreak.com.            22h17m35s IN NS  ns.nobreak.com.
+    nobreak.com.            22h17m35s IN NS  ns2.nobreak.com.
+    ;; ADDITIONAL SECTION:
+    ns.nobreak.com.         1d19h12m27s IN A  210.105.79.2
+    ns2.nobreak.com.        1d1h46m58s IN A  210.105.79.3
+</pre>
+
+      <p>DIG는 쿼리에 대한 결과를 ANSWER SECTION에, 해당 도메인의
+      인증을 갖는 네임서버 정보를 AUTHORITY SECTION에, 그리고,
+      글루레코드 등이 있을 경우 그에대한 정보를 ADDITIONAL
+      SECTION에 출력하여 준다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "dns-tools.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "dnswalk.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">DNS 오류 수정
+          도구</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "dns-tools.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">DNSWALK</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

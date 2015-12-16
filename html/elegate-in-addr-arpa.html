@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>옥텟 기반 in-addr.arpa 위임</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title=
+    "도메인 위임 (Domain Parenting &amp; Delegation)" href=
+    "domain-delegation.html">
+    <link rel="PREVIOUS" title="서브 도메인 위임" href=
+    "delegate-subdomain.html">
+    <link rel="NEXT" title="Classless in-addr.arpa 위임" href=
+    "delegate-classless-in-addr-arpa.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "delegate-subdomain.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 4.
+          도메인 위임 (Domain Parenting &amp; Delegation)</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "delegate-classless-in-addr-arpa.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="ELEGATE-IN-ADDR-ARPA">4.3. 옥텟
+      기반 in-addr.arpa 위임</a></h1>
+
+      <p>nobreak.com 이 B 클래스 150.183을 다음과 같이 할당받았고,
+      nms.nobreak.com 은 그중 서브넷 150.183.110을 사용한다고
+      가정하자.</p>
+<pre class="SCREEN">
+    $ <tt class=
+"USERINPUT"><b>nslookup  -type=NS  183.150.in-addr.arpa</b></tt>
+    183.150.in-addr.arpa    nameserver = ns.nobreak.com
+    183.150.in-addr.arpa    nameserver = ns2.nobreak.com
+</pre>
+
+      <p>옥텟 단위의 Inverse 도메인 위임은 서브 도메인 위임과 같은
+      느낌으로 수월하게 이루어진다. 다음은 183.150.in-addr.arpa
+      에서 110.183.150.in-addr.arpa 을 위임하기 위한 Zone
+      설정이다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-183.150.in-addr.arpa (NS.NOBREAK.COM)</b></tt>
+    110             IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+</pre>
+
+      <p>그리고, ns.nms.nobreak.com 과 ns2.nms.nobreak.com 에
+      primary, secondary 설정을 넣고 Inverse Zone 파일을
+      생성함으로써, 인버스 도메인 위임이 마무리 된다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* named.boot (NS.NMS.NOBREAK.COM)</b></tt>
+    primary         110.183.150.in-addr.arpa        zone-110.183.150.in-addr.arpa
+</pre>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* named.boot (NS2.NMS.NOBREAK.COM)</b></tt>
+    secondary       110.183.150.in-addr.arpa        150.183.110.2   sec-110.183.150.in-addr.arpa
+</pre>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-110.183.150.in-addr.arpa (NS.NMS.NOBREAK.COM)</b></tt>
+    @               IN      SOA     ns.nms.nobreak.com. hostmaster.nms.nobreak.com. (
+                            1999012901  ;Serial
+                            21600       ;Refresh ( 6 hours)
+                            1800        ;Retry   (30 minutes)
+                            1209600     ;Expire  (14 days)
+                            86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+    
+    2               IN      PTR     ns.nms.nobreak.com.
+    3               IN      PTR     ns2.nms.nobreak.com.
+    10              IN      PTR     mail.nms.nobreak.com.
+    11              IN      PTR     mail2.nms.nobreak.com.
+    53              IN      PTR     dns.nms.nobreak.com.
+</pre>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "delegate-subdomain.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "delegate-classless-in-addr-arpa.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">서브 도메인
+          위임</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "domain-delegation.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">Classless
+          in-addr.arpa 위임</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

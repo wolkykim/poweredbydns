@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>Classless in-addr.arpa 위임</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title=
+    "도메인 위임 (Domain Parenting &amp; Delegation)" href=
+    "domain-delegation.html">
+    <link rel="PREVIOUS" title="옥텟 기반 in-addr.arpa 위임" href=
+    "elegate-in-addr-arpa.html">
+    <link rel="NEXT" title="고급 기능" href=
+    "advanced-features.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "elegate-in-addr-arpa.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 4.
+          도메인 위임 (Domain Parenting &amp; Delegation)</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "advanced-features.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="DELEGATE-CLASSLESS-IN-ADDR-ARPA">
+      4.4. Classless in-addr.arpa 위임</a></h1>
+
+      <p>참고: <a href=
+      "ftp://ftp2.hongik.com/pub/ietf/rfc/rfc2317.txt" target=
+      "_top">RFC2317</a></p>
+
+      <p>도메인 위임은 도트로 분리되는 세그먼트 혹은 옥텟(octet)
+      기반으로 설계되었기 때문에, 옥텟 기반의 인버스 도메인 위임엔
+      별다른 문제가 없다. 하지만 세그먼트를 나누어 210.105.79.1-128
+      까지는 nobreak.com 이 129-256까지는 nms.nobreak.com 이
+      사용하는 경우에는 인버스 도메인 위임이 수월치 않다.</p>
+
+      <p>같은 기관이 편의상 나누는 것이라면, 인버스 도메인에 한해
+      위임치 않고, 중앙에서 통합관리하는 것이 가능하나, IP 고갈로
+      인해 ISP들이 클래스를 할프(half) 또는 더 잘게 나누어 배급하고
+      있으므로, 이러한 기관들 사이에서는 한쪽 기관의 피해가 없도록
+      위임이 배려되어야 하겠다.</p>
+
+      <p>첫번째 방법으로는 79.105.210.in-addr.arpa의 설정에 있어서
+      129-256(B에 할당된)까지의 IP 블럭을 NS 레코드를 사용해 모두
+      네임서버 ns.nms.nobreak.com 로 레퍼런싱 해준다.
+      79.105.210.in-addr.arpa 에 대한 Zone 데이터 베이스 작성 예를
+      보자.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-79.105.210.in-addr.arpa (NS.NOBREAK.COM)</b></tt>
+    2               IN      PTR     ns.nobreak.com.
+    3               IN      PTR     ns2.nobreak.com.
+    ...
+    129             IN      NS      ns.nms.nobreak.com.   # 129-254까지 위임
+                    IN      NS      ns2.nms.nobreak.com.
+    ...
+    254             IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+</pre>
+
+      <p>NS 레코드를 사용해 페어린팅 했기 때문에,
+      ns.nms.nobreak.com 의 부트 파일에는 IP 129-254에 대해 다음과
+      같이 모두 primary 설정이 들어가 있어야 한다. 조금 번거로운
+      면이 있다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* named.boot (NS.NMS.NOBREAK.COM)</b></tt>
+    primary  129.79.105.210.in-addr.arpa  zone-129.79.105.210.in-addr.arpa
+    ...
+    primary  254.79.105.210.in-addr.arpa  zone-254.79.105.210.in-addr.arpa
+</pre>
+
+      <p>또한, 각 Zone 파일 129.79.105.210.in-addr.arpa -
+      254.79.105.210.in-addr.arpa는 모두 다음과 같은 형식으로
+      작성되어야 한다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-129.79.105.210.in-addr.arpa (NS.NMS.NOBREAK.COM)</b></tt>
+    @               IN      SOA     ns.nms.nobreak.com. hostmaster.nms.nobreak.com. (
+                            1999012901  ;Serial
+                            21600       ;Refresh ( 6 hours)
+                            1800        ;Retry   (30 minutes)
+                            1209600     ;Expire  (14 days)
+                            86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+                    IN      PTR     dns.nms.nobreak.com.
+</pre>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-130.79.105.210.in-addr.arpa (NS.NMS.NOBREAK.COM)</b></tt>
+    @               IN      SOA     ns.nms.nobreak.com. hostmaster.nms.nobreak.com. (
+                            1999012901  ;Serial
+                            21600       ;Refresh ( 6 hours)
+                            1800        ;Retry   (30 minutes)
+                            1209600     ;Expire  (14 days)
+                            86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+                    IN      PTR     dhcp.nms.nobreak.com.
+</pre>
+
+      <p>IPv4는 4개의 옥텟으로 구분되고, 이것은 마지막 4번째 옥텟에
+      대한 Zone 이므로, 추가적인 정의가 있을 수 없다.</p>
+
+      <p>이 방법은 위임된 IP 개수만큼의 Zone 데이터베이스가
+      요구되기 때문에, 번거로워 실제로는 거의 사용하지 않는데,
+      도메인 페이런팅의 한계와 느낌을 전달하고자 소개하였다.</p>
+
+      <p>여기 조금 세련된 방법이 있다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-79.105.210.in-addr.arpa (NS.NOBREAK.COM)</b></tt>
+    2               IN      PTR     ns.nobreak.com.
+    3               IN      PTR     ns2.nobreak.com.
+    ...
+    129             IN      CNAME   129.nms.79.105.210.in-addr.arpa.
+    ...
+    254             IN      CNAME   254.nms.79.105.210.in-addr.arpa.
+    nms             IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+</pre>
+
+      <p>Namespace 상에서 Inverse 도메인을 위한 in-addr.arpa
+      가지와, 일반적인 문자 도메인 가지의 기술적 차이가 전혀 없음을
+      상기하자. 편의상 arpa 도메인을 IP 매핑용으로 사용하는 것
+      뿐이니, nms.79.105.210.in-addr.arpa 와 같은 도메인을 만들고
+      패어런팅하는 것이 가능하고, 여기서는 이점을 이용해 Classless
+      in-addr.arpa를 해결하고 있다.</p>
+
+      <p>즉 129.79.105.210.in-addr.arpa 는
+      129.nms.79.105.210.in-addr.arpa 를 CNAME 하는데,
+      nms.79.104.210.in-addr.arpa 의 primary는 ns.nms.nobreak.com
+      이므로, 결국 위임은 성공적으로 성립된다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* named.boot (NS.NMS.NOBREAK.COM)</b></tt>
+    primary  nms.79.105.210.in-addr.arpa  zone-nms.79.105.210.in-addr.arpa
+</pre>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-nms.79.105.210.in-addr.arpa (NS.NMS.NOBREAK.COM)</b></tt>
+    @               IN      SOA     ns.nms.nobreak.com. hostmaster.nms.nobreak.com. (
+                                    1999012901  ;Serial
+                                    21600       ;Refresh ( 6 hours)
+                                    1800        ;Retry   (30 minutes)
+                                    1209600     ;Expire  (14 days)
+                                    86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+    
+    129             IN      PTR     dns.nms.nobreak.com.
+    130             IN      PTR     mail.nms.nobreak.com.
+    ...
+    254             IN      PTR     layla.nms.nobreak.com.
+</pre>
+
+      <p>129-254까지의 PTR을 여기에 모두 나열한다.
+      79.105.210.in-addr.arpa Zone에서 각 IP를 모두 CNAME으로
+      잡아주어야 하는 불편함을 빼면 현재의 DNS 알고리즘상에선
+      최선의 방안이 아닌가 한다.</p>
+
+      <p>서로 다른 기관으로 할당된 쪼개어진 하나의 Class에 대한
+      Reverse 도메인 위임은 ISP 단계에서 이루어져야 하지만, 실제
+      ISP들은 Class 단위로만 위임처리를 하는경우가 대부분이여서,
+      해당 Class 전체를 한쪽 기관으로 위임하는 경우가 대부분이다.
+      따라서 이러한 경우에는 위임받은 기관에서 타 기관으로 할당된
+      IP 블락을 소개한 방법과 같이 레퍼런싱 해주어 타 기관의 피해가
+      없도록 하자. 네임서버를 비롯하여 Public IP를 갖는 호스트(PC를
+      포함하여)가 Reverse 매핑이 안되어 있을 경우에는 몇몇 서비스의
+      사용이 거부될 수도 있으며, 해당 호스트로의 Reverse Resolving
+      딜레이가 증가하는등 크고 작은 잠재적 문제가 야기된다.</p>
+
+      <p>Classless in-addr.arpa 위임과는 조금 다르게, 다수의 C
+      클래스 210.105.79 - 210.105.81 를 할당받았고, 이중 81
+      네트워크를 위임코자할 경우를 생각해보자. 한가지 방법은, 해당
+      ISP에 81.105.210.in-addr.arpa에 대한 네임서버 변경 신청만을
+      하는 것이겠지만, 보통은 이렇게 하지 않고, 여기서 설명하는
+      것과 같이 Namespace상의 링크가 해당 네트워크의 네임
+      서버에의해 포인팅 되도록하여, 네트워크의 변동에 빠르게
+      대처토록 한다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "elegate-in-addr-arpa.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "advanced-features.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">옥텟 기반
+          in-addr.arpa 위임</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "domain-delegation.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">고급 기능</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>BIND Debugging Output</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="BIND 유지/보수" href=
+    "bind-maintenance.html">
+    <link rel="PREVIOUS" title="BIND Statistics" href=
+    "statistics.html">
+    <link rel="NEXT" title="DNS 오류 수정 도구" href=
+    "dns-tools.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "statistics.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 7.
+          BIND 유지/보수</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "dns-tools.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="BIND-DEBUGGING">7.5. BIND
+      Debugging Output</a></h1>
+
+      <p>BIND의 디버깅 출력은 개발자들이 소프트웨어를 메인터넌스할
+      목적으로 활용되므로, 또 다른 구현을 생각하거나 BIND의 동작을
+      파악하기 위한 이유가 아니라면, 굳이 이를 모두 이해하려 할
+      필요는 없다. 하지만 BIND를 좀더 깊숙이 이해하고 그 응용을
+      극대화 하고자 한다면, 디버깅 정보 분석에 많은 재미를 느낄 수
+      있을 것이다. 여기 모두는 아니지만 디버깅 출력정보를 해석하는
+      기본적인 아이디어를 소개한다.</p>
+<pre class="SCREEN">
+    # <tt class=
+"USERINPUT"><b>kill -USR1 `cat /var/run/named.pid`</b></tt> (or 'ndc trace')
+    # <tt class="USERINPUT"><b>ping www.openbsd.org.</b></tt>
+    # <tt class=
+"USERINPUT"><b>kill -USR2 `cat /var/run/named.pid`</b></tt> (or 'ndc notrace')
+    # <tt class="USERINPUT"><b>ls -al /var/named/named.run</b></tt>
+    -rw-r--r--  1 root  bin  1153 Mar 10 00:30 named.run
+</pre>
+
+      <p>BIND는 USR1 시그널은 받을때마다 디버깅 레벌을 한단계씩
+      높여가는데, 높은 디버깅 레벨은 좀더 자세한 정보를 표시하여
+      준다. 디버깅 출력은 <tt class="FILENAME">
+      /var/named/named.run</tt> 혹은 <tt class="FILENAME">
+      /var/tmp/named.run</tt> 파일로 생성되며, 매우 빠르게
+      증가하므로 필요한 정보가 잡혔다고 판단되는 시점에서 USR2
+      시그널을 이용해 출력을 정지시키기 바란다. BIND 디버깅 출력은
+      다발적으로 발생하는 쿼리에 대한 정보가 모두 기록되므로, 때론
+      원하는 정보를 추리는데 약간의 인내심이 필요할 수도 있다.
+      BIND의 초기화 과정을 살펴보고자 한다면 <tt class="COMMAND">
+      named -d 1 &amp;</tt>과 같이 부팅시 커맨드라인 옵션을 주어야
+      한다.</p>
+<pre class="SCREEN">
+    datagram from [210.105.79.6].3442, fd 21, len 33;
+</pre>
+
+      <p>이것은 호스트 210.105.79.6 에서 포트 3442번으로 길이 33
+      byte의 UDP 패킷이 파일 디스크립터 6번을 통해 수신되었음을
+      뜻한다. 여기서 말하는 파일 디스크립터란 서버 IP 주소(패킷을
+      listen 하는)에 bound된 소켓 핸들러를 말한다.</p>
+<pre class="SCREEN">
+    req: nlookup(www.openbsd.org) id 28375 type=1 class=1
+</pre>
+
+      <p>요청된 datagram은 www.openbsd.org 에 대한 질의(req)임을 알
+      수 있다. 구체적으로 클래스 IN(class=1)에 대한 A(type=1)
+      레코드 요청이며 내부 구분번호는 28375로 매겨졌다.</p>
+<pre class="SCREEN">
+    req: missed 'www.openbsd.org' as '' (cname=0)
+</pre>
+
+      <p>요청 도메인에 대해 알고있는 자료가 없음(네임서버가 해당
+      도메인에 대해 Authority를 갖고 있지 않으며, 캐쉬에서도 찾을
+      수 없을 때)을 뜻한다. cname=0 는 www.openbsd.org 가 CNAME으로
+      설정되지 않았음을 말하는데, 물론 지금 단계에서는 BIND가 해당
+      도메인의 CNAME 설정여부를 알아낼 수 없지만, 본 값이 0이 아닐
+      경우에는 CNAME이 가르키는 도메인을 대신 찾는다.</p>
+<pre class="SCREEN">
+    forw: forw -&gt; [198.41.0.10].53 ds=23 nsid=19461 id=28375 5ms retry 4sec
+</pre>
+
+      <p>자체 lookup에 실패하였기 때문에 다음 단계로 질의를
+      'J.ROOT-SERVERS.NET(198.41.0.10:53)'으로 포워딩 한다.</p>
+<pre class="SCREEN">
+    datagram from [198.41.0.10].53, fd 21, len 449;
+    ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 19461
+    ;; flags: qr; Ques: 1, Ans: 0, Auth: 12, Addit: 12
+    ;; QUESTIONS:
+    ;;      www.openbsd.org, type = A, class = IN
+    
+    ;; AUTHORITY RECORDS:
+    ORG.    518400  IN      NS      A.ROOT-SERVERS.NET.
+    ORG.    518400  IN      NS      I.ROOT-SERVERS.NET.
+    ORG.    518400  IN      NS      K.GTLD-SERVERS.NET.
+    
+    ;; ADDITIONAL RECORDS:
+    A.ROOT-SERVERS.NET.     3600000 IN      A       198.41.0.4
+    I.ROOT-SERVERS.NET.     3600000 IN      A       192.36.148.17
+    K.GTLD-SERVERS.NET.     518400  IN      A       195.8.99.11
+</pre>
+
+      <p>J.ROOT-SERVERS.NET 이 요청에 대한 응답을 보내어 왔다.
+      이처럼 응답이 delegation에 대한 레퍼런싱일 경우 관련 내용이
+      모두 출력된다. 결과는 캐쉬에 저장된다.</p>
+<pre class="SCREEN">
+    resp: nlookup(www.openbsd.org) qtype=1
+</pre>
+
+      <p>캐쉬에서 www.openbsd.org. 를 다시 찾는다.</p>
+<pre class="SCREEN">
+    resp: found 'www.openbsd.org' as 'org' (cname=0)
+    resp: forw -&gt; [195.8.99.11].53 ds=23 nsid=19462 id=28375 1ms
+</pre>
+
+      <p>완벽한 결과는 아니지만, ORG 레벨에서 위임정보를 발견하였기
+      때문에, 'K.GTLD-SERVERS.NET(195.8.99.11)'으로 질의를 포워딩
+      한다.</p>
+<pre class="SCREEN">
+    datagram from [195.8.99.11].53, fd 21, len 219;
+    ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 19462
+    ;; flags: qr rd; Ques: 1, Ans: 0, Auth: 5, Addit: 3
+    ;; QUESTIONS:
+    ;;      www.openbsd.org, type = A, class = IN
+    
+    
+    ;; AUTHORITY RECORDS:
+    OPENBSD.org.    172800  IN      NS      ZEUS.THEOS.COM.
+    OPENBSD.org.    172800  IN      NS      CVS.OPENBSD.org.
+    OPENBSD.org.    172800  IN      NS      NS.SIGMASOFT.COM.
+    
+    ;; ADDITIONAL RECORDS:
+    ZEUS.THEOS.COM.         172800  IN      A       199.185.137.1
+    CVS.OPENBSD.org.        172800  IN      A       199.185.137.3
+    NS.SIGMASOFT.COM.       172800  IN      A       209.249.129.35
+</pre>
+
+      <p>K.GTLD-SERVERS.NET 으로부터 위임정보에 대한 레퍼런싱
+      응답이 돌아왔다.</p>
+<pre class="SCREEN">
+    resp: nlookup(www.openbsd.org) qtype=1
+    resp: found 'www.openbsd.org' as 'openbsd.org' (cname=0)
+</pre>
+
+      <p>캐쉬에서 www.openbsd.org. 를 찾는 과정 중, openbsd.org.
+      레벨의 위임을 발견했다.</p>
+<pre class="SCREEN">
+    resp: forw -&gt; [199.185.137.3].53 ds=23 nsid=19467 id=28375 22ms
+    datagram from [199.185.137.3].53, fd 21, len 272;
+</pre>
+
+      <p>CVS.OPENBSD.ORG(199.185.137.3) 로 질의를 포워딩한 후,
+      기대한 응답(A)을 수신하였다. (디버깅 레벨 1에서는 위임
+      정보만이 표시되기 때문에, 결과의 내용을 보고자 할 경우에는 더
+      높은 디버깅 레벨을 적용하여야만 한다)</p>
+<pre class="SCREEN">
+    send_msg -&gt; [210.105.79.6].3442 (UDP 21) id=28375
+</pre>
+
+      <p>마지막으로 검색된 결과를 클라이언트에 응답함으로써, 28375
+      쿼리에 대한 처리가 성공적으로 마무리되었다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "statistics.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "dns-tools.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">BIND
+          Statistics</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "bind-maintenance.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">DNS 오류 수정
+          도구</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

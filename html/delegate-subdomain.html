@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>서브 도메인 위임</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title=
+    "도메인 위임 (Domain Parenting &amp; Delegation)" href=
+    "domain-delegation.html">
+    <link rel="PREVIOUS" title=
+    "도메인 위임 (Domain Parenting &amp; Delegation)" href=
+    "domain-delegation.html">
+    <link rel="NEXT" title="옥텟 기반 in-addr.arpa 위임" href=
+    "elegate-in-addr-arpa.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "domain-delegation.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 4.
+          도메인 위임 (Domain Parenting &amp; Delegation)</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "elegate-in-addr-arpa.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="DELEGATE-SUBDOMAIN">4.2. 서브
+      도메인 위임</a></h1>
+
+      <p>nms.nobreak.com 의 규모가 커져 관리를 분산시키기 위해 타
+      네임 서버로 해당 도메인을 위임하고자 할 때에는 NS 레코드를
+      사용해 해당 도메인을 레퍼런싱 해주어야 한다. 다음은
+      nobreak.com 도메인에서 nms 를 ns.nms.nobreak.com 으로 위임한
+      예이다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-nobreak.com (NS.NOBREAK.COM)</b></tt>
+    nms                     IN      NS      ns.nms        ; Delegation
+                            IN      NS      ns2.nms
+    ns.nms                  IN      A       150.183.110.2 ; Glue Record
+    ns2.nms                 IN      A       150.183.110.3
+</pre>
+
+      <p>IP 주소는 A 레코드에서만 설정 할 수 있으므로, 반드시 글루
+      레코드를 사용하여 NS에 연결하여야 한다. (참고: <a href=
+      "glue-record.html">글루 레코드</a>)</p>
+
+      <p>네임서버 ns.nms.nobreak.com 은 부트파일에 다음과 같이
+      위임받은 도메인에 대한 primary 설정이 필요하다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* named.boot (NS.NMS.NOBREAK.COM)</b></tt>
+    primary         nms.nobreak.com         zone-nms.nobreak.com
+</pre>
+
+      <p>그리고, Zone 데이터베이스 <tt class="FILENAME">
+      zone-nms.nobreak.com</tt>을 다음과 같이 작성한다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* zone-nms.nobreak.com (NS.NMS.NOBREAK.COM)</b></tt>
+    @               IN      SOA     ns.nms.nobreak.com. hostmaster.nms.nobreak.com. (
+                            1999012901  ;Serial
+                            21600       ;Refresh ( 6 hours)
+                            1800        ;Retry   (30 minutes)
+                            1209600     ;Expire  (14 days)
+                            86400)      ;Minimum ( 1 day)
+                    IN      NS      ns.nms.nobreak.com.
+                    IN      NS      ns2.nms.nobreak.com.
+                    IN      MX 10   mail
+                    IN      MX 20   mail2
+    
+    ns              IN      A       150.183.110.2
+    ns2             IN      A       150.183.110.3
+    mail            IN      A       150.183.110.10
+    mail2           IN      A       150.183.110.11
+    
+    dns             IN      A       150.183.110.53
+                    IN      MX 10   mail
+                    IN      MX 20   mail2
+</pre>
+
+      <p>네임서버 ns2.nms.nobreak.com 를 Secondary로 설정하기 위해
+      부트파일에 다음을 추가한다.</p>
+<pre class="SCREEN">
+    <tt class=
+"USERINPUT"><b>* named.boot (NS2.NMS.NOBREAK.COM)</b></tt>
+    secondary       nms.nobreak.com  150.183.110.2  sec-nms.nobreak.com
+</pre>
+
+      <p>이제 ns, ns.nms, ns2.nms의 BIND를 모두 행업한후, 외부
+      네임서버를 통해 동작을 확인한다.</p>
+<pre class="SCREEN">
+    $ <tt class=
+"USERINPUT"><b>nslookup  -type=NS  nms.nobreak.com  ns.kornet.ne.kr</b></tt>
+    nms.nobreak.com nameserver = ns.nms.nobreak.com
+    nms.nobreak.com nameserver = ns2.nms.nobreak.com
+    
+    $ <tt class=
+"USERINPUT"><b>nslookup  dns.nms.nobreak.com  ns.kornet.ne.kr</b></tt>
+    Name:    dns.nms.nobreak.com
+    Address:  150.183.110.53
+</pre>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "domain-delegation.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "elegate-in-addr-arpa.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">도메인 위임
+          (Domain Parenting &amp; Delegation)</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "domain-delegation.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">옥텟 기반
+          in-addr.arpa 위임</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

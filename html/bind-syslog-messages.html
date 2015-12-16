@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>BIND Syslog 메시지들</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="BIND 유지/보수" href=
+    "bind-maintenance.html">
+    <link rel="PREVIOUS" title="BIND 유지/보수" href=
+    "bind-maintenance.html">
+    <link rel="NEXT" title="BIND Syslog 주의/오류 메시지들" href=
+    "bind-syslog-error-messages.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "bind-maintenance.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 7.
+          BIND 유지/보수</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "bind-syslog-error-messages.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="BIND-SYSLOG-MESSAGES">7.2. BIND
+      Syslog 메시지들</a></h1>
+
+      <p>BIND는 Syslog를 통해 일상적 알림에서부터 치명적 오류까지
+      다양한 메시지를 남긴다. 네임서버의 일반적인 오류 및 오동작의
+      원인은 Syslog에서부터 찾아나가는 것이 순서이겠다. Syslog는
+      /etc/syslog.conf의 설정에 따라 다르지만, 보통
+      /var/log/messages 혹은 /var/adm/messages 파일에 메시지를
+      남긴다.</p>
+
+      <p>다음은, BIND가 구동될 때, HUP 시그널을 받았을 때, 종료될
+      때 기록되는 일상적인 메시지들이다.</p>
+<pre class="SCREEN">
+    Jan  1  5:33:39 ns named[288]: starting.  named 8.2
+    Jan  2 16:57:11 ns named[291]: reloading nameserver
+    Feb  5  3:34:31 ns named[289]: named shutting down
+</pre>
+
+      <p>Syslog에 남는 메시지의 형식은 '시간 호스트명 named[PID]:
+      메시지'와 같은 형식를 취하는데, BIND-4와 BIND-8 그리고 각
+      버전별로 사용되는 단어와 메시지 양식이 조금씩 상이함에
+      유의한다.</p>
+<pre class="SCREEN">
+    Feb  1 11:33:40 ns named[288]: master zone "nobreak.com"
+    (IN) loaded (serial 1999012901)
+</pre>
+
+      <p>Zone 데이터베이스를 메모리에 적재하였음을 의미한다.
+      BIND-4에서는 'primary zone'이라 표현하였지만, BIND-8로
+      넘어오면서 'master zone'으로 명칭이 수정되었다.</p>
+
+      <p>매시간 BIND는 간략한 통계정보를 기록한다. (BIND-4의 일부
+      버전과 몇몇 OS 벤더가 제공하는 BIND는 이 Feature를 기본으로
+      꺼놓고 있다)</p>
+<pre class="SCREEN">
+    Feb  2 18:57:12 ns named[291]: USAGE 917949432 917837292
+    CPU=1558.86u/491.54s CHILDCPU=921.29u/1228.57s
+    
+    Feb  2 18:57:12 ns named[291]: NSTATS 917949432 917837292
+    Unknown=3 A=95677 NS=3 SOA=275 PTR=563972 MX=11355 TXT=16 AXFR=10 ANY=17840
+    
+    Feb  2 18:57:12 ns named[291]: XSTATS 917949432 917837292
+    RR=270905 RNXD=92478 RFwdR=133260 RDupR=505 RFail=8882
+    RFErr=0 RErr=75 RAXFR=10 RLame=111437 ROpts=0
+    SSysQ=24028 SAns=467186 SFwdQ=221971 SDupQ=255265 SErr=5319
+    RQ=689151 RIQ=17 RFwdQ=0 RDupQ=224 RTCP=53 SFwdR=133260
+    SFail=290 SFErr=0 SNaAns=189120 SNXD=186481
+</pre>
+
+      <p>각 메시지의 처음에 나오는 2개 숫자는 현재시간과 BIND가
+      시작된 시간을 의미한다. '917949432 - 917837292'를 계산하면,
+      서버가 운용된 시간(초)을 알 수 있다. USAGE는 CPU 사용정도를
+      나타내는데, 주 CPU가 1558초동안 사용자(u) 모드에서, 491초동안
+      시스템(s) 모드에서 동작하였음을 알 수 있다. CHILDCPU도 같은
+      의미인데, 멀티 프로세스 시스템이 아니라면, CHILDCPU는 0u/0s
+      로 표시될 것이다. NSTATS와 XSTATS는 <a href=
+      "statistics.html">BIND Statistics</a>에서 자세히 다룬다.</p>
+<pre class="SCREEN">
+    Feb  5 09:39:05 ns named[26674]: Sent NOTIFY for "nobreak.com IN SOA"
+    (nobreak.com); 1 NS, 1 A
+</pre>
+
+      <p>BIND-8에 포함된 Dynamic Update 기능은 Primary가
+      Secondary에게 Zone 데이터베이스가 수정되었으니 업데이트하라는
+      정보를 보낸다. 본 메시지는 nobreak.com 에 대한 Zone
+      데이터베이스가 업데이트되어 알림 메시지를 보냈다는
+      뜻이다.</p>
+<pre class="SCREEN">
+    Feb  5 09:36:00 ns named[26674]: ns_forw: query(57.132.119.210.in-addr.arpa)
+    No possible A RRs
+</pre>
+
+      <p>Resolver가 요청한 도메인(인버스 도메인)을 찾을 수 없을
+      경우 이다.</p>
+<pre class="SCREEN">
+    Feb  5 09:35:46 ns named[26674]: Lame server on 'ryu.siyon.com'
+    (in 'siyon.com'?): [210.105.79.103].53 'ns.mylover.com'
+</pre>
+
+      <p>도메인 siyon.com 이 ns.mylover.com 으로 위임되었으나, 해당
+      네임서버가 Authority 설정이 되어 있지 않은 경우이다. 이것은
+      외부 네트워크에서의 Lame Delegation이므로 신경 쓰지 않아도
+      좋다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "bind-maintenance.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "bind-syslog-error-messages.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">BIND
+          유지/보수</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "bind-maintenance.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">BIND Syslog
+          주의/오류 메시지들</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <title>IP 변동에 따른 TTL 조정</title>
+    <meta name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.54">
+    <link rel="HOME" title="Powered by DNS" href="index.html">
+    <link rel="UP" title="Miscellaneous" href="miscellaneous.html">
+    <link rel="PREVIOUS" title="Serial Number 조정" href=
+    "adjust-serial.html">
+    <link rel="NEXT" title="Bibliography" href="bibliography.html">
+  </head>
+
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link=
+  "#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <th colspan="3" align="center">Powered by DNS</th>
+        </tr>
+
+        <tr>
+          <td width="10%" align="left" valign="bottom"><a href=
+          "adjust-serial.html">Prev</a></td>
+
+          <td width="80%" align="center" valign="bottom">Chapter 9.
+          Miscellaneous</td>
+
+          <td width="10%" align="right" valign="bottom"><a href=
+          "bibliography.html">Next</a></td>
+        </tr>
+      </table>
+      <hr align="LEFT" width="100%">
+    </div>
+
+    <div class="SECT1">
+      <h1 class="SECT1"><a name="ADJUST-TTL">9.15. IP 변동에 따른
+      TTL 조정</a></h1>
+
+      <p>서비스 되고있는 네트워크에 중요한 변경이 예상된다면,
+      다음과 같이 해당 호스트의 TTL을 임시로 10분(600sec) 정도로
+      낮추어 두는 것이 좋다.</p>
+<pre class="SCREEN">
+    www     600     IN      A       210.105.79.6
+</pre>
+
+      <p>타 네임서버가 아예 캐싱하지 않도록 하기 위해 TTL을 0으로
+      조정하는 것도 나쁘진 않으나, 클라이언트가 해당 도메인을
+      억세스 할 때마다 반복되는 Resolving을 동반하기 때문에,
+      바람직한 방법은 아니다. Maximum Propagation Delay Time(조정전
+      SOA의 Refresh + 조정전의 TTL, 참고: <a href=
+      "advanced-features.html#DNS-NOTIFY">DNS Notify</a>) 만큼
+      기다린 후, 작업(IP 변경)하면 되는데, 경험적으로 네트워크
+      변경이 시작되면 예상치 못한 추가 이동이 발생하므로,
+      네트워크가 안정된 후라도, 1-2일 정도 뒤에 TTL을 원상 복귀하는
+      것이 좋다. 해당 Zone에 속한 모든 호스트가 대상일 경우엔, SOA
+      레코드의 Minimum값을 조정하여 일률적으로 적용할 수
+      있겠다.</p>
+    </div>
+
+    <div class="NAVFOOTER">
+      <hr align="LEFT" width="100%">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tr>
+          <td width="33%" align="left" valign="top"><a href=
+          "adjust-serial.html">Prev</a></td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "index.html">Home</a></td>
+
+          <td width="33%" align="right" valign="top"><a href=
+          "bibliography.html">Next</a></td>
+        </tr>
+
+        <tr>
+          <td width="33%" align="left" valign="top">Serial Number
+          조정</td>
+
+          <td width="34%" align="center" valign="top"><a href=
+          "miscellaneous.html">Up</a></td>
+
+          <td width="33%" align="right" valign="top">
+          Bibliography</td>
+        </tr>
+      </table>
+    </div>
+    <br align="center">
+    <br>
+  </body>
+</html>
+
