@@ -2,7 +2,7 @@ MAINTAINER = nobreak@kr.FreeBSD.org
 REVISION = 3.4.3
 DOCNAME = PoweredByDNS
 
-CATALOG	= -c /usr/doc/share/sgml/catalog \
+CATALOG	= -c /usr/local/share/sgml/catalog \
 	-c /usr/local/share/sgml/docbook/dsssl/modular/catalog \
 	-c /usr/local/share/sgml/docbook/catalog \
 	-c /usr/local/share/sgml/jade/catalog
